@@ -1,81 +1,94 @@
-# Makefile for manipulating Modelica packages
+# ================================
+# OpenModelica Sparse Build
+# ================================
 
-# Usage examples:
-#   make model path=MyLib.Components name=SpringDamper
-#   make function path=MyLib.Utils name=interpolate
-#   make package path=MyLib name=SubPkg
+OM_HOME := $(HOME)/OpenModelica
+OM_BUILD := $(OM_HOME)/build
+OM_INSTALL := $(OM_BUILD)/install
 
-# Translate dots to slashes for filesystem paths
-FS_PATH := $(subst .,/,$(path))
+.PHONY: deps clone configure build install clean all
 
-# Detect Python
-PYTHON := $(shell command -v python 2>/dev/null)
+all: deps clone configure build install
 
-ifndef PYTHON
-$(error "Python not found. Please install python3 and ensure it is on PATH.")
-endif
 
-# Arg validation
-# ifndef path
-# $(error You must provide 'path', e.g., path=MyLib.Components)
-# endif
+# -------------------------------
+# 1. Install system dependencies
+# -------------------------------
+deps:
+	sudo apt update
+	sudo apt install -y \
+		build-essential \
+		cmake \
+		git \
+		gfortran \
+		liblapack-dev \
+		libblas-dev \
+		libsuitesparse-dev \
+		libxml2-dev \
+		libexpat1-dev \
+		libreadline-dev \
+		libncurses-dev \
+		libssl-dev \
+		zlib1g-dev \
+		libboost-all-dev \
+		python3-dev \
+		swig \
+		pkg-config
 
-# ifndef name
-# $(error You must provide 'name', e.g., name=SpringDamper)
-# endif
 
-# Helper: parent directory of FS_PATH
-PARENT := $(dir $(FS_PATH))
-
-# Default rule
-all:
-	@echo "Use 'make model', 'make function', or 'make package' with path=... name=..."
-
-# Create a Model
-model:
-	@mkdir -p $(FS_PATH)
-	@echo "within $(path);" > $(FS_PATH)/$(name).mo
-	@echo "model $(name)" >> $(FS_PATH)/$(name).mo
-	@echo "  // TODO: add contents" >> $(FS_PATH)/$(name).mo
-	@echo "end $(name);" >> $(FS_PATH)/$(name).mo
-	@echo "Created model: $(FS_PATH)/$(name).mo"
-	@if [ -f $(FS_PATH)/package.order ]; then \
-	  grep -qx '$(name)' $(FS_PATH)/package.order || echo '$(name)' >> $(FS_PATH)/package.order; \
-	  echo "Updated package.order in $(FS_PATH)"; \
+# -------------------------------
+# 2. Clone OpenModelica
+# -------------------------------
+clone:
+	if [ ! -d "$(OM_HOME)" ]; then \
+		cd $(HOME) && \
+		git clone --recursive https://github.com/OpenModelica/OpenModelica.git; \
+	else \
+		echo "OpenModelica already exists at $(OM_HOME)"; \
 	fi
 
-# Create a Function
-function:
-	@mkdir -p $(FS_PATH)
-	@echo "within $(path);" > $(FS_PATH)/$(name).mo
-	@echo "function $(name)" >> $(FS_PATH)/$(name).mo
-	@echo "  // TODO: add inputs/outputs" >> $(FS_PATH)/$(name).mo
-	@echo "end $(name);" >> $(FS_PATH)/$(name).mo
-	@echo "Created function: $(FS_PATH)/$(name).mo"
-	@if [ -f $(FS_PATH)/package.order ]; then \
-	  grep -qx '$(name)' $(FS_PATH)/package.order || echo '$(name)' >> $(FS_PATH)/package.order; \
-	  echo "Updated package.order in $(FS_PATH)"; \
-	fi
 
-# Create a Package
-package:
-	@mkdir -p $(FS_PATH)/$(name)
-	@echo "within $(path);" > $(FS_PATH)/$(name)/package.mo
-	@echo "package $(name)" >> $(FS_PATH)/$(name)/package.mo
-	@echo "  // TODO: add contents" >> $(FS_PATH)/$(name)/package.mo
-	@echo "end $(name);" >> $(FS_PATH)/$(name)/package.mo
-	@touch $(FS_PATH)/$(name)/package.order
-	@echo "Created package: $(FS_PATH)/$(name)"
-	@if [ -f $(FS_PATH)/package.order ]; then \
-	  grep -qx '$(name)' $(FS_PATH)/package.order || echo '$(name)' >> $(FS_PATH)/package.order; \
-	  echo "Updated package.order in $(FS_PATH)"; \
-	fi
+# -------------------------------
+# 3. Configure with Sparse + KLU
+# -------------------------------
+configure:
+	rm -rf $(OM_BUILD)
+	mkdir -p $(OM_BUILD)
+	cd $(OM_BUILD) && \
+	cmake .. \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=$(OM_INSTALL) \
+		-DOM_ENABLE_GUI_CLIENTS=OFF
 
-records:
-	$(PYTHON) ./Tools/TIRES/convert_mf52_tir_to_record.py ./BobDynamics/Resources/JSONs/TIRES/MF52_Tire.tir
-# 	$(PYTHON) ./Tools/SUS/convert_suspension_json_to_record.py ./BobDynamics/Resources/JSONs/SUS/tune.json
-# 	$(PYTHON) ./Tools/SUS/convert_massprops_json_to_record.py ./BobDynamics/Resources/JSONs/MASSPROPS/mass_props.json
 
-init:
-	sudo apt install gcc-arm-linux-gnueabihf  # arm linux
-	sudo apt install gcc-mingw-w64-x86-64     # windows
+# -------------------------------
+# 4. Build
+# -------------------------------
+build:
+	cd $(OM_BUILD) && make -j$$(nproc)
+
+
+# -------------------------------
+# 5. Install
+# -------------------------------
+install:
+	cd $(OM_BUILD) && make install
+	@echo ""
+	@echo "========================================="
+	@echo "OpenModelica installed at:"
+	@echo "$(OM_INSTALL)"
+	@echo ""
+	@echo "Add to PATH with:"
+	@echo "export PATH=$(OM_INSTALL)/bin:\$$PATH"
+	@echo "========================================="
+	$(OM_INSTALL)/bin/omc ./msl_setup.mos
+
+
+# -------------------------------
+# 6. Clean everything
+# -------------------------------
+clean:
+	rm -rf $(OM_HOME)
+
+export_fmu:
+	~/OpenModelica/build/install/bin/omc ./BobDyn/FMI/OrionChassis.mos

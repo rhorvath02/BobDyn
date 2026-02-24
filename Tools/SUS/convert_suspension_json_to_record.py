@@ -75,7 +75,8 @@ RECORD_SCHEMAS = {
         "static_alpha",
 
         # Settings
-        "ride_height",
+        "frame_height",
+        "frame_height_sensor",
     ],
 
     "Bellcrank": [
@@ -85,6 +86,11 @@ RECORD_SCHEMAS = {
         "bellcrank_pickup_1",
         "bellcrank_pickup_2",
         "bellcrank_pickup_3",
+
+        # Stabar
+        "left_bar_end",
+        "left_arm_end",
+        "bar_rate",
 
         # Push / pull rod
         "rod_mount",
@@ -129,6 +135,11 @@ def extract_axle_left(data: dict, axle: str) -> dict:
         "bellcrank_pickup_2": al["bellcrank"]["pickup_2"],
         "bellcrank_pickup_3": al["bellcrank"]["pickup_3"],
 
+        # Stabar
+        "left_bar_end": al["stabar"]["left_bar_end"],
+        "left_arm_end": al["stabar"]["left_arm_end"],
+        "bar_rate": al["stabar"]["bar_rate"],
+
         # Push / pull rod
         "rod_mount": rod_mount,
         "shock_mount": rod["shock_mount"],
@@ -144,7 +155,8 @@ def extract_axle_left(data: dict, axle: str) -> dict:
         "static_alpha": al["tire"]["static_alpha"],
 
         # Settings
-        "ride_height": al["settings"]["ride_height"],
+        "frame_height": al["settings"]["frame_height"],
+        "frame_height_sensor": al["settings"]["frame_height_sensor"],
     }
 
 
@@ -160,7 +172,7 @@ def emit_record(
     extends: str | None = None,
 ):
     lines = [
-        "within BobDynamics.Resources.Records.SUS;",
+        "within BobDyn.Resources.Records.SUS;",
         "",
         "// ============================================================================",
         "// AUTO-GENERATED FILE — DO NOT EDIT",
@@ -266,7 +278,7 @@ def main():
     src = Path(sys.argv[1]).resolve()
     data = json.loads(src.read_text())
 
-    out_dir = Path("BobDynamics/Resources/Records/SUS")
+    out_dir = Path("BobDyn/Resources/Records/SUS")
 
     emit_axle(data, axle="Front", prefix="Fr", out_dir=out_dir, src=src)
     emit_axle(data, axle="Rear",  prefix="Rr", out_dir=out_dir, src=src)

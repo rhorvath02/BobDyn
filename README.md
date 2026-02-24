@@ -1,4 +1,4 @@
-# BobDynamics
+# BobDyn
 
 Modelica-based templates and components for vehicle dynamics analysis.
 
@@ -12,7 +12,7 @@ Documentation is published at bobdyn.com and updated continuously.
 
 ## Overview
 
-The `BobDynamics` package is a reusable Modelica library containing:
+The `BobDyn` package is a reusable Modelica library containing:
 
 - Vehicle subsystems (chassis, suspension, tires, powertrain)
 - Reusable mathematical and mechanical utilities
@@ -35,7 +35,7 @@ files to ensure deterministic behavior and FMU portability.
 ├── requirements.txt
 ├── Docs/
 ├── Tools/
-└── BobDynamics/
+└── BobDyn/
     ├── package.mo
     ├── package.order
     ├── Resources/
@@ -86,13 +86,13 @@ Example:
 
 ```bash
 python Tools/tires/convert_tir_to_mf52_record.py \
-  BobDynamics/Resources/JSONs/TIRES/hoosier_r25b.tir
+  BobDyn/Resources/JSONs/TIRES/hoosier_r25b.tir
 ```
 
 Generated records are written to:
 
 ```
-BobDynamics/Resources/Records/TIRES/
+BobDyn/Resources/Records/TIRES/
 ```
 
 Once generated, simulations and FMUs depend only on Modelica source files.

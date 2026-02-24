@@ -24,3 +24,4 @@ tqdm>=4.66          # progress bars (useful for fitting / extraction)
 # ------------------------------------------------------------------------------
 
 fmpy
+pandas

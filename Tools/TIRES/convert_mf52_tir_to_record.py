@@ -274,7 +274,7 @@ def emit_modelica_record(
         "// Tool: Tools/tires/convert_tir_to_mf52_record.py",
         "// ============================================================================",
         "",
-        "within BobDynamics.Resources.Records.TIRES;",
+        "within BobDyn.Resources.Records.TIRES;",
         "",
         f"record {record_name}",
         '  "Auto-generated MF5p2 tire record (PAC2002)"',
@@ -325,7 +325,7 @@ def main() -> None:
     tire = build_mf52_tire(data)
 
     record_name = tir_path.stem.replace("-", "_")
-    out_dir = Path("./BobDynamics/Resources/Records/TIRES")
+    out_dir = Path("./BobDyn/Resources/Records/TIRES")
     out_path = out_dir / f"{record_name}.mo"
 
     emit_modelica_record(tire, record_name, out_path, tir_path)
