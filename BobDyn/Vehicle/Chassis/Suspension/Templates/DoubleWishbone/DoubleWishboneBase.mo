@@ -4,13 +4,11 @@ partial model DoubleWishboneBase
   // Modelica units
   import Modelica.SIunits;
 
-  // Modelica linalg
+// Modelica linalg
   import Modelica.Math.Vectors.normalize;
   import Modelica.Math.Vectors.norm;
-  
   // Body template for mass properties
   import BobDyn.Resources.Records.TEMPLATES.BodyTemplate;
-  
   // Parameters
   parameter SIunits.Position upper_fore_i[3] "Upper control arm fore inboard joint, expressed in chassis frame" annotation(
     Dialog(group = "Geometry"));
@@ -43,13 +41,11 @@ partial model DoubleWishboneBase
     Dialog(tab = "Mass Properties", group = "LCA Properties"));
   parameter BodyTemplate tie_mass "Tie rod mass" annotation(
     Dialog(tab = "Mass Properties", group = "Tie Properties"));
-  
   // Visual parameters
   parameter SIunits.Length link_diameter annotation(
     Dialog(tab = "Animation", group = "Sizing"));
   parameter SIunits.Length joint_diameter annotation(
     Dialog(tab = "Animation", group = "Sizing"));
-  
   // Frames
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a upper_i_frame annotation(
     Placement(transformation(origin = {100, 60}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {100, 66}, extent = {{-16, -16}, {16, 16}})));
@@ -63,7 +59,6 @@ partial model DoubleWishboneBase
     Placement(transformation(origin = {10, -100}, extent = {{-16, -16}, {16, 16}}, rotation = -90), iconTransformation(origin = {0, -100}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b midpoint_frame annotation(
     Placement(transformation(origin = {-100, 0}, extent = {{16, -16}, {-16, 16}}), iconTransformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}})));
-  
   // Upper wishbone
   Modelica.Mechanics.MultiBody.Joints.Revolute upper_inboard_joint(animation = false,
                                                                    n = normalize(upper_fore_i - upper_aft_i),
@@ -80,21 +75,19 @@ partial model DoubleWishboneBase
   // Lower wisbone
   Modelica.Mechanics.MultiBody.Joints.Revolute lower_inboard_joint(animation = false,
                                                                    n = normalize(lower_fore_i - lower_aft_i),
-                                                                   phi(start = 0, fixed = true),
-                                                                   w(start = 0, fixed = true), stateSelect = StateSelect.always) annotation(
+                                                                   phi(start = 0),
+                                                                   w(start = 0), stateSelect = StateSelect.always) annotation(
     Placement(transformation(origin = {60, -60}, extent = {{10, -10}, {-10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation lower_rigid_link(animation = false,
                                                                        r = lower_o - (lower_fore_i + lower_aft_i)/2,
                                                                        shapeType = "cylinder",
                                                                        extra = 0.0) annotation(
     Placement(transformation(origin = {30, -60}, extent = {{10, -10}, {-10, 10}})));
-  
   // Upright
   BobDyn.Vehicle.Chassis.Suspension.Linkages.Upright upright(lower = lower_o,
                                                                       upper = upper_o,
                                                                       tie = tie_o) annotation(
     Placement(transformation(origin = {10, 0}, extent = {{-10, -10}, {10, 10}})));
-  
   // Tie rod
   Modelica.Mechanics.MultiBody.Joints.SphericalSpherical sphericalSpherical(rodLength = norm(tie_o - tie_i),
                                                                             kinematicConstraint = false,
@@ -102,7 +95,6 @@ partial model DoubleWishboneBase
                                                                             sphereDiameter = joint_diameter,
                                                                             rodDiameter = link_diameter) annotation(
     Placement(transformation(origin = {40, 0}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
-  
   // Wheel mass + inertia
   Modelica.Mechanics.MultiBody.Parts.Body wheel_body(animation = true,
                                                      r_CM = unsprung_mass.r_cm - wheel_center,
@@ -121,7 +113,6 @@ partial model DoubleWishboneBase
                                                      w_0_start = {0, 0, 0},
                                                      z_0_start = {0, 0, 0}) annotation(
     Placement(transformation(origin = {-20, -30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  
   // UCA mass + inertia
   Modelica.Mechanics.MultiBody.Parts.Body UCA_body(animation = true,
                                                    r_CM = uca_mass.r_cm - upper_o,
@@ -139,7 +130,6 @@ partial model DoubleWishboneBase
                                                    w_0_start = {0, 0, 0},
                                                    z_0_start = {0, 0, 0}) annotation(
     Placement(transformation(origin = {-10, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
-  
   // LCA mass + inertia
   Modelica.Mechanics.MultiBody.Parts.Body LCA_body(r_CM = lca_mass.r_cm - lower_o,
                                                    m = lca_mass.m,
@@ -157,7 +147,7 @@ partial model DoubleWishboneBase
                                                    z_0_start = {0, 0, 0}) annotation(
     Placement(transformation(origin = {-10, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
 
-  // Spherical joints
+// Spherical joints
   Joints.xyzSphericalCompliant upper_spherical(trans_x_stiffness = 1e8,
                                                trans_y_stiffness = 1e8,
                                                trans_z_stiffness = 1e8,
@@ -177,7 +167,7 @@ partial model DoubleWishboneBase
                                                r_rel(start = {0, 0, 0}, each fixed = true))  annotation(
     Placement(transformation(origin = {10, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 
-  // Public steering interface
+// Public steering interface
   Modelica.Blocks.Interfaces.RealInput steer_input annotation(
     Placement(transformation(origin = {120, -30}, extent = {{-20, -20}, {20, 20}}, rotation = 180), iconTransformation(origin = {-66, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90)));
   

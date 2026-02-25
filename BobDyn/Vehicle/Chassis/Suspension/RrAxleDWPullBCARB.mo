@@ -138,17 +138,14 @@ model RrAxleDWPullBCARB
     Dialog(group = "Geometry"));
   final parameter SIunits.Position RL_shock_mount[3] = RrAxleBC.shock_mount annotation(
     Dialog(group = "Geometry"));
-  
   // RL apex geometry
   final Modelica.Mechanics.MultiBody.Parts.FixedTranslation RL_apex(r = RL_UCA_mount - left_upper_o) annotation(
     Placement(transformation(origin = {-110, 10}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
-  
   // RL pushrod
   final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical RL_pushrod(rodLength = norm(RL_bellcrank_pickup_1 - RL_UCA_mount),
                                                                           sphereDiameter = joint_diameter,
                                                                           rodDiameter = link_diameter) annotation(
     Placement(transformation(origin = {-90, 30}, extent = {{-10, -10}, {10, 10}})));
-  
   // RL bellcrank
   final Modelica.Mechanics.MultiBody.Parts.FixedTranslation RL_bellcrank_mount(r = RL_bellcrank_pivot - effective_center) annotation(
     Placement(transformation(origin = {-30, 40}, extent = {{10, -10}, {-10, 10}})));
@@ -158,7 +155,6 @@ model RrAxleDWPullBCARB
                                                                                         pivot = RL_bellcrank_pivot,
                                                                                         pivot_ref = RL_bellcrank_pivot_ref) annotation(
     Placement(transformation(origin = {-60, 40}, extent = {{10, -10}, {-10, 10}})));
-  
   // RL shock
   final Modelica.Mechanics.MultiBody.Parts.FixedTranslation RL_shock_pickup(r = RL_shock_mount - effective_center) annotation(
     Placement(transformation(origin = {-20, 70}, extent = {{10, -10}, {-10, 10}})));
@@ -202,18 +198,9 @@ model RrAxleDWPullBCARB
   // Rr Stabar
   final Modelica.Mechanics.MultiBody.Parts.FixedTranslation stabar_frame(r = {RrAxleBC.left_bar_end[1], 0, RrAxleBC.left_bar_end[3]} - effective_center) annotation(
     Placement(transformation(origin = {-20, -10}, extent = {{10, -10}, {-10, 10}})));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.Stabar stabar(left_arm_end = RrAxleBC.left_arm_end,
-                                                                      left_bar_end = RrAxleBC.left_bar_end,
-                                                                      left_droplink_end = RrAxleBC.bellcrank_pickup_3,
-                                                                      bar_rate = RrAxleBC.bar_rate,
-                                                                      joint_diameter = joint_diameter*0.75,
-                                                                      link_diameter = link_diameter/2) annotation(
-    Placement(transformation(origin = {-40, 10}, extent = {{10, -10}, {-10, 10}}, rotation = -180)));
-  
   // Zero steer (for typical rear axle)
   final Modelica.Blocks.Sources.RealExpression zero_steer annotation(
     Placement(transformation(origin = {-90, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  
 equation
   connect(RL_apex.frame_b, RL_pushrod.frame_a) annotation(
     Line(points = {{-110, 20}, {-110, 30}, {-100, 30}}, color = {95, 95, 95}));
@@ -259,12 +246,6 @@ equation
     Line(points = {{110, 0}, {70, 0}, {70, -20}}, color = {95, 95, 95}));
   connect(RL_tabular_spring.frame_b, RR_bellcrank.pickup_2_frame) annotation(
     Line(points = {{60, 70}, {70, 70}, {70, 40}}, color = {95, 95, 95}));
-  connect(stabar.left_pickup, RL_bellcrank.pickup_3_frame) annotation(
-    Line(points = {{-50, 10}, {-76, 10}, {-76, 56}, {-60, 56}, {-60, 50}}, color = {95, 95, 95}));
-  connect(stabar.right_pickup, RR_bellcrank.pickup_3_frame) annotation(
-    Line(points = {{-30, 10}, {76, 10}, {76, 56}, {60, 56}, {60, 50}}, color = {95, 95, 95}));
-  connect(stabar.support_pickup, stabar_frame.frame_b) annotation(
-    Line(points = {{-40, 0}, {-40, -10}, {-30, -10}}, color = {95, 95, 95}));
   connect(stabar_frame.frame_a, axle_frame) annotation(
     Line(points = {{-10, -10}, {0, -10}, {0, -100}}, color = {95, 95, 95}));
   annotation(
