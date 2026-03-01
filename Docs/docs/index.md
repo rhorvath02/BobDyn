@@ -11,10 +11,10 @@ hero:
   actions:
     - theme: brand
       text: Characterization
-      link: /workflows/characterization
+      link: /bobsim/characterization
     - theme: alt
       text: Design of Experiments
-      link: /workflows/doe
+      link: /bobsim/doe
 
 features:
   - title: Characterization Workflow
