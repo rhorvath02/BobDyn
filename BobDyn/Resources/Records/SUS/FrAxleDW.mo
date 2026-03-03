@@ -2,7 +2,7 @@ within BobDyn.Resources.Records.SUS;
 
 // ============================================================================
 // AUTO-GENERATED FILE — DO NOT EDIT
-// Source: /home/rober/shared/VehicleDynamics/BobDyn/Resources/JSONs/SUS/tune.json
+// Source: /home/rober/shared/BobDyn/BobDyn/Resources/JSONs/SUS/tune.json
 // Tool: convert_suspension_json_to_record.py
 // ============================================================================
 
@@ -23,7 +23,7 @@ record FrAxleDW
   parameter Real spring_table[2, 2] = [0, 0; 1, 26269];
   parameter Real damper_table[11, 2] = [0, 0; 0.002, 40; 0.005, 100; 0.01, 200; 0.02, 350; 0.05, 600; 0.1, 850; 0.2, 1100; 0.3, 1250; 0.5, 1450; 1, 1750];
   parameter SIunits.Position wheel_center[3] = {0, 0.606110767456, 0.199898};
-  parameter SIunits.Angle static_gamma = 0;
+  parameter SIunits.Angle static_gamma = 1;
   parameter SIunits.Angle static_alpha = 0;
   parameter Real frame_height = 0.06731;
   parameter SIunits.Position frame_height_sensor[3] = {0, 0.20955, 0.06731};

@@ -151,4 +151,6 @@ equation
     Line(points = {{60, -64}, {70, -64}, {70, -100}, {0, -100}}, color = {95, 95, 95}));
   connect(FR_ground.frame_a, world_frame) annotation(
     Line(points = {{80, -30}, {90, -30}, {90, -100}, {0, -100}}, color = {95, 95, 95}));
+annotation(
+    experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002));
 end RigidChassis;

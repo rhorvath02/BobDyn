@@ -27,16 +27,12 @@ equation
     Line(points = {{-40, -30}, {-70, -30}, {-70, -90}, {-80, -90}}, color = {95, 95, 95}));
   connect(RR_ground.frame_a, world.frame_b) annotation(
     Line(points = {{40, -30}, {70, -30}, {70, -90}, {-80, -90}}, color = {95, 95, 95}));
-  connect(Rr_axle.left_cp, RL_ground.frame_b) annotation(
-    Line(points = {{-10, 10}, {-30, 10}, {-30, -20}}, color = {95, 95, 95}));
-  connect(Rr_axle.right_cp, RR_ground.frame_b) annotation(
-    Line(points = {{10, 10}, {30, 10}, {30, -20}}, color = {95, 95, 95}));
   connect(fixed.frame_b, Rr_axle.axle_frame) annotation(
     Line(points = {{0, -30}, {0, 0}}, color = {95, 95, 95}));
-  connect(RL_torque_in.y, Rr_axle.left_torque) annotation(
-    Line(points = {{-38, 18}, {-12, 18}, {-12, 16}}, color = {0, 0, 127}));
-  connect(RR_torque_in.y, Rr_axle.right_torque) annotation(
-    Line(points = {{40, 18}, {12, 18}, {12, 16}}, color = {0, 0, 127}));
+  connect(Rr_axle.left_cp, RL_ground.frame_b) annotation(
+    Line(points = {{-10, 2}, {-30, 2}, {-30, -20}}, color = {95, 95, 95}));
+  connect(Rr_axle.right_cp, RR_ground.frame_b) annotation(
+    Line(points = {{10, 2}, {30, 2}, {30, -20}}, color = {95, 95, 95}));
   annotation(
     experiment(StartTime = 0, StopTime = 6, Tolerance = 1e-06, Interval = 0.002),
   __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian",

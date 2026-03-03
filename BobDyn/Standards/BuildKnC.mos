@@ -1,0 +1,32 @@
+setCommandLineOptions(
+  "--simCodeTarget=C "
+  + "--maxSizeLinearTearing=2000 "
+);
+
+clear();
+loadModel(Modelica);
+loadFile("BobDyn/package.mo");
+
+cd("Build/FrKnC");
+
+res := buildModel(
+    BobDyn.Standards.FrOrionKnC,
+    outputFormat="mat",
+    numberOfIntervals=0,
+    tolerance=1e-5,
+    cflags="-O3 -march=native -mtune=native"
+);
+
+getErrorString();
+
+cd("../RrKnC");
+
+res := buildModel(
+    BobDyn.Standards.RrOrionKnC,
+    outputFormat="mat",
+    numberOfIntervals=0,
+    tolerance=1e-5,
+    cflags="-O3 -march=native -mtune=native"
+);
+
+getErrorString();

@@ -71,7 +71,6 @@ partial model DoubleWishboneBase
                                                                        r = upper_o - (upper_fore_i + upper_aft_i)/2,
                                                                        extra = 0.0) annotation(
     Placement(transformation(origin = {30, 60}, extent = {{10, -10}, {-10, 10}})));
-  
   // Lower wisbone
   Modelica.Mechanics.MultiBody.Joints.Revolute lower_inboard_joint(animation = false,
                                                                    n = normalize(lower_fore_i - lower_aft_i),
@@ -111,7 +110,7 @@ partial model DoubleWishboneBase
                                                      cylinderDiameter = link_diameter,
                                                      angles_start = {0, 0, 0},
                                                      w_0_start = {0, 0, 0},
-                                                     z_0_start = {0, 0, 0}) annotation(
+                                                     z_0_start = {0, 0, 0}, angles_fixed = true) annotation(
     Placement(transformation(origin = {-20, -30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   // UCA mass + inertia
   Modelica.Mechanics.MultiBody.Parts.Body UCA_body(animation = true,
@@ -186,7 +185,7 @@ protected
   // Set gamma
   Modelica.Blocks.Sources.RealExpression static_gamma_source(y = static_gamma * Modelica.Constants.pi / 180) annotation(
     Placement(transformation(origin = {-40, 60}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
-  Modelica.Mechanics.Rotational.Sources.Position x_angle(exact = true) annotation(
+  Modelica.Mechanics.Rotational.Sources.Position x_angle(exact = true)  annotation(
     Placement(transformation(origin = {-40, 30}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
   Modelica.Mechanics.MultiBody.Joints.Revolute revolute_x(animation = false,
                                                           n = {1, 0, 0},
@@ -196,7 +195,7 @@ protected
   // Set toe (using alpha sign convention)
   Modelica.Blocks.Sources.RealExpression static_alpha_source(y = static_alpha * Modelica.Constants.pi / 180) annotation(
     Placement(transformation(origin = {-70, 60}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Mechanics.Rotational.Sources.Position z_angle(exact = true) annotation(
+  Modelica.Mechanics.Rotational.Sources.Position z_angle(exact = true)  annotation(
     Placement(transformation(origin = {-70, 30}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
   Modelica.Mechanics.MultiBody.Joints.Revolute revolute_z(animation = false,
                                                           n = {0, 0, 1},

@@ -124,75 +124,75 @@ model FrAxleDWPushBCARB
                                                                                                    LSGAL = Fr_tire.LSGAL, LGYR = Fr_tire.LGYR, LMX = Fr_tire.LMX,
                                                                                                    LVMX = Fr_tire.LVMX, LMY = Fr_tire.LMY, LIP = Fr_tire.LIP));
   
-  final parameter SIunits.Position FL_bellcrank_pivot[3] = FrAxleBC.bellcrank_pivot annotation(
+  final parameter SIunits.Position left_bellcrank_pivot[3] = FrAxleBC.bellcrank_pivot annotation(
     Dialog(group = "Geometry"));
-  final parameter SIunits.Position FL_bellcrank_pivot_ref[3] = FrAxleBC.bellcrank_pivot_ref annotation(
+  final parameter SIunits.Position left_bellcrank_pivot_ref[3] = FrAxleBC.bellcrank_pivot_ref annotation(
     Dialog(group = "Geometry"));
-  final parameter SIunits.Position FL_bellcrank_pickup_1[3] = FrAxleBC.bellcrank_pickup_1 annotation(
+  final parameter SIunits.Position left_bellcrank_pickup_1[3] = FrAxleBC.bellcrank_pickup_1 annotation(
     Dialog(group = "Geometry"));
-  final parameter SIunits.Position FL_bellcrank_pickup_2[3] = FrAxleBC.bellcrank_pickup_2 annotation(
+  final parameter SIunits.Position left_bellcrank_pickup_2[3] = FrAxleBC.bellcrank_pickup_2 annotation(
     Dialog(group = "Geometry"));
-  final parameter SIunits.Position FL_bellcrank_pickup_3[3] = FrAxleBC.bellcrank_pickup_3 annotation(
+  final parameter SIunits.Position left_bellcrank_pickup_3[3] = FrAxleBC.bellcrank_pickup_3 annotation(
     Dialog(group = "Geometry"));
-  final parameter SIunits.Position FL_LCA_mount[3] = FrAxleBC.rod_mount annotation(
+  final parameter SIunits.Position left_LCA_mount[3] = FrAxleBC.rod_mount annotation(
     Dialog(group = "Geometry"));
-  final parameter SIunits.Position FL_shock_mount[3] = FrAxleBC.shock_mount annotation(
+  final parameter SIunits.Position left_shock_mount[3] = FrAxleBC.shock_mount annotation(
     Dialog(group = "Geometry"));
-  // FL apex geometry
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation FL_apex(r = FL_LCA_mount - left_lower_o) annotation(
+  // left apex geometry
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_apex(r = left_LCA_mount - left_lower_o) annotation(
     Placement(transformation(origin = {-110, -10}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
-  // FL pushrod
-  final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical FL_pushrod(rodLength = norm(FL_bellcrank_pickup_2 - FL_LCA_mount),
+  // left pushrod
+  final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical left_pushrod(rodLength = norm(left_bellcrank_pickup_2 - left_LCA_mount),
                                                                           sphereDiameter = joint_diameter,
                                                                           rodDiameter = link_diameter) annotation(
     Placement(transformation(origin = {-90, 40}, extent = {{-10, -10}, {10, 10}})));
-  // FL bellcrank
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation FL_bellcrank_mount(r = FL_bellcrank_pivot - effective_center) annotation(
+  // left bellcrank
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_bellcrank_mount(r = left_bellcrank_pivot - effective_center) annotation(
     Placement(transformation(origin = {-30, 40}, extent = {{10, -10}, {-10, 10}})));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.Bellcrank3pu1p FL_bellcrank(pickup_1 = FL_bellcrank_pickup_1,
-                                                                                    pickup_2 = FL_bellcrank_pickup_2,
-                                                                                    pickup_3 = FL_bellcrank_pickup_3,
-                                                                                    pivot = FL_bellcrank_pivot,
-                                                                                    pivot_ref = FL_bellcrank_pivot_ref) annotation(
+  final BobDyn.Vehicle.Chassis.Suspension.Linkages.Bellcrank3pu1p left_bellcrank(pickup_1 = left_bellcrank_pickup_1,
+                                                                                    pickup_2 = left_bellcrank_pickup_2,
+                                                                                    pickup_3 = left_bellcrank_pickup_3,
+                                                                                    pivot = left_bellcrank_pivot,
+                                                                                    pivot_ref = left_bellcrank_pivot_ref) annotation(
     Placement(transformation(origin = {-60, 40}, extent = {{10, -10}, {-10, 10}})));
-  // FL shock
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation FL_shock_pickup(r = FL_shock_mount - effective_center) annotation(
+  // left shock
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_shock_pickup(r = left_shock_mount - effective_center) annotation(
     Placement(transformation(origin = {-20, 70}, extent = {{10, -10}, {-10, 10}})));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularSpring FR_tabular_spring(spring_table = FrAxle.spring_table,
+  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularSpring right_tabular_spring(spring_table = FrAxle.spring_table,
                                                                                         free_length = FrAxle.free_length,
                                                                                         spring_diameter = 0.050)  annotation(
     Placement(transformation(origin = {50, 70}, extent = {{-10, -10}, {10, 10}})));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularDamper FL_tabular_damper(damper_table = FrAxle.damper_table,
+  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularDamper left_tabular_damper(damper_table = FrAxle.damper_table,
                                                                                         inner_diameter = 0.004,
                                                                                         outer_diameter = 0.008)  annotation(
     Placement(transformation(origin = {-50, 130}, extent = {{10, -10}, {-10, 10}})));
-  // FR apex geometry
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation FR_apex(r = {FL_LCA_mount[1], -FL_LCA_mount[2], FL_LCA_mount[3]} - right_lower_o) annotation(
+  // right apex geometry
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_apex(r = {left_LCA_mount[1], -left_LCA_mount[2], left_LCA_mount[3]} - right_lower_o) annotation(
     Placement(transformation(origin = {110, -10}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
 
-// FR pushrod
-  final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical FR_pushrod(rodLength = norm(FL_bellcrank_pickup_2 - FL_LCA_mount),
+// right pushrod
+  final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical right_pushrod(rodLength = norm(left_bellcrank_pickup_2 - left_LCA_mount),
                                                                           sphereDiameter = joint_diameter,
                                                                           rodDiameter = link_diameter) annotation(
     Placement(transformation(origin = {90, 40}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
 
-// FR bellcrank
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation FR_bellcrank_mount(r = {FL_bellcrank_pivot[1], -FL_bellcrank_pivot[2], FL_bellcrank_pivot[3]} - effective_center) annotation(
+// right bellcrank
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_bellcrank_mount(r = {left_bellcrank_pivot[1], -left_bellcrank_pivot[2], left_bellcrank_pivot[3]} - effective_center) annotation(
     Placement(transformation(origin = {30, 40}, extent = {{-10, -10}, {10, 10}})));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.Bellcrank3pu1p FR_bellcrank(pickup_1 = {FL_bellcrank_pickup_1[1], -FL_bellcrank_pickup_1[2], FL_bellcrank_pickup_1[3]},
-                                                                                    pickup_2 = {FL_bellcrank_pickup_2[1], -FL_bellcrank_pickup_2[2], FL_bellcrank_pickup_2[3]},
-                                                                                    pickup_3 = {FL_bellcrank_pickup_3[1], -FL_bellcrank_pickup_3[2], FL_bellcrank_pickup_3[3]},
-                                                                                    pivot = {FL_bellcrank_pivot[1], -FL_bellcrank_pivot[2], FL_bellcrank_pivot[3]},
-                                                                                    pivot_ref = {FL_bellcrank_pivot_ref[1], -FL_bellcrank_pivot_ref[2], FL_bellcrank_pivot_ref[3]}) annotation(
+  final BobDyn.Vehicle.Chassis.Suspension.Linkages.Bellcrank3pu1p right_bellcrank(pickup_1 = {left_bellcrank_pickup_1[1], -left_bellcrank_pickup_1[2], left_bellcrank_pickup_1[3]},
+                                                                                    pickup_2 = {left_bellcrank_pickup_2[1], -left_bellcrank_pickup_2[2], left_bellcrank_pickup_2[3]},
+                                                                                    pickup_3 = {left_bellcrank_pickup_3[1], -left_bellcrank_pickup_3[2], left_bellcrank_pickup_3[3]},
+                                                                                    pivot = {left_bellcrank_pivot[1], -left_bellcrank_pivot[2], left_bellcrank_pivot[3]},
+                                                                                    pivot_ref = {left_bellcrank_pivot_ref[1], -left_bellcrank_pivot_ref[2], left_bellcrank_pivot_ref[3]}) annotation(
     Placement(transformation(origin = {60, 40}, extent = {{-10, -10}, {10, 10}})));
-  // FR shock
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation FR_shock_pickup(r = {FL_shock_mount[1], -FL_shock_mount[2], FL_shock_mount[3]} - effective_center) annotation(
+  // right shock
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_shock_pickup(r = {left_shock_mount[1], -left_shock_mount[2], left_shock_mount[3]} - effective_center) annotation(
     Placement(transformation(origin = {20, 70}, extent = {{-10, -10}, {10, 10}})));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularSpring FL_tabular_spring(spring_table = FrAxle.spring_table,
+  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularSpring left_tabular_spring(spring_table = FrAxle.spring_table,
                                                                                         free_length = FrAxle.free_length,
                                                                                         spring_diameter = 0.050) annotation(
     Placement(transformation(origin = {-50, 70}, extent = {{10, -10}, {-10, 10}})));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularDamper FR_tabular_damper(damper_table = FrAxle.damper_table,
+  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularDamper right_tabular_damper(damper_table = FrAxle.damper_table,
                                                                                         inner_diameter = 0.004,
                                                                                         outer_diameter = 0.008) annotation(
     Placement(transformation(origin = {50, 130}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
@@ -203,45 +203,45 @@ model FrAxleDWPushBCARB
   final Modelica.Blocks.Interfaces.RealInput steer_input annotation(
     Placement(transformation(origin = {0, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {0, 120}, extent = {{-20, -20}, {20, 20}}, rotation=-90)));
 equation
-  connect(FL_apex.frame_a, left_double_wishbone.lower_wishbone_frame) annotation(
+  connect(left_apex.frame_a, left_double_wishbone.lower_wishbone_frame) annotation(
     Line(points = {{-110, -20}, {-110, -90}, {-70, -90}, {-70, -80}}, color = {95, 95, 95}));
-  connect(FL_apex.frame_b, FL_pushrod.frame_a) annotation(
+  connect(left_apex.frame_b, left_pushrod.frame_a) annotation(
     Line(points = {{-110, 0}, {-110, 40}, {-100, 40}}, color = {95, 95, 95}));
-  connect(FL_pushrod.frame_b, FL_bellcrank.pickup_2_frame) annotation(
+  connect(left_pushrod.frame_b, left_bellcrank.pickup_2_frame) annotation(
     Line(points = {{-80, 40}, {-70, 40}}, color = {95, 95, 95}));
-  connect(FL_bellcrank.pickup_3_frame, FL_tabular_spring.frame_b) annotation(
+  connect(left_bellcrank.pickup_3_frame, left_tabular_spring.frame_b) annotation(
     Line(points = {{-60, 50}, {-60, 70}}, color = {95, 95, 95}));
-  connect(FL_tabular_spring.frame_a, FL_shock_pickup.frame_b) annotation(
+  connect(left_tabular_spring.frame_a, left_shock_pickup.frame_b) annotation(
     Line(points = {{-40, 70}, {-30, 70}}, color = {95, 95, 95}));
-  connect(FL_bellcrank.mount_frame, FL_bellcrank_mount.frame_b) annotation(
+  connect(left_bellcrank.mount_frame, left_bellcrank_mount.frame_b) annotation(
     Line(points = {{-50, 40}, {-40, 40}}, color = {95, 95, 95}));
-  connect(FL_shock_pickup.frame_a, axle_frame) annotation(
+  connect(left_shock_pickup.frame_a, axle_frame) annotation(
     Line(points = {{-10, 70}, {0, 70}, {0, -100}}, color = {95, 95, 95}));
-  connect(FL_bellcrank_mount.frame_a, axle_frame) annotation(
+  connect(left_bellcrank_mount.frame_a, axle_frame) annotation(
     Line(points = {{-20, 40}, {0, 40}, {0, -100}}, color = {95, 95, 95}));
-  connect(FR_apex.frame_a, right_double_wishbone.lower_wishbone_frame) annotation(
+  connect(right_apex.frame_a, right_double_wishbone.lower_wishbone_frame) annotation(
     Line(points = {{110, -20}, {110, -90}, {70, -90}, {70, -80}}, color = {95, 95, 95}));
-  connect(FR_apex.frame_b, FR_pushrod.frame_a) annotation(
+  connect(right_apex.frame_b, right_pushrod.frame_a) annotation(
     Line(points = {{110, 0}, {110, 40}, {100, 40}}, color = {95, 95, 95}));
-  connect(FR_pushrod.frame_b, FR_bellcrank.pickup_2_frame) annotation(
+  connect(right_pushrod.frame_b, right_bellcrank.pickup_2_frame) annotation(
     Line(points = {{80, 40}, {70, 40}}, color = {95, 95, 95}));
-  connect(FR_bellcrank.pickup_3_frame, FR_tabular_spring.frame_b) annotation(
+  connect(right_bellcrank.pickup_3_frame, right_tabular_spring.frame_b) annotation(
     Line(points = {{60, 50}, {60, 70}}, color = {95, 95, 95}));
-  connect(FR_tabular_spring.frame_a, FR_shock_pickup.frame_b) annotation(
+  connect(right_tabular_spring.frame_a, right_shock_pickup.frame_b) annotation(
     Line(points = {{40, 70}, {30, 70}}, color = {95, 95, 95}));
-  connect(FR_bellcrank.mount_frame, FR_bellcrank_mount.frame_b) annotation(
+  connect(right_bellcrank.mount_frame, right_bellcrank_mount.frame_b) annotation(
     Line(points = {{50, 40}, {40, 40}}, color = {95, 95, 95}));
-  connect(FR_shock_pickup.frame_a, axle_frame) annotation(
+  connect(right_shock_pickup.frame_a, axle_frame) annotation(
     Line(points = {{10, 70}, {0, 70}, {0, -100}}, color = {95, 95, 95}));
-  connect(FR_bellcrank_mount.frame_a, axle_frame) annotation(
+  connect(right_bellcrank_mount.frame_a, axle_frame) annotation(
     Line(points = {{20, 40}, {0, 40}, {0, -100}}, color = {95, 95, 95}));
-  connect(FL_tabular_damper.frame_b, FL_tabular_spring.frame_b) annotation(
+  connect(left_tabular_damper.frame_b, left_tabular_spring.frame_b) annotation(
     Line(points = {{-60, 130}, {-60, 70}}, color = {95, 95, 95}));
-  connect(FL_tabular_damper.frame_a, FL_tabular_spring.frame_a) annotation(
+  connect(left_tabular_damper.frame_a, left_tabular_spring.frame_a) annotation(
     Line(points = {{-40, 130}, {-40, 70}}, color = {95, 95, 95}));
-  connect(FR_tabular_damper.frame_a, FR_tabular_spring.frame_a) annotation(
+  connect(right_tabular_damper.frame_a, right_tabular_spring.frame_a) annotation(
     Line(points = {{40, 130}, {40, 70}}, color = {95, 95, 95}));
-  connect(FR_tabular_damper.frame_b, FR_tabular_spring.frame_b) annotation(
+  connect(right_tabular_damper.frame_b, right_tabular_spring.frame_b) annotation(
     Line(points = {{60, 130}, {60, 70}}, color = {95, 95, 95}));
   connect(left_double_wishbone.steer_input, steer_input) annotation(
     Line(points = {{-90, -14}, {-90, 90}, {0, 90}, {0, 120}}, color = {0, 0, 127}));
