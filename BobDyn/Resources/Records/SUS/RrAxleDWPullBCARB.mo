@@ -11,8 +11,6 @@ record RrAxleDWPullBCARB
 
   import Modelica.SIunits;
 
-  extends RrAxleDW;
-
   parameter SIunits.Position bellcrank_pivot[3] = {-1.39886851, 0.29230126, 0.1016};
   parameter SIunits.Position bellcrank_pivot_ref[3] = {-1.3847721, 0.29710676, 0.10709675};
   parameter SIunits.Position bellcrank_pickup_1[3] = {-1.41267566, 0.35197317, 0.08484064};

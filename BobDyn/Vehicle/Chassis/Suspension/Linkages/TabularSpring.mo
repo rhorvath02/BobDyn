@@ -8,9 +8,9 @@ model TabularSpring "Tabular translational spring with optional mass"
   import Modelica.SIunits;
   
   // Parameters
-  parameter SIunits.TranslationalSpringConstant spring_table[:,2] "Table of Force vs Compression (change in length)" annotation(
+  parameter SIunits.TranslationalSpringConstant spring_table[:,2] "Table of Force vs Compression (change in length)" annotation(Evaluate = false,
     Dialog(group = "Spring Parameters"));
-  parameter SIunits.Length free_length "Free length of spring" annotation(Dialog(group = "Spring Parameters"));
+  parameter SIunits.Length free_length "Free length of spring" annotation(Evaluate = false, Dialog(group = "Spring Parameters"));
   
   parameter SIunits.Length spring_diameter "Diameter of smallest possible cylinder enclosing spring" annotation(Dialog(group = "Animation"));
   

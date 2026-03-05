@@ -3,25 +3,41 @@ within BobDyn.Standards.Templates;
 partial model KnC
   import Modelica.SIunits;
   import Modelica.Mechanics.MultiBody.Frames;
+  
   parameter Modelica.SIunits.Length rack_position = 1*0.0254 "Rack position";
   parameter Modelica.SIunits.Length jounce_amplitude = 1.5*0.0254 "Jounce amplitude";
   parameter Modelica.SIunits.Force force_amplitude = 10000 "Force amplitude";
-  final parameter Real left_jounce_table[:, 2] = [0, 0; 1, 0; 2, -1; 3, -1; 4, -1; 5, -0.5; 6, -0.5; 7, -0.5; 8, 0; 9, 0; 10, 0; 11, 0.5; 12, 0.5; 13, 0.5; 14, 1; 15, 1; 16, 1; 17, 0; 18, 1; 19, 1; 20, 1; 21, 0.5; 22, 0.5; 23, 0.5; 24, 0; 25, 0; 26, 0; 27, -0.5; 28, -0.5; 29, -0.5; 30, -1; 31, -1; 32, -1];
-  final parameter Real right_jounce_table[:, 2] = [0, 0; 1, 0; 2, -1; 3, -1; 4, -1; 5, -0.5; 6, -0.5; 7, -0.5; 8, 0; 9, 0; 10, 0; 11, 0.5; 12, 0.5; 13, 0.5; 14, 1; 15, 1; 16, 1; 17, 0; 18, -1; 19, -1; 20, -1; 21, -0.5; 22, -0.5; 23, -0.5; 24, 0; 25, 0; 26, 0; 27, 0.5; 28, 0.5; 29, 0.5; 30, 1; 31, 1; 32, 1];
-  final parameter Real left_Fx_table[:, 2] = [0, 0; 1, 0; 2, 0; 3, 1; 4, 0; 5, 0; 6, 1; 7, 0; 8, 0; 9, 1; 10, 0; 11, 0; 12, 1; 13, 0; 14, 0; 15, 1; 16, 0; 17, 0; 18, 0; 19, 0; 20, 0; 21, 0; 22, 0; 23, 0; 24, 0; 25, 0; 26, 0; 27, 0; 28, 0; 29, 0; 30, 0; 31, 0; 32, 0];
-  final parameter Real right_Fx_table[:, 2] = [0, 0; 1, 0; 2, 0; 3, 1; 4, 0; 5, 0; 6, 1; 7, 0; 8, 0; 9, 1; 10, 0; 11, 0; 12, 1; 13, 0; 14, 0; 15, 1; 16, 0; 17, 0; 18, 0; 19, 0; 20, 0; 21, 0; 22, 0; 23, 0; 24, 0; 25, 0; 26, 0; 27, 0; 28, 0; 29, 0; 30, 0; 31, 0; 32, 0];
-  final parameter Real left_Fy_table[:, 2] = [0, 0; 1, 0; 2, 0; 3, 0; 4, 0; 5, 0; 6, 0; 7, 0; 8, 0; 9, 0; 10, 0; 11, 0; 12, 0; 13, 0; 14, 0; 15, 0; 16, 0; 17, 0; 18, 0; 19, 1; 20, 0; 21, 0; 22, 1; 23, 0; 24, 0; 25, 1; 26, 0; 27, 0; 28, 1; 29, 0; 30, 0; 31, 1; 32, 0];
-  final parameter Real right_Fy_table[:, 2] = [0, 0; 1, 0; 2, 0; 3, 0; 4, 0; 5, 0; 6, 0; 7, 0; 8, 0; 9, 0; 10, 0; 11, 0; 12, 0; 13, 0; 14, 0; 15, 0; 16, 0; 17, 0; 18, 0; 19, 1; 20, 0; 21, 0; 22, 1; 23, 0; 24, 0; 25, 1; 26, 0; 27, 0; 28, 1; 29, 0; 30, 0; 31, 1; 32, 0];
+  
+  final parameter Real left_jounce_table[:, 2] = 
+[1, 0; 2, -1; 3, -1; 4, -1; 5, -0.5; 6, -0.5; 7, 0; 8, 0; 9, 0; 10, 0; 11, 0.5; 12, 0.5; 13, 0.5; 14, 1; 15, 1; 16, 1; 17, 0; 18, 1; 19, 1; 20, 1; 21, 0.5; 22, 0.5; 23, 0.5; 24, 0; 25, 0; 26, 0; 27, -0.5; 28, -0.5; 29, -0.5; 30, -1; 31, -1; 32, -1];
+
+  final parameter Real right_jounce_table[:, 2] = 
+  [1, 0; 2, -1; 3, -1; 4, -1; 5, -0.5; 6, -0.5; 7, 0; 8, 0; 9, 0; 10, 0; 11, 0.5; 12, 0.5; 13, 0.5; 14, 1; 15, 1; 16, 1; 17, 0; 18, -1; 19, -1; 20, -1; 21, -0.5; 22, -0.5; 23, -0.5; 24, 0; 25, 0; 26, 0; 27, 0.5; 28, 0.5; 29, 0.5; 30, 1; 31, 1; 32, 1];
+  
+  final parameter Real left_Fx_table[:, 2] = 
+  [1, 0; 2, 0; 3, 1; 4, 0; 5, 0; 6, 1; 7, 0; 8, 0; 9, 1; 10, 0; 11, 0; 12, 1; 13, 0; 14, 0; 15, 1; 16, 0; 17, 0; 18, 0; 19, 0; 20, 0; 21, 0; 22, 0; 23, 0; 24, 0; 25, 0; 26, 0; 27, 0; 28, 0; 29, 0; 30, 0; 31, 0; 32, 0];
+  
+  final parameter Real right_Fx_table[:, 2] = 
+  [1, 0; 2, 0; 3, 1; 4, 0; 5, 0; 6, 1; 7, 0; 8, 0; 9, 1; 10, 0; 11, 0; 12, 1; 13, 0; 14, 0; 15, 1; 16, 0; 17, 0; 18, 0; 19, 0; 20, 0; 21, 0; 22, 0; 23, 0; 24, 0; 25, 0; 26, 0; 27, 0; 28, 0; 29, 0; 30, 0; 31, 0; 32, 0];
+  
+  final parameter Real left_Fy_table[:, 2] = 
+  [1, 0; 2, 0; 3, 0; 4, 0; 5, 0; 6, 0; 7, 0; 8, 0; 9, 0; 10, 0; 11, 0; 12, 0; 13, 0; 14, 0; 15, 0; 16, 0; 17, 0; 18, 0; 19, 1; 20, 0; 21, 0; 22, 1; 23, 0; 24, 0; 25, 1; 26, 0; 27, 0; 28, 1; 29, 0; 30, 0; 31, 1; 32, 0];
+  
+  final parameter Real right_Fy_table[:, 2] = 
+  [1, 0; 2, 0; 3, 0; 4, 0; 5, 0; 6, 0; 7, 0; 8, 0; 9, 0; 10, 0; 11, 0; 12, 0; 13, 0; 14, 0; 15, 0; 16, 0; 17, 0; 18, 0; 19, 1; 20, 0; 21, 0; 22, 1; 23, 0; 24, 0; 25, 1; 26, 0; 27, 0; 28, 1; 29, 0; 30, 0; 31, 1; 32, 0];
+  
   final parameter SIunits.Position left_cp_init[3] = Axle.left_double_wishbone.wheel_center + Frames.resolve1(Frames.axesRotations({1, 2, 3}, {Axle.left_double_wishbone.static_gamma * Modelica.Constants.pi / 180, 0, Axle.left_double_wishbone.static_alpha * Modelica.Constants.pi / 180}, {0, 0, 0}), {0, 0, -Axle.left_tire.R0});
   final parameter SIunits.Position right_cp_init[3] = Axle.right_double_wishbone.wheel_center + Frames.resolve1(Frames.axesRotations({1, 2, 3}, {-Axle.right_double_wishbone.static_gamma * Modelica.Constants.pi / 180, 0, Axle.right_double_wishbone.static_alpha * Modelica.Constants.pi / 180}, {0, 0, 0}), {0, 0, -Axle.right_tire.R0});
 
-  inner Modelica.Mechanics.MultiBody.World world(n = {0, 0, -1}) annotation(
+  inner Modelica.Mechanics.MultiBody.World world(n = {0, 0, -1}, g = 0) annotation(
     Placement(transformation(origin = {-150, -110}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.Fixed fixed(r = {0, 0, left_cp_init[3]}) annotation(
     Placement(transformation(origin = {0, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  
   // Replaceable axle definition
-  replaceable BobDyn.Vehicle.Chassis.Suspension.FrAxleDWPushBCARBLocked Axle(final link_diameter = 0.025, final joint_diameter = 0.030) annotation(
+  replaceable BobDyn.Vehicle.Chassis.Suspension.FrAxleDWPushBCARBLocked Axle annotation(
     Placement(transformation(origin = {0, 40}, extent = {{-10, -10}, {10, 10}})));
+  
   // Origin roll frame
   Modelica.Mechanics.MultiBody.Joints.Revolute roll_frame(n = {1, 0, 0}, useAxisFlange = true, phi(start = 0, fixed = true), stateSelect = StateSelect.never) annotation(
     Placement(transformation(origin = {0, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
@@ -145,10 +161,6 @@ equation
     Line(points = {{0, -50}, {0, -40}}, color = {95, 95, 95}));
   connect(sprung_loads.frame_b, fixedTranslation.frame_a) annotation(
     Line(points = {{0, -20}, {0, 0}}, color = {95, 95, 95}));
-  connect(left_linear_actuator.frame_a, sprung_loads.frame_b) annotation(
-    Line(points = {{-30, -20}, {0, -20}}, color = {95, 95, 95}));
-  connect(right_linear_actuator.frame_a, sprung_loads.frame_b) annotation(
-    Line(points = {{30, -20}, {0, -20}}, color = {95, 95, 95}));
   connect(right_spherical.frame_a, right_linear_actuator.frame_b) annotation(
     Line(points = {{30, 10}, {30, 0}}, color = {95, 95, 95}));
   connect(left_spherical.frame_a, left_linear_actuator.frame_b) annotation(
@@ -161,6 +173,10 @@ equation
     Line(points = {{-10, 40}, {-60, 40}, {-60, 10}}, color = {95, 95, 95}));
   connect(Axle.right_hub, right_cp_force.frame_b) annotation(
     Line(points = {{10, 40}, {60, 40}, {60, 10}}, color = {95, 95, 95}));
+  connect(left_linear_actuator.frame_a, sprung_loads.frame_a) annotation(
+    Line(points = {{-30, -20}, {-30, -40}, {0, -40}}, color = {95, 95, 95}));
+  connect(right_linear_actuator.frame_a, sprung_loads.frame_a) annotation(
+    Line(points = {{30, -20}, {30, -40}, {0, -40}}, color = {95, 95, 95}));
   annotation(
     experiment(StartTime = 0, StopTime = 32, Tolerance = 1e-05, Interval = 0.05),
     __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "dassl", variableFilter = ".*", ls = "totalpivot", noEquidistantTimeGrid = "()"),

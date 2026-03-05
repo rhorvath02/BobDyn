@@ -219,21 +219,14 @@ Generated:
 
                         if ref_value is not None:
 
-                            ax.axhline(
-                                ref_value,
-                                linestyle=dash_style,
-                                linewidth=1.8,
-                                color=line.get_color(),
-                                alpha=0.9
-                            )
-
-                            ax.axhline(
-                                -ref_value,
-                                linestyle=dash_style,
-                                linewidth=1.5,
-                                color=line.get_color(),
-                                alpha=0.6
-                            )
+                            for sign in [1, -1]:
+                                ax.axhline(
+                                    sign * ref_value,
+                                    linestyle=dash_style,
+                                    linewidth=1.8,
+                                    color=line.get_color(),
+                                    alpha=0.9
+                                )
 
                     ax.set_title(axle_name.upper())
                     ax.set_xlabel(p_cfg["x"]["label"])

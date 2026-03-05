@@ -15,3 +15,5 @@ res := buildModel(
     tolerance=1e-5,
     cflags="-O3 -march=native -mtune=native -ffast-math"
 );
+
+getErrorString();

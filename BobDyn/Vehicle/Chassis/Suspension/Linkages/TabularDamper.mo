@@ -4,23 +4,19 @@ model TabularDamper "Tabular translational damper with velocity-force curve"
   extends BobDyn.Vehicle.Chassis.Suspension.Linkages.Templates.TabularCompliant;
   
   import Modelica.SIunits;
-  
   // Modelica linalg
   import Modelica.Math.Vectors.normalize;
   import Modelica.Math.Vectors.norm;
-  
   // Custom linalg
   import BobDyn.Utilities.Math.Vector.dot;
-    
-  // Parameters
+    // Parameters
   parameter SIunits.TranslationalDampingConstant damper_table[:,2] "Table of Force vs Relative Velocity (m/s, N)" annotation(Dialog(group = "Damper Parameters"));
   
   parameter SIunits.Length outer_diameter=0.008 "Diameter of smallest possible cylinder which can fully enclose the damper" annotation(
     Dialog(group = "Animation"));  
   parameter SIunits.Length inner_diameter=0.004 "Diameter of smallest possible cylinder (by volume) which can enclose any part of the damper" annotation(
     Dialog(group = "Animation"));
-  
-//protected
+  //protected
   Real[3] v_rel;
   Real[3] e_damper;
   
@@ -45,14 +41,12 @@ model TabularDamper "Tabular translational damper with velocity-force curve"
 
   
 equation
-  // Damper axis
+// Damper axis
   e_damper = if length > 1e-9 then r_rel/length else {1, 0, 0};
-  
-  // Relative velocity
+// Relative velocity
   v_rel = der(frame_b.r_0) - der(frame_a.r_0);
   v_axial = dot(v_rel, e_damper);
-  
-  // Safeguarded values
+// Safeguarded values
   v_abs = sqrt(v_axial*v_axial + eps*eps);
   vel_sgn = v_axial/v_abs;
   connect(vel_expression.y, product.u1) annotation(

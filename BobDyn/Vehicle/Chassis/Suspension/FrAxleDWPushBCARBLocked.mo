@@ -7,14 +7,14 @@ model FrAxleDWPushBCARBLocked
   import Modelica.Math.Vectors.norm;
   
   parameter BobDyn.Resources.Records.SUS.FrAxleDW FrAxle;
-  final parameter BobDyn.Resources.Records.SUS.FrAxleDWPushBCARB FrAxleBC;
+  parameter BobDyn.Resources.Records.SUS.FrAxleDWPushBCARB FrAxleBC;
   
   parameter BobDyn.Resources.Records.MASSPROPS.FrUnsprung unsprung_mass;
-  final parameter BobDyn.Resources.Records.MASSPROPS.FrUCA uca_mass;
-  final parameter BobDyn.Resources.Records.MASSPROPS.FrLCA lca_mass;
-  final parameter BobDyn.Resources.Records.MASSPROPS.FrTie tie_mass;
+  parameter BobDyn.Resources.Records.MASSPROPS.FrUCA uca_mass;
+  parameter BobDyn.Resources.Records.MASSPROPS.FrLCA lca_mass;
+  parameter BobDyn.Resources.Records.MASSPROPS.FrTie tie_mass;
   
-  final parameter BobDyn.Resources.Records.TIRES.Fr_tire Fr_tire;
+  parameter BobDyn.Resources.Records.TIRES.Fr_tire Fr_tire;
   
   extends BobDyn.Vehicle.Chassis.Suspension.Templates.AxleDoubleWishboneBase(left_upper_fore_i = FrAxle.upper_fore_i,
                                                                               left_upper_aft_i = FrAxle.upper_aft_i,

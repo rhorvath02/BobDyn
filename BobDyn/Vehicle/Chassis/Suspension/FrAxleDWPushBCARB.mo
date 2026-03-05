@@ -6,31 +6,31 @@ model FrAxleDWPushBCARB
   // Modelica linalg
   import Modelica.Math.Vectors.norm;
   
-  final parameter BobDyn.Resources.Records.SUS.FrAxleDW FrAxle;
-  final parameter BobDyn.Resources.Records.SUS.FrAxleDWPushBCARB FrAxleBC;
+  parameter BobDyn.Resources.Records.SUS.FrAxleDW FrAxle;
+  parameter BobDyn.Resources.Records.SUS.FrAxleDWPushBCARB FrAxleBC;
   
-  final parameter BobDyn.Resources.Records.MASSPROPS.FrUnsprung unsprung_mass;
-  final parameter BobDyn.Resources.Records.MASSPROPS.FrUCA uca_mass;
-  final parameter BobDyn.Resources.Records.MASSPROPS.FrLCA lca_mass;
-  final parameter BobDyn.Resources.Records.MASSPROPS.FrTie tie_mass;
+  parameter BobDyn.Resources.Records.MASSPROPS.FrUnsprung unsprung_mass;
+  parameter BobDyn.Resources.Records.MASSPROPS.FrUCA uca_mass;
+  parameter BobDyn.Resources.Records.MASSPROPS.FrLCA lca_mass;
+  parameter BobDyn.Resources.Records.MASSPROPS.FrTie tie_mass;
   
-  final parameter BobDyn.Resources.Records.TIRES.Fr_tire Fr_tire;
+  parameter BobDyn.Resources.Records.TIRES.Fr_tire Fr_tire;
   
   extends BobDyn.Vehicle.Chassis.Suspension.Templates.AxleDoubleWishboneBase(left_upper_fore_i = FrAxle.upper_fore_i,
-                                                                                  left_upper_aft_i = FrAxle.upper_aft_i,
-                                                                                  left_lower_fore_i = FrAxle.lower_fore_i,
-                                                                                  left_lower_aft_i = FrAxle.lower_aft_i,
-                                                                                  left_upper_o = FrAxle.upper_outboard,
-                                                                                  left_lower_o = FrAxle.lower_outboard,
-                                                                                  left_tie_i = FrAxle.tie_inboard,
-                                                                                  left_tie_o = FrAxle.tie_outboard,
-                                                                                  left_wheel_center = FrAxle.wheel_center,
-                                                                                  left_static_gamma = FrAxle.static_gamma,
-                                                                                  left_static_alpha = FrAxle.static_alpha,
-                                                                                  left_unsprung_mass = unsprung_mass,
-                                                                                  left_uca_mass = uca_mass,
-                                                                                  left_lca_mass = lca_mass,
-                                                                                  left_tie_mass = tie_mass,
+                                                                             left_upper_aft_i = FrAxle.upper_aft_i,
+                                                                             left_lower_fore_i = FrAxle.lower_fore_i,
+                                                                             left_lower_aft_i = FrAxle.lower_aft_i,
+                                                                             left_upper_o = FrAxle.upper_outboard,
+                                                                             left_lower_o = FrAxle.lower_outboard,
+                                                                             left_tie_i = FrAxle.tie_inboard,
+                                                                             left_tie_o = FrAxle.tie_outboard,
+                                                                             left_wheel_center = FrAxle.wheel_center,
+                                                                             left_static_gamma = FrAxle.static_gamma,
+                                                                             left_static_alpha = FrAxle.static_alpha,
+                                                                             left_unsprung_mass = unsprung_mass,
+                                                                             left_uca_mass = uca_mass,
+                                                                             left_lca_mass = lca_mass,
+                                                                             left_tie_mass = tie_mass,
                                                                                   final left_tire(rim_width = Fr_tire.RIM_WIDTH,
                                                                                                   rim_R0 = Fr_tire.RIM_RADIUS,
                                                                                                   R0 = Fr_tire.UNLOADED_RADIUS,
@@ -158,11 +158,11 @@ model FrAxleDWPushBCARB
   // left shock
   final Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_shock_pickup(r = left_shock_mount - effective_center) annotation(
     Placement(transformation(origin = {-20, 70}, extent = {{10, -10}, {-10, 10}})));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularSpring right_tabular_spring(spring_table = FrAxle.spring_table,
+  BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularSpring left_tabular_spring(spring_table = FrAxle.spring_table,
                                                                                         free_length = FrAxle.free_length,
-                                                                                        spring_diameter = 0.050)  annotation(
-    Placement(transformation(origin = {50, 70}, extent = {{-10, -10}, {10, 10}})));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularDamper left_tabular_damper(damper_table = FrAxle.damper_table,
+                                                                                        spring_diameter = 0.050) annotation(
+    Placement(transformation(origin = {-50, 70}, extent = {{10, -10}, {-10, 10}})));
+  BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularDamper left_tabular_damper(damper_table = FrAxle.damper_table,
                                                                                         inner_diameter = 0.004,
                                                                                         outer_diameter = 0.008)  annotation(
     Placement(transformation(origin = {-50, 130}, extent = {{10, -10}, {-10, 10}})));
@@ -188,11 +188,11 @@ model FrAxleDWPushBCARB
   // right shock
   final Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_shock_pickup(r = {left_shock_mount[1], -left_shock_mount[2], left_shock_mount[3]} - effective_center) annotation(
     Placement(transformation(origin = {20, 70}, extent = {{-10, -10}, {10, 10}})));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularSpring left_tabular_spring(spring_table = FrAxle.spring_table,
+  BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularSpring right_tabular_spring(spring_table = FrAxle.spring_table,
                                                                                         free_length = FrAxle.free_length,
-                                                                                        spring_diameter = 0.050) annotation(
-    Placement(transformation(origin = {-50, 70}, extent = {{10, -10}, {-10, 10}})));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularDamper right_tabular_damper(damper_table = FrAxle.damper_table,
+                                                                                        spring_diameter = 0.050)  annotation(
+    Placement(transformation(origin = {50, 70}, extent = {{-10, -10}, {10, 10}})));
+  BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularDamper right_tabular_damper(damper_table = FrAxle.damper_table,
                                                                                         inner_diameter = 0.004,
                                                                                         outer_diameter = 0.008) annotation(
     Placement(transformation(origin = {50, 130}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
@@ -202,6 +202,8 @@ model FrAxleDWPushBCARB
 // Steering interface
   final Modelica.Blocks.Interfaces.RealInput steer_input annotation(
     Placement(transformation(origin = {0, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {0, 120}, extent = {{-20, -20}, {20, 20}}, rotation=-90)));
+  final BobDyn.Vehicle.Chassis.Suspension.Linkages.Stabar stabar(bar_rate = FrAxleBC.bar_rate, joint_diameter = joint_diameter*0.5, left_arm_end = FrAxleBC.left_arm_end, left_bar_end = FrAxleBC.left_bar_end, left_droplink_end = FrAxleBC.bellcrank_pickup_1, link_diameter = link_diameter*0.5) annotation(
+    Placement(transformation(origin = {-40, 10}, extent = {{10, -10}, {-10, 10}}, rotation = -180)));
 equation
   connect(left_apex.frame_a, left_double_wishbone.lower_wishbone_frame) annotation(
     Line(points = {{-110, -20}, {-110, -90}, {-70, -90}, {-70, -80}}, color = {95, 95, 95}));
@@ -249,6 +251,12 @@ equation
     Line(points = {{90, -14}, {90, 90}, {0, 90}, {0, 120}}, color = {0, 0, 127}));
   connect(stabar_frame.frame_a, axle_frame) annotation(
     Line(points = {{-10, -10}, {0, -10}, {0, -100}}, color = {95, 95, 95}));
+  connect(stabar_frame.frame_b, stabar.support_pickup) annotation(
+    Line(points = {{-30, -10}, {-40, -10}, {-40, 0}}, color = {95, 95, 95}));
+  connect(stabar.left_pickup, left_bellcrank.pickup_1_frame) annotation(
+    Line(points = {{-50, 10}, {-60, 10}, {-60, 30}}, color = {95, 95, 95}));
+  connect(stabar.right_pickup, right_bellcrank.pickup_1_frame) annotation(
+    Line(points = {{-30, 10}, {60, 10}, {60, 30}}, color = {95, 95, 95}));
   annotation(
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002));
 end FrAxleDWPushBCARB;

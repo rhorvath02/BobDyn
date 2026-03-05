@@ -6,10 +6,12 @@ model RigidChassis
   import Modelica.Math.Vectors.norm;
   import BobDyn.Utilities.Math.Vector.cross;
   import BobDyn.Utilities.Math.Vector.dot;
-  parameter BobDyn.Resources.Records.MASSPROPS.Sprung sprung_mass_setup;
-  final parameter BobDyn.Resources.Records.MASSPROPS.Driver driver_mass_setup;
-  final parameter BobDyn.Resources.Records.SUS.FrAxleDW Fr_axle_setup;
-  final parameter BobDyn.Resources.Records.SUS.RrAxleDW Rr_axle_setup;
+  
+  parameter BobDyn.Resources.Records.MASSPROPS.Sprung sprung_mass_setup annotation(Evaluate = false);
+  parameter BobDyn.Resources.Records.MASSPROPS.Driver driver_mass_setup annotation(Evaluate = false);
+  parameter BobDyn.Resources.Records.SUS.FrAxleDW Fr_axle_setup annotation(Evaluate = false);
+  parameter BobDyn.Resources.Records.SUS.RrAxleDW Rr_axle_setup annotation(Evaluate = false);
+  
   BobDyn.Vehicle.Chassis.Suspension.FrAxleDWPushBCARB FrAxle(final link_diameter = 0.025, final joint_diameter = 0.030) annotation(
     Placement(transformation(origin = {0, 47}, extent = {{-20, -20}, {20, 20}})));
   BobDyn.Vehicle.Chassis.Suspension.RrAxleDWPullBCARB RrAxle(final link_diameter = 0.025, final joint_diameter = 0.030) annotation(
@@ -75,6 +77,9 @@ model RigidChassis
     Placement(transformation(origin = {50, -64}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
 protected
   // Ground elements
+initial equation
+  sprung_mass.r_0[1] = 0;
+  sprung_mass.r_0[2] = 0;
 equation
 // Determine coordinate system
   r_front = 0.5*(FrAxle.left_cp.r_0 + FrAxle.right_cp.r_0);

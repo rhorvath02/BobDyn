@@ -4,7 +4,7 @@ model RrAxleDWPullBCARB
   import Modelica.Math.Vectors.norm;
   import Modelica.SIunits;
   
-  final parameter BobDyn.Resources.Records.SUS.RrAxleDW RrAxle;
+  parameter BobDyn.Resources.Records.SUS.RrAxleDW RrAxle;
   final parameter BobDyn.Resources.Records.SUS.RrAxleDWPullBCARB RrAxleBC;
   
   final parameter BobDyn.Resources.Records.MASSPROPS.RrUnsprung unsprung_mass;
@@ -158,12 +158,12 @@ model RrAxleDWPullBCARB
   // left shock
   final Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_shock_pickup(r = left_shock_mount - effective_center) annotation(
     Placement(transformation(origin = {-20, 70}, extent = {{10, -10}, {-10, 10}})));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularSpring left_tabular_spring(spring_table = RrAxle.spring_table,
+  BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularSpring left_tabular_spring(spring_table = RrAxle.spring_table,
                                                                                             free_length = RrAxle.free_length,
                                                                                             spring_diameter = 0.050) annotation(
     Placement(transformation(origin = {50, 70}, extent = {{-10, -10}, {10, 10}})));
   
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularDamper left_tabular_damper(damper_table = [0, 0; 1, 1e3],
+  BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularDamper left_tabular_damper(damper_table = [0, 0; 1, 1e3],
                                                                                     inner_diameter = 0.004,
                                                                                     outer_diameter = 0.008) annotation(
     Placement(transformation(origin = {-50, 130}, extent = {{10, -10}, {-10, 10}})));
@@ -187,11 +187,11 @@ model RrAxleDWPullBCARB
   // right shock
   final Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_shock_pickup(r = {left_shock_mount[1], -left_shock_mount[2], left_shock_mount[3]} - effective_center) annotation(
     Placement(transformation(origin = {20, 70}, extent = {{-10, -10}, {10, 10}})));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularSpring right_tabular_spring(spring_table = RrAxle.spring_table,
+  BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularSpring right_tabular_spring(spring_table = RrAxle.spring_table,
                                                                                         free_length = RrAxle.free_length,
                                                                                         spring_diameter = 0.050) annotation(
     Placement(transformation(origin = {-50, 70}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularDamper right_tabular_damper(damper_table = RrAxle.damper_table,
+  BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularDamper right_tabular_damper(damper_table = RrAxle.damper_table,
                                                                                         inner_diameter = 0.004,
                                                                                         outer_diameter = 0.008) annotation(
     Placement(transformation(origin = {50, 130}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
@@ -201,6 +201,8 @@ model RrAxleDWPullBCARB
   // Zero steer (for typical rear axle)
   final Modelica.Blocks.Sources.RealExpression zero_steer annotation(
     Placement(transformation(origin = {-90, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  BobDyn.Vehicle.Chassis.Suspension.Linkages.Stabar stabar(bar_rate = RrAxleBC.bar_rate, joint_diameter = joint_diameter*0.5, left_arm_end = RrAxleBC.left_arm_end, left_bar_end = RrAxleBC.left_bar_end, left_droplink_end = RrAxleBC.bellcrank_pickup_3, link_diameter = link_diameter*0.5) annotation(
+    Placement(transformation(origin = {-40, 10}, extent = {{10, -10}, {-10, 10}}, rotation = -180)));
 equation
   connect(left_apex.frame_b, left_pushrod.frame_a) annotation(
     Line(points = {{-110, 20}, {-110, 30}, {-100, 30}}, color = {95, 95, 95}));
@@ -248,6 +250,12 @@ equation
     Line(points = {{60, 70}, {70, 70}, {70, 40}}, color = {95, 95, 95}));
   connect(stabar_frame.frame_a, axle_frame) annotation(
     Line(points = {{-10, -10}, {0, -10}, {0, -100}}, color = {95, 95, 95}));
+  connect(stabar_frame.frame_b, stabar.support_pickup) annotation(
+    Line(points = {{-30, -10}, {-40, -10}, {-40, 0}}, color = {95, 95, 95}));
+  connect(stabar.left_pickup, left_bellcrank.pickup_3_frame) annotation(
+    Line(points = {{-50, 10}, {-60, 10}, {-60, 50}}, color = {95, 95, 95}));
+  connect(stabar.right_pickup, right_bellcrank.pickup_3_frame) annotation(
+    Line(points = {{-30, 10}, {60, 10}, {60, 50}}, color = {95, 95, 95}));
   annotation(
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002));
 end RrAxleDWPullBCARB;

@@ -9,38 +9,39 @@ partial model DoubleWishboneBase
   import Modelica.Math.Vectors.norm;
   // Body template for mass properties
   import BobDyn.Resources.Records.TEMPLATES.BodyTemplate;
+  
   // Parameters
   parameter SIunits.Position upper_fore_i[3] "Upper control arm fore inboard joint, expressed in chassis frame" annotation(
-    Dialog(group = "Geometry"));
+    Evaluate=false, Dialog(group = "Geometry"));
   parameter SIunits.Position upper_aft_i[3] "Upper control arm aft inboard joint, expressed in chassis frame" annotation(
-    Dialog(group = "Geometry"));
+    Evaluate=false, Dialog(group = "Geometry"));
   parameter SIunits.Position lower_fore_i[3] "Lower control arm fore inboard joint, expressed in chassis frame" annotation(
-    Dialog(group = "Geometry"));
+    Evaluate=false, Dialog(group = "Geometry"));
   parameter SIunits.Position lower_aft_i[3] "Lower control arm aft inboard joint, expressed in chassis frame" annotation(
-    Dialog(group = "Geometry"));
+    Evaluate=false, Dialog(group = "Geometry"));
   parameter SIunits.Position upper_o[3] "Upper control arm outboard joint, expressed in chassis frame" annotation(
-    Dialog(group = "Geometry"));
+    Evaluate=false, Dialog(group = "Geometry"));
   parameter SIunits.Position lower_o[3] "Lower control arm outboard joint, expressed in chassis frame" annotation(
-    Dialog(group = "Geometry"));
+    Evaluate=false, Dialog(group = "Geometry"));
   parameter SIunits.Position tie_i[3] "Tie rod inboard joint, expressed in chassis frame" annotation(
-    Dialog(group = "Geometry"));
+    Evaluate=false, Dialog(group = "Geometry"));
   parameter SIunits.Position tie_o[3] "Tie rod outboard joint, expressed in chassis frame" annotation(
-    Dialog(group = "Geometry"));
+    Evaluate=false, Dialog(group = "Geometry"));
   parameter SIunits.Position wheel_center[3] "Center point of the tightest convex volume enclosing wheel, expressed in chassis frame" annotation(
-    Dialog(group = "Geometry"));
+    Evaluate=false, Dialog(group = "Geometry"));
   parameter SIunits.Angle static_gamma "Static inclination angle, in deg, mirrored and consistent with SAE J670 Z-up coordinates (left side)" annotation(
-    Dialog(group = "Geometry"));
+    Evaluate=false, Dialog(group = "Geometry"));
   parameter SIunits.Angle static_alpha "Static toe angle, in deg, mirrored and consistent with SAE J670 Z-up coordinates (left side)" annotation(
-    Dialog(group = "Geometry"));
+    Evaluate=false, Dialog(group = "Geometry"));
   
   parameter BodyTemplate unsprung_mass "Unsprung mass" annotation(
-    Dialog(tab = "Mass Properties", group = "Wheel Properties"));
+    Evaluate=false, Dialog(tab = "Mass Properties", group = "Wheel Properties"));
   parameter BodyTemplate uca_mass "Upper control arm mass" annotation(
-    Dialog(tab = "Mass Properties", group = "UCA Properties"));
+    Evaluate=false, Dialog(tab = "Mass Properties", group = "UCA Properties"));
   parameter BodyTemplate lca_mass "Lower control arm mass" annotation(
-    Dialog(tab = "Mass Properties", group = "LCA Properties"));
+    Evaluate=false, Dialog(tab = "Mass Properties", group = "LCA Properties"));
   parameter BodyTemplate tie_mass "Tie rod mass" annotation(
-    Dialog(tab = "Mass Properties", group = "Tie Properties"));
+    Evaluate=false, Dialog(tab = "Mass Properties", group = "Tie Properties"));
   // Visual parameters
   parameter SIunits.Length link_diameter annotation(
     Dialog(tab = "Animation", group = "Sizing"));
@@ -163,7 +164,7 @@ partial model DoubleWishboneBase
                                                trans_y_damping = 1e4,
                                                trans_z_damping = 1e4,
                                                diameter = joint_diameter,
-                                               r_rel(start = {0, 0, 0}, each fixed = true))  annotation(
+                                               r_rel(start = {0, 0, 0}))  annotation(
     Placement(transformation(origin = {10, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 
 // Public steering interface

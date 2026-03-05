@@ -72,7 +72,7 @@ class AxleKncReport:
             f"-s={self.solver}",
             f"-tolerance={self.tolerance}",
             "-startTime=0",
-            "-stopTime=32",
+            "-stopTime=42",
             "-stepSize=0.02",
             "-outputFormat=csv",
             "-noEquidistantTimeGrid",

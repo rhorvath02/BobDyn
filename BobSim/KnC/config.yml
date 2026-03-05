@@ -1,54 +1,72 @@
 vehicles:
 
-  - name: Nightwatch
-    geometry:
-      CG_height_m: 0.280
-      wheelbase_m: 1.550
-      front_track_m: 1.250
-      rear_track_m: 1.230
-    front:
-      executable: Build/NightwatchFrKnC/BobDyn.Standards.FrOrionKnC
-      solver: "dassl"
-      tolerance: 1e-5
-      params: ""
-    rear:
-      executable: Build/NightwatchRrKnC/BobDyn.Standards.RrOrionKnC
-      solver: "dassl"
-      tolerance: 1e-5
-      params: ""
+  # - name: Nightwatch
+  #   geometry:
+  #     CG_height_m: 0.280
+  #     wheelbase_m: 1.550
+  #     front_track_m: 1.250
+  #     rear_track_m: 1.230
+  #   front:
+  #     executable: Build/NightwatchFrKnC/BobDyn.Standards.FrOrionKnC
+  #     solver: "dassl"
+  #     tolerance: 1e-5
+  #     params: ""
+  #   rear:
+  #     executable: Build/NightwatchRrKnC/BobDyn.Standards.RrOrionKnC
+  #     solver: "dassl"
+  #     tolerance: 1e-5
+  #     params: ""
   
-  - name: Orion Modified
-    geometry:
-      CG_height_m: 0.280
-      wheelbase_m: 1.550
-      front_track_m: 1.250
-      rear_track_m: 1.230
-    front:
-      executable: Build/OrionFrKnC/BobDyn.Standards.FrOrionKnC
-      solver: "dassl"
-      tolerance: 1e-5
-      params: ""
-    rear:
-      executable: Build/OrionRrKnC/BobDyn.Standards.RrOrionKnC
-      solver: "dassl"
-      tolerance: 1e-5
-      params: ""
+  # - name: Orion Modified
+  #   geometry:
+  #     CG_height_m: 0.280
+  #     wheelbase_m: 1.550
+  #     front_track_m: 1.250
+  #     rear_track_m: 1.230
+  #   front:
+  #     executable: Build/OrionFrKnC/BobDyn.Standards.FrOrionKnC
+  #     solver: "dassl"
+  #     tolerance: 1e-5
+  #     params: ""
+  #   rear:
+  #     executable: Build/OrionRrKnC/BobDyn.Standards.RrOrionKnC
+  #     solver: "dassl"
+  #     tolerance: 1e-5
+  #     params: ""
   
-  - name: Orion Original
+  # - name: Orion Original
+  #   geometry:
+  #     CG_height_m: 0.280
+  #     wheelbase_m: 1.550
+  #     front_track_m: 1.250
+  #     rear_track_m: 1.230
+  #   front:
+  #     executable: Build/FrKnC/BobDyn.Standards.FrOrionKnC
+  #     solver: "dassl"
+  #     tolerance: 1e-5
+  #     params: ""
+  #   rear:
+  #     executable: Build/RrKnC/BobDyn.Standards.RrOrionKnC
+  #     solver: "dassl"
+  #     tolerance: 1e-5
+  #     params: ""
+
+  - name: Orion Test
     geometry:
       CG_height_m: 0.280
       wheelbase_m: 1.550
       front_track_m: 1.250
       rear_track_m: 1.230
     front:
-      executable: Build/FrKnC/BobDyn.Standards.FrOrionKnC
+      executable: Build/FrKnC/BobDyn.Standards.FrKnC
       solver: "dassl"
-      tolerance: 1e-5
+      tolerance: 1e-6
       params: ""
+              # Axle.right_double_wishbone.static_gamma=30
     rear:
-      executable: Build/RrKnC/BobDyn.Standards.RrOrionKnC
+      executable: Build/RrKnC/BobDyn.Standards.RrKnC
       solver: "dassl"
-      tolerance: 1e-5
+      tolerance: 1e-6
       params: ""
 
 case:
