@@ -4,18 +4,59 @@ model RigidChassis
   // Modelica linalg
   import Modelica.Math.Vectors.normalize;
   import Modelica.Math.Vectors.norm;
+  // Custom linalg
   import BobDyn.Utilities.Math.Vector.cross;
   import BobDyn.Utilities.Math.Vector.dot;
+  // Parameters
+  parameter BobDyn.Resources.Records.SUS.FrAxleDW Fr_axle_props;
+  parameter BobDyn.Resources.Records.SUS.RrAxleDW Rr_axle_props;
+  parameter BobDyn.Resources.Records.SUS.FrAxleDWPushBCARB Fr_axle_bc_props;
+  parameter BobDyn.Resources.Records.SUS.RrAxleDWPullBCARB Rr_axle_bc_props;
+  parameter BobDyn.Resources.Records.MASSPROPS.Sprung sprung_mass_props;
+  parameter BobDyn.Resources.Records.MASSPROPS.Driver driver_mass_props;
   
-  parameter BobDyn.Resources.Records.MASSPROPS.Sprung sprung_mass_setup annotation(Evaluate = false);
-  parameter BobDyn.Resources.Records.MASSPROPS.Driver driver_mass_setup annotation(Evaluate = false);
-  parameter BobDyn.Resources.Records.SUS.FrAxleDW Fr_axle_setup annotation(Evaluate = false);
-  parameter BobDyn.Resources.Records.SUS.RrAxleDW Rr_axle_setup annotation(Evaluate = false);
+  parameter BobDyn.Resources.Records.MASSPROPS.FrUnsprung Fr_unsprung_props annotation(
+    Evaluate=false);
+  parameter BobDyn.Resources.Records.MASSPROPS.RrUnsprung Rr_unsprung_props annotation(
+    Evaluate=false);
   
-  BobDyn.Vehicle.Chassis.Suspension.FrAxleDWPushBCARB FrAxle(final link_diameter = 0.025, final joint_diameter = 0.030) annotation(
+  parameter BobDyn.Resources.Records.MASSPROPS.FrUCA Fr_uca_props annotation(
+    Evaluate=false);
+  parameter BobDyn.Resources.Records.MASSPROPS.FrLCA Fr_lca_props annotation(
+    Evaluate=false);
+  parameter BobDyn.Resources.Records.MASSPROPS.FrTie Fr_tie_props annotation(
+    Evaluate=false);
+  parameter BobDyn.Resources.Records.TIRES.Fr_tire Fr_tire_props annotation(
+    Evaluate=false);
+  
+  parameter BobDyn.Resources.Records.MASSPROPS.RrUCA Rr_uca_props annotation(
+    Evaluate=false);
+  parameter BobDyn.Resources.Records.MASSPROPS.RrLCA Rr_lca_props annotation(
+    Evaluate=false);
+  parameter BobDyn.Resources.Records.MASSPROPS.RrTie Rr_tie_props annotation(
+    Evaluate=false);
+  parameter BobDyn.Resources.Records.TIRES.Rr_tire Rr_tire_props annotation(
+    Evaluate=false);
+    
+  BobDyn.Vehicle.Chassis.Suspension.FrAxleDWPushBCARB FrAxle(FrAxle = Fr_axle_props,
+                                                             FrAxleBC = Fr_axle_bc_props,
+                                                             unsprung_mass = Fr_unsprung_props,
+                                                             uca_mass = Fr_uca_props,
+                                                             lca_mass = Fr_lca_props,
+                                                             tie_mass = Fr_tie_props,
+                                                             final link_diameter = 0.025,
+                                                             final joint_diameter = 0.030) annotation(
     Placement(transformation(origin = {0, 47}, extent = {{-20, -20}, {20, 20}})));
-  BobDyn.Vehicle.Chassis.Suspension.RrAxleDWPullBCARB RrAxle(final link_diameter = 0.025, final joint_diameter = 0.030) annotation(
+  BobDyn.Vehicle.Chassis.Suspension.RrAxleDWPullBCARB RrAxle(RrAxle = Rr_axle_props,
+                                                             RrAxleBC = Rr_axle_bc_props,
+                                                             unsprung_mass = Rr_unsprung_props,
+                                                             uca_mass = Rr_uca_props,
+                                                             lca_mass = Rr_lca_props,
+                                                             tie_mass = Rr_tie_props,
+                                                             final link_diameter = 0.025,
+                                                             final joint_diameter = 0.030) annotation(
     Placement(transformation(origin = {0, -47}, extent = {{20, -20}, {-20, 20}}, rotation = -180)));
+  
   final Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation(r = RrAxle.effective_center - FrAxle.effective_center) annotation(
     Placement(transformation(extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   // Torque inputs
@@ -31,22 +72,22 @@ model RigidChassis
   Modelica.Blocks.Interfaces.RealInput rack_input annotation(
     Placement(transformation(origin = {0, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {0, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90)));
   // Sprung mass
-  final Modelica.Mechanics.MultiBody.Parts.Body sprung_mass(r_CM = sprung_mass_setup.r_cm - FrAxle.effective_center, m = sprung_mass_setup.m, I_11 = sprung_mass_setup.I[1, 1], I_22 = sprung_mass_setup.I[2, 2], I_33 = sprung_mass_setup.I[3, 3], I_21 = sprung_mass_setup.I[2, 1], I_31 = sprung_mass_setup.I[3, 1], I_32 = sprung_mass_setup.I[3, 2], enforceStates = true, useQuaternions = false) annotation(
+  final Modelica.Mechanics.MultiBody.Parts.Body sprung_mass(r_CM = sprung_mass_props.r_cm - FrAxle.effective_center, m = sprung_mass_props.m, I_11 = sprung_mass_props.I[1, 1], I_22 = sprung_mass_props.I[2, 2], I_33 = sprung_mass_props.I[3, 3], I_21 = sprung_mass_props.I[2, 1], I_31 = sprung_mass_props.I[3, 1], I_32 = sprung_mass_props.I[3, 2], enforceStates = true, useQuaternions = false) annotation(
     Placement(transformation(origin = {70, 70}, extent = {{-10, -10}, {10, 10}})));
   // Driver mass
-  final Modelica.Mechanics.MultiBody.Parts.Body driver_mass(r_CM = driver_mass_setup.r_cm - FrAxle.effective_center, m = driver_mass_setup.m, I_11 = driver_mass_setup.I[1, 1], I_22 = driver_mass_setup.I[2, 2], I_33 = driver_mass_setup.I[3, 3], I_21 = driver_mass_setup.I[2, 1], I_31 = driver_mass_setup.I[3, 1], I_32 = driver_mass_setup.I[3, 2]) annotation(
+  final Modelica.Mechanics.MultiBody.Parts.Body driver_mass(r_CM = driver_mass_props.r_cm - FrAxle.effective_center, m = driver_mass_props.m, I_11 = driver_mass_props.I[1, 1], I_22 = driver_mass_props.I[2, 2], I_33 = driver_mass_props.I[3, 3], I_21 = driver_mass_props.I[2, 1], I_31 = driver_mass_props.I[3, 1], I_32 = driver_mass_props.I[3, 2], useQuaternions = false) annotation(
     Placement(transformation(origin = {70, 90}, extent = {{-10, -10}, {10, 10}})));
   // World frame for "grounding"
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b world_frame annotation(
     Placement(transformation(origin = {0, -100}, extent = {{-16, -16}, {16, 16}}, rotation = -90), iconTransformation(origin = {0, -100}, extent = {{-16, -16}, {16, 16}}, rotation = 90)));
   // Frame height sensing
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation FL_frame_sens(r = Fr_axle_setup.frame_height_sensor - FrAxle.effective_center) annotation(
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation FL_frame_sens(r = Fr_axle_props.frame_height_sensor - FrAxle.effective_center) annotation(
     Placement(transformation(origin = {-20, 20}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation FR_frame_sens(r = {Fr_axle_setup.frame_height_sensor[1], -Fr_axle_setup.frame_height_sensor[2], Fr_axle_setup.frame_height_sensor[3]} - FrAxle.effective_center) annotation(
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation FR_frame_sens(r = {Fr_axle_props.frame_height_sensor[1], -Fr_axle_props.frame_height_sensor[2], Fr_axle_props.frame_height_sensor[3]} - FrAxle.effective_center) annotation(
     Placement(transformation(origin = {20, 20}, extent = {{-10, -10}, {10, 10}})));
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation RL_frame_sens(r = Rr_axle_setup.frame_height_sensor - RrAxle.effective_center) annotation(
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation RL_frame_sens(r = Rr_axle_props.frame_height_sensor - RrAxle.effective_center) annotation(
     Placement(transformation(origin = {-20, -10}, extent = {{10, -10}, {-10, 10}})));
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation RR_frame_sens(r = {Rr_axle_setup.frame_height_sensor[1], -Rr_axle_setup.frame_height_sensor[2], Rr_axle_setup.frame_height_sensor[3]} - RrAxle.effective_center) annotation(
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation RR_frame_sens(r = {Rr_axle_props.frame_height_sensor[1], -Rr_axle_props.frame_height_sensor[2], Rr_axle_props.frame_height_sensor[3]} - RrAxle.effective_center) annotation(
     Placement(transformation(origin = {20, -10}, extent = {{-10, -10}, {10, 10}})));
   final Modelica.Mechanics.MultiBody.Sensors.RelativePosition FL_frame_coord annotation(
     Placement(transformation(origin = {-50, 20}, extent = {{-10, -10}, {10, 10}})));
