@@ -19,6 +19,7 @@ protected
 
 initial equation
   r_rel_z = 0;
+//  v_rel_z = 0;
   
 equation
   r_rel_z = frame_b.r_0[3] - frame_a.r_0[3];

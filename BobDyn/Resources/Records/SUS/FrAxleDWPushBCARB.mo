@@ -11,8 +11,6 @@ record FrAxleDWPushBCARB
 
   import Modelica.SIunits;
 
-  extends FrAxleDW;
-
   parameter SIunits.Position bellcrank_pivot[3] = {-0.042144464098, 0.250754351932, 0.370010000136};
   parameter SIunits.Position bellcrank_pivot_ref[3] = {-0.017822781728, 0.244001173922, 0.36717974316};
   parameter SIunits.Position bellcrank_pickup_1[3] = {-0.029010173628, 0.2971411507, 0.37219698865};

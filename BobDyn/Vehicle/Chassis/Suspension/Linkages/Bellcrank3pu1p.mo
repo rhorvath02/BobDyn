@@ -25,7 +25,7 @@ model Bellcrank3pu1p
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b pickup_3_frame annotation(
     Placement(transformation(origin = {0, 100}, extent = {{-16, -16}, {16, 16}}, rotation = 90), iconTransformation(origin = {0, 100}, extent = {{-16, -16}, {16, 16}}, rotation = 90)));
   
-  Modelica.Mechanics.MultiBody.Joints.Revolute revolute(n = normalize(pivot_ref - pivot), animation = false) annotation(
+  Modelica.Mechanics.MultiBody.Joints.Revolute revolute(n = normalize(pivot_ref - pivot), animation = false, stateSelect = StateSelect.avoid) annotation(
     Placement(transformation(origin = {-70, 0}, extent = {{-10, -10}, {10, 10}})));
   
 protected
