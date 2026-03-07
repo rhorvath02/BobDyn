@@ -301,8 +301,8 @@ model MF5p2Tire
   Real kappa;
   Real gamma;
   // Relaxation lengths
-  Real sigma_kappa;
-  Real sigma_alpha;
+//  Real sigma_kappa;
+//  Real sigma_alpha;
   Modelica.Mechanics.Rotational.Interfaces.Flange_b hub_input annotation(
     Placement(transformation(origin = {0, 100}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}})));
 protected
@@ -337,21 +337,19 @@ protected
   Real[3] F_world;
   // Long and lat slip velocities
   Real Vsx;
-  Real Vsy;
+//  Real Vsy;
   // Transient slip states
-  Real u(start = 0, fixed = true) "Longitudinal slip state";
-  Real v(start = 0, fixed = true) "Lateral slip state";
-  Modelica.Mechanics.MultiBody.Parts.PointMass pointMass(m = 1e-3, animation = false) annotation(
-    Placement(transformation(origin = {30, -70}, extent = {{-10, -10}, {10, 10}})));
+//  Real u(start = 0, fixed = true) "Longitudinal slip state";
+//  Real v(start = 0, fixed = true) "Lateral slip state";
   parameter Real Vx_relax_max = 8.0;
-  Real relax_rate;
+  Real speed_gate;
+//  Real relax_rate;
 algorithm
   Fx := MF52.Fx_eval(Fz, alpha, kappa, gamma, PCX1, PDX1, PDX2, PDX3, PEX1, PEX2, PEX3, PEX4, PKX1, PKX2, PKX3, PHX1, PHX2, PVX1, PVX2, RBX1, RBX2, RCX1, REX1, REX2, RHX1, LFZO, LCX, LMUX, LEX, LKX, LHX, LVX, LXAL, LGAX, LCY, LMUY, LEY, LKY, LHY, LVY, LGAY, LKYG, LTR, LRES, LCZ, LGAZ, LYKA, LVYKA, LS, LSGKP, LSGAL, LGYR, LMX, LVMX, LMY, LIP, FNOMIN, R0);
   Fy := MF52.Fy_eval(Fz, alpha, kappa, gamma, PCY1, PDY1, PDY2, PDY3, PEY1, PEY2, PEY3, PEY4, PKY1, PKY2, PKY3, PHY1, PHY2, PHY3, PVY1, PVY2, PVY3, PVY4, RBY1, RBY2, RBY3, RCY1, REY1, REY2, RHY1, RHY2, RVY1, RVY2, RVY3, RVY4, RVY5, RVY6, LFZO, LCX, LMUX, LEX, LKX, LHX, LVX, LXAL, LGAX, LCY, LMUY, LEY, LKY, LHY, LVY, LGAY, LKYG, LTR, LRES, LCZ, LGAZ, LYKA, LVYKA, LS, LSGKP, LSGAL, LGYR, LMX, LVMX, LMY, LIP, FNOMIN, R0);
   Mx := MF52.Mx_eval(Fz, Fy, alpha, kappa, gamma, QSX1, QSX2, QSX3, LFZO, LCX, LMUX, LEX, LKX, LHX, LVX, LXAL, LGAX, LCY, LMUY, LEY, LKY, LHY, LVY, LGAY, LKYG, LTR, LRES, LCZ, LGAZ, LYKA, LVYKA, LS, LSGKP, LSGAL, LGYR, LMX, LVMX, LMY, LIP, FNOMIN, R0);
   My := MF52.My_eval(Fz, alpha, kappa, gamma, QSY1, QSY2, QSY3, QSY4, PKX1, PKX2, PKX3, PHX1, PHX2, PVX1, PVX2, LFZO, LCX, LMUX, LEX, LKX, LHX, LVX, LXAL, LGAX, LCY, LMUY, LEY, LKY, LHY, LVY, LGAY, LKYG, LTR, LRES, LCZ, LGAZ, LYKA, LVYKA, LS, LSGKP, LSGAL, LGYR, LMX, LVMX, LMY, LIP, FNOMIN, R0);
   Mz := MF52.Mz_eval(Fz, Fx, Fy, alpha, kappa, gamma, QBZ1, QBZ2, QBZ3, QBZ4, QBZ5, QBZ9, QBZ10, QCZ1, QDZ1, QDZ2, QDZ3, QDZ4, QDZ6, QDZ7, QDZ8, QDZ9, QEZ1, QEZ2, QEZ3, QEZ4, QEZ5, QHZ1, QHZ2, QHZ3, QHZ4, SSZ1, SSZ2, SSZ3, SSZ4, PCY1, PDY1, PDY2, PDY3, PKY1, PKY2, PKY3, PHY1, PHY2, PHY3, PVY1, PVY2, PVY3, PVY4, RVY1, RVY2, RVY3, RVY4, RVY5, RVY6, PKX1, PKX2, PKX3, LFZO, LCX, LMUX, LEX, LKX, LHX, LVX, LXAL, LGAX, LCY, LMUY, LEY, LKY, LHY, LVY, LGAY, LKYG, LTR, LRES, LCZ, LGAZ, LYKA, LVYKA, LS, LSGKP, LSGAL, LGYR, LMX, LVMX, LMY, LIP, FNOMIN, R0);
-
 equation
 // Normal load
   Fz = max(0, cp_frame.f[3]);
@@ -367,19 +365,29 @@ equation
   v_g = {v_cp[1], v_cp[2], 0};
   Vx = dot(v_g, e_xg);
   Vy = dot(v_g, e_yg);
-// Lateral slip
-  Vsy = -Vy;
-  relax_rate = min(sqrt(Vx*Vx + v_min*v_min), Vx_relax_max);
-  der(v) + (relax_rate/sigma_alpha)*v + 1.5*v = Vsy;
-  alpha = noEvent(atan(v/max(sigma_alpha, eps)));
-// Kinematic slip definition below
-// alpha = atan2(-Vy, abs(Vx));
-  sigma_kappa = max(0.03, 1.2e-4*Fz);
-  sigma_alpha = max(0.03, 0.7e-4*Fz);
-// Longitudinal slip
+//// Lateral slip
+//  Vsy = -Vy;
+//  relax_rate = min(sqrt(Vx*Vx + v_min*v_min), Vx_relax_max);
+//  der(v) = (Vsy - relax_rate*v)/sigma_alpha;
+//  alpha = atan(v/max(abs(Vx), eps));
+//// Kinematic slip definition below
+//// alpha = atan2(-Vy, abs(Vx));
+//  sigma_kappa = max(0.03, 1.2e-4*Fz);
+//  sigma_alpha = max(0.03, 0.7e-4*Fz);
+//// Longitudinal slip
+//  Vsx = Vx - R0*tire2DOF.hub_axis.w;
+//  der(u) = (-Vsx - relax_rate*u)/sigma_kappa;
+//  kappa = u/max(abs(Vx), eps);
+
+  speed_gate = abs(Vx)/(abs(Vx) + v_min);
+
+  // Lateral slip (kinematic)
+  alpha = speed_gate * atan2(-Vy, max(abs(Vx), eps));
+  
+  // Longitudinal slip (kinematic)
   Vsx = Vx - R0*tire2DOF.hub_axis.w;
-  der(u) + (relax_rate/sigma_kappa)*u + 1*u = -Vsx;
-  kappa = noEvent(u/max(sigma_kappa, eps));
+  kappa = speed_gate * (-Vsx / max(abs(Vx), eps));
+
 // Low-speed gating
 // w_speed = abs(Vx) / (abs(Vx) + v_min);
 // Apply force
@@ -399,8 +407,6 @@ equation
     Line(points = {{-100, 0}, {-10, 0}}));
   connect(torque.frame_b, cp_frame) annotation(
     Line(points = {{-20, -40}, {0, -40}, {0, -100}}, color = {95, 95, 95}));
-  connect(pointMass.frame_a, cp_frame) annotation(
-    Line(points = {{30, -70}, {0, -70}, {0, -100}}, color = {95, 95, 95}));
   connect(hub_input, tire2DOF.hub_frame) annotation(
     Line(points = {{0, 100}, {0, 10}}));
   annotation(
@@ -411,5 +417,5 @@ equation
     Line(points = {{0, 0}, {0, 45}}, thickness = 2), Line(points = {{0, 0}, {0, -45}}, thickness = 2), Line(points = {{0, 0}, {45, 0}}, thickness = 2), Line(points = {{0, 0}, {-45, 0}}, thickness = 2), Line(points = {{0, 0}, {32, 32}}, thickness = 2), Line(points = {{0, 0}, {-32, -32}}, thickness = 2), Line(points = {{0, 0}, {32, -32}}, thickness = 2), Line(points = {{0, 0}, {-32, 32}}, thickness = 2)}),
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002),
     __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian",
-  __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "dassl", variableFilter = ".*"));
+    __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "dassl", variableFilter = ".*"));
 end MF5p2Tire;

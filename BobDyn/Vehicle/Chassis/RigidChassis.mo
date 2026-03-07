@@ -108,16 +108,19 @@ model RigidChassis
   Real r_right[3];
   Modelica.Mechanics.MultiBody.Sensors.AbsoluteAngles absoluteAngles annotation(
     Placement(transformation(origin = {-90, 90}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
+  Utilities.Mechanics.Multibody.GroundPhysics FL_ground(c = 98947, d = 115.844)  annotation(
+    Placement(transformation(origin = {-70, -30}, extent = {{-10, -10}, {10, 10}})));
+  Utilities.Mechanics.Multibody.GroundPhysics FR_ground(c = 98947, d = 115.844)  annotation(
+    Placement(transformation(origin = {70, -30}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
+  Utilities.Mechanics.Multibody.GroundPhysics RL_ground(c = 98947, d = 115.844)  annotation(
+    Placement(transformation(origin = {-50, -64}, extent = {{-10, -10}, {10, 10}})));
+  Utilities.Mechanics.Multibody.GroundPhysics RR_ground(c = 98947, d = 115.844)  annotation(
+    Placement(transformation(origin = {50, -64}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
 protected
   // Ground elements
-  BobDyn.Utilities.Mechanics.Multibody.GroundPhysics FL_ground(c = 1e7, d = 1e4) annotation(
-    Placement(transformation(origin = {-70, -30}, extent = {{-10, -10}, {10, 10}})));
-  BobDyn.Utilities.Mechanics.Multibody.GroundPhysics FR_ground(c = 1e7, d = 1e4) annotation(
-    Placement(transformation(origin = {70, -30}, extent = {{10, -10}, {-10, 10}})));
-  BobDyn.Utilities.Mechanics.Multibody.GroundPhysics RL_ground(c = 1e7, d = 1e4) annotation(
-    Placement(transformation(origin = {-70, -70}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
-  BobDyn.Utilities.Mechanics.Multibody.GroundPhysics RR_ground(c = 1e7, d = 1e4) annotation(
-    Placement(transformation(origin = {70, -70}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
+initial equation
+  sprung_mass.r_0[1] = 0;
+  sprung_mass.r_0[2] = 0;
 equation
 // Determine coordinate system
   r_front = 0.5*(FrAxle.left_cp.r_0 + FrAxle.right_cp.r_0);
@@ -136,22 +139,6 @@ equation
   R_IMF = Modelica.Mechanics.MultiBody.Frames.from_nxy(ex, ey);
   connect(rack_input, FrAxle.steer_input) annotation(
     Line(points = {{0, 120}, {0, 72}}, color = {0, 0, 127}));
-  connect(FrAxle.left_cp, FL_ground.frame_b) annotation(
-    Line(points = {{-20, 48}, {-20, 46}, {-70, 46}, {-70, -20}}, color = {95, 95, 95}));
-  connect(FrAxle.right_cp, FR_ground.frame_b) annotation(
-    Line(points = {{20, 48}, {70, 48}, {70, -20}}, color = {95, 95, 95}));
-  connect(FL_ground.frame_a, world_frame) annotation(
-    Line(points = {{-80, -30}, {-80, -80}, {0, -80}, {0, -100}}, color = {95, 95, 95}));
-  connect(FR_ground.frame_a, world_frame) annotation(
-    Line(points = {{80, -30}, {80, -80}, {0, -80}, {0, -100}}, color = {95, 95, 95}));
-  connect(RL_ground.frame_b, RrAxle.left_cp) annotation(
-    Line(points = {{-70, -60}, {-70, -46}, {-20, -46}}, color = {95, 95, 95}));
-  connect(RR_ground.frame_b, RrAxle.right_cp) annotation(
-    Line(points = {{70, -60}, {70, -46}, {20, -46}}, color = {95, 95, 95}));
-  connect(RL_ground.frame_a, world_frame) annotation(
-    Line(points = {{-80, -70}, {-80, -80}, {0, -80}, {0, -100}}, color = {95, 95, 95}));
-  connect(RR_ground.frame_a, world_frame) annotation(
-    Line(points = {{80, -70}, {80, -80}, {0, -80}, {0, -100}}, color = {95, 95, 95}));
   connect(FrAxle.axle_frame, fixedTranslation.frame_a) annotation(
     Line(points = {{0, 28}, {0, 10}}, color = {95, 95, 95}));
   connect(fixedTranslation.frame_b, RrAxle.axle_frame) annotation(
@@ -168,22 +155,14 @@ equation
     Line(points = {{60, 70}, {0, 70}, {0, 28}}, color = {95, 95, 95}));
   connect(driver_mass.frame_a, FrAxle.axle_frame) annotation(
     Line(points = {{60, 90}, {0, 90}, {0, 28}}, color = {95, 95, 95}));
-  connect(FL_frame_coord.frame_a, FL_ground.frame_b) annotation(
-    Line(points = {{-60, 20}, {-70, 20}, {-70, -20}}, color = {95, 95, 95}));
   connect(FL_frame_coord.frame_b, FL_frame_sens.frame_b) annotation(
     Line(points = {{-40, 20}, {-30, 20}}, color = {95, 95, 95}));
-  connect(FR_frame_coord.frame_a, FR_ground.frame_b) annotation(
-    Line(points = {{60, 20}, {70, 20}, {70, -20}}, color = {95, 95, 95}));
   connect(FR_frame_coord.frame_b, FR_frame_sens.frame_b) annotation(
     Line(points = {{40, 20}, {30, 20}}, color = {95, 95, 95}));
   connect(RL_frame_sens.frame_b, RL_frame_coord.frame_b) annotation(
     Line(points = {{-30, -10}, {-40, -10}}, color = {95, 95, 95}));
-  connect(RL_frame_coord.frame_a, FL_ground.frame_b) annotation(
-    Line(points = {{-60, -10}, {-70, -10}, {-70, -20}}, color = {95, 95, 95}));
   connect(RR_frame_sens.frame_b, RR_frame_coord.frame_b) annotation(
     Line(points = {{30, -10}, {40, -10}}, color = {95, 95, 95}));
-  connect(RR_frame_coord.frame_a, FR_ground.frame_b) annotation(
-    Line(points = {{60, -10}, {70, -10}, {70, -20}}, color = {95, 95, 95}));
   connect(FL_torque, FrAxle.left_torque) annotation(
     Line(points = {{-100, 60}, {-20, 60}}));
   connect(FR_torque, FrAxle.right_torque) annotation(
@@ -194,4 +173,30 @@ equation
     Line(points = {{100, -60}, {20, -60}}));
   connect(sprung_mass.frame_a, absoluteAngles.frame_a) annotation(
     Line(points = {{60, 70}, {-60, 70}, {-60, 90}, {-80, 90}}, color = {95, 95, 95}));
+  connect(FL_frame_coord.frame_a, world_frame) annotation(
+    Line(points = {{-60, 20}, {-140, 20}, {-140, -100}, {0, -100}}, color = {95, 95, 95}));
+  connect(RL_frame_coord.frame_a, world_frame) annotation(
+    Line(points = {{-60, -10}, {-120, -10}, {-120, -100}, {0, -100}}, color = {95, 95, 95}));
+  connect(RR_frame_coord.frame_a, world_frame) annotation(
+    Line(points = {{60, -10}, {120, -10}, {120, -100}, {0, -100}}, color = {95, 95, 95}));
+  connect(FR_frame_coord.frame_a, world_frame) annotation(
+    Line(points = {{60, 20}, {140, 20}, {140, -100}, {0, -100}}, color = {95, 95, 95}));
+  connect(FrAxle.left_cp, FL_ground.frame_b) annotation(
+    Line(points = {{-20, 48}, {-70, 48}, {-70, -20}}, color = {95, 95, 95}));
+  connect(RrAxle.left_cp, RL_ground.frame_b) annotation(
+    Line(points = {{-20, -46}, {-50, -46}, {-50, -54}}, color = {95, 95, 95}));
+  connect(FrAxle.right_cp, FR_ground.frame_b) annotation(
+    Line(points = {{20, 48}, {70, 48}, {70, -20}}, color = {95, 95, 95}));
+  connect(RrAxle.right_cp, RR_ground.frame_b) annotation(
+    Line(points = {{20, -46}, {50, -46}, {50, -54}}, color = {95, 95, 95}));
+  connect(FL_ground.frame_a, world_frame) annotation(
+    Line(points = {{-80, -30}, {-90, -30}, {-90, -100}, {0, -100}}, color = {95, 95, 95}));
+  connect(RL_ground.frame_a, world_frame) annotation(
+    Line(points = {{-60, -64}, {-70, -64}, {-70, -100}, {0, -100}}, color = {95, 95, 95}));
+  connect(RR_ground.frame_a, world_frame) annotation(
+    Line(points = {{60, -64}, {70, -64}, {70, -100}, {0, -100}}, color = {95, 95, 95}));
+  connect(FR_ground.frame_a, world_frame) annotation(
+    Line(points = {{80, -30}, {90, -30}, {90, -100}, {0, -100}}, color = {95, 95, 95}));
+annotation(
+    experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002));
 end RigidChassis;

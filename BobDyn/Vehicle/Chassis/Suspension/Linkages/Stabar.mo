@@ -10,7 +10,6 @@ model Stabar
   
   parameter Real joint_diameter;
   parameter Real link_diameter;
-  
   // Frames
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b left_pickup annotation(
     Placement(transformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}})));
@@ -23,19 +22,19 @@ model Stabar
     Placement(transformation(origin = {-70, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_arm(r = {left_arm_end[1], -left_arm_end[2], left_arm_end[3]} - {left_bar_end[1], -left_bar_end[2], left_bar_end[3]}, width = link_diameter) annotation(
     Placement(transformation(origin = {70, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Mechanics.MultiBody.Joints.Revolute stabar_axis(useAxisFlange = false, n = {0, 1, 0}, animation = false) annotation(
+  Modelica.Mechanics.MultiBody.Joints.Revolute stabar_axis(useAxisFlange = false, n = {0, 1, 0}, animation = false, phi(start = 0, fixed = true)) annotation(
     Placement(transformation(origin = {0, 40}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Joints.Revolute stabar_deflection(n = {0, 1, 0}, useAxisFlange = true) annotation(
     Placement(transformation(origin = {20, -50}, extent = {{10, -10}, {-10, 10}}, rotation = -180)));
   Modelica.Mechanics.Rotational.Components.Spring spring(c = bar_rate) annotation(
     Placement(transformation(origin = {24, -80}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_bar_half(r = {0, left_arm_end[2], 0}, width = link_diameter)  annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_bar_half(r = {0, left_arm_end[2], 0}, width = link_diameter) annotation(
     Placement(transformation(origin = {-30, -50}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_bar_half(r = {0, -left_arm_end[2], 0}, width = link_diameter)  annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_bar_half(r = {0, -left_arm_end[2], 0}, width = link_diameter) annotation(
     Placement(transformation(origin = {50, -50}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Joints.SphericalSpherical left_droplink(rodLength = norm(left_droplink_end - left_arm_end), sphereDiameter = joint_diameter, rodDiameter = link_diameter)  annotation(
+  Modelica.Mechanics.MultiBody.Joints.SphericalSpherical left_droplink(rodLength = norm(left_droplink_end - left_arm_end), sphereDiameter = joint_diameter, rodDiameter = link_diameter) annotation(
     Placement(transformation(origin = {-70, 0}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
-  Modelica.Mechanics.MultiBody.Joints.SphericalSpherical right_droplink(rodLength = norm(left_droplink_end - left_arm_end), sphereDiameter = joint_diameter, rodDiameter = link_diameter)  annotation(
+  Modelica.Mechanics.MultiBody.Joints.SphericalSpherical right_droplink(rodLength = norm(left_droplink_end - left_arm_end), sphereDiameter = joint_diameter, rodDiameter = link_diameter) annotation(
     Placement(transformation(origin = {70, 0}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 equation
   connect(support_pickup, stabar_axis.frame_a) annotation(

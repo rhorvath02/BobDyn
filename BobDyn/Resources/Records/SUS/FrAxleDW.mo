@@ -2,7 +2,7 @@ within BobDyn.Resources.Records.SUS;
 
 // ============================================================================
 // AUTO-GENERATED FILE — DO NOT EDIT
-// Source: /home/rober/shared/VehicleDynamics/BobDyn/Resources/JSONs/SUS/tune.json
+// Source: /home/rober/shared/BobDyn/BobDyn/Resources/JSONs/SUS/tune.json
 // Tool: convert_suspension_json_to_record.py
 // ============================================================================
 

@@ -2,7 +2,7 @@ within BobDyn.Resources.Records.MASSPROPS;
 
 // ============================================================================
 // AUTO-GENERATED FILE — DO NOT EDIT
-// Source: /home/rober/shared/VehicleDynamics/BobDyn/Resources/JSONs/MASSPROPS/mass_props.json
+// Source: /home/rober/shared/BobDyn/BobDyn/Resources/JSONs/MASSPROPS/mass_props.json
 // Tool: convert_massprops_json_to_record.py
 // ============================================================================
 

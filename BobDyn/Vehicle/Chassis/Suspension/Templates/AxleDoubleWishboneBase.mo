@@ -91,7 +91,7 @@ partial model AxleDoubleWishboneBase
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a axle_frame annotation(
     Placement(transformation(origin = {0, -100}, extent = {{16, -16}, {-16, 16}}, rotation = -90), iconTransformation(origin = {0, -100}, extent = {{-16, -16}, {16, 16}}, rotation = 90)));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b left_cp annotation(
-    Placement(transformation(origin = {-120, -100}, extent = {{16, -16}, {-16, 16}}, rotation = -90), iconTransformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}}, rotation = 0)));
+    Placement(transformation(origin = {-120, -100}, extent = {{16, -16}, {-16, 16}}, rotation = -90), iconTransformation(origin = {-100, -80}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b right_cp annotation(
     Placement(transformation(origin = {120, -100}, extent = {{16, -16}, {-16, 16}}, rotation = -90), iconTransformation(origin = {100, 0}, extent = {{-16, -16}, {16, 16}}, rotation = 0)));
   
@@ -139,13 +139,15 @@ partial model AxleDoubleWishboneBase
     Placement(transformation(origin = {-130, -50}, extent = {{10, -10}, {-10, 10}})));
   replaceable BobDyn.Vehicle.Chassis.Tires.MF5p2Tire right_tire annotation(
     Placement(transformation(origin = {130, -50}, extent = {{-10, -10}, {10, 10}})));
-
   // Wheel torque inputs
   Modelica.Mechanics.Rotational.Interfaces.Flange_b left_torque annotation(
     Placement(transformation(origin = {-140, 20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-100, 66}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.Rotational.Interfaces.Flange_b right_torque annotation(
     Placement(transformation(origin = {140, 20}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {100, 66}, extent = {{-10, -10}, {10, 10}})));
-
+  Modelica.Mechanics.MultiBody.Interfaces.Frame_b left_hub annotation(
+    Placement(transformation(origin = {-140, 80}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}})));
+  Modelica.Mechanics.MultiBody.Interfaces.Frame_b right_hub annotation(
+    Placement(transformation(origin = {140, 80}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {100, 0}, extent = {{-16, -16}, {16, 16}})));
 protected
   // Fixed geometry from effective center to nodes
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_upper_i_trans(r = (Axle.upper_fore_i + Axle.upper_aft_i) / 2 - effective_center, animation = false) annotation(
@@ -160,7 +162,6 @@ protected
     Placement(transformation(origin = {20, -70}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_tie_i_trans(r = {Axle.tie_inboard[1], -Axle.tie_inboard[2], Axle.tie_inboard[3]} - effective_center, animation = false) annotation(
     Placement(transformation(origin = {20, -50}, extent = {{-10, -10}, {10, 10}})));
-
 equation
   connect(left_cp, left_tire.cp_frame) annotation(
     Line(points = {{-120, -100}, {-120, -80}, {-130, -80}, {-130, -60}, {-130, -60}}));
@@ -198,6 +199,10 @@ equation
     Line(points = {{-140, 20}, {-140, -50}}));
   connect(right_torque, right_tire.hub_input) annotation(
     Line(points = {{140, 20}, {140, -50}}));
+  connect(left_double_wishbone.midpoint_frame, left_hub) annotation(
+    Line(points = {{-100, -50}, {-120, -50}, {-120, 80}, {-140, 80}}, color = {95, 95, 95}));
+  connect(right_double_wishbone.midpoint_frame, right_hub) annotation(
+    Line(points = {{100, -50}, {120, -50}, {120, 80}, {140, 80}}, color = {95, 95, 95}));
   annotation(
     Diagram(coordinateSystem(extent = {{-140, 100}, {140, -100}})));
 end AxleDoubleWishboneBase;

@@ -25,6 +25,8 @@ model ISO4138
   parameter Real Ti = 0.8;
   parameter Real Td = 0;
   parameter Real yMax = 2000;
+  final Modelica.Blocks.Sources.Constant Fr_torque_in(k = 0) annotation(
+    Placement(transformation(origin = {-90, 30}, extent = {{-10, -10}, {10, 10}})));
   final Modelica.Mechanics.Rotational.Sources.Torque torque annotation(
     Placement(transformation(origin = {-60, 30}, extent = {{-10, -10}, {10, 10}})));
   final Modelica.Mechanics.Rotational.Sources.Torque Rr_torque annotation(
@@ -33,7 +35,7 @@ model ISO4138
     Placement(transformation(origin = {-90, -30}, extent = {{-10, -10}, {10, 10}})));
   final Modelica.Blocks.Sources.Ramp speed_target_sig(height = 7, duration = 20, offset = 8, startTime = 15) annotation(
     Placement(transformation(origin = {-130, -30}, extent = {{-10, -10}, {10, 10}})));
-  final Modelica.Blocks.Sources.RealExpression speed_measure_sig(y = telem.kin_sigs.vx) annotation(
+  final Modelica.Blocks.Sources.RealExpression speed_measure_sig(y = telem.kin_sigs.speed) annotation(
     Placement(transformation(origin = {-110, -50}, extent = {{-10, -10}, {10, 10}})));
   //  Modelica.Blocks.Sources.RealExpression yaw_rate_sig(y = telem.kin_sigs.r) annotation(
   //    Placement(transformation(origin = {70, 70}, extent = {{-10, -10}, {10, 10}})));
@@ -93,7 +95,6 @@ equation
   telem.powertrain_sigs.wheel_power[3] = 0;
   telem.powertrain_sigs.wheel_power[4] = 0;
 // Suspension sensing
-  telem.sus_sigs[1].jounce = 0;
   telem.sus_sigs[1].frame_height = chassisBase.FL_frame_coord.r_rel[3];
   telem.sus_sigs[1].shock_deflection = chassisBase.FrAxle.FL_tabular_spring.defl_abs*chassisBase.FrAxle.FL_tabular_spring.sgn;
   telem.sus_sigs[1].shock_velocity = chassisBase.FrAxle.FL_tabular_damper.v_abs*chassisBase.FrAxle.FL_tabular_damper.vel_sgn;
@@ -174,14 +175,18 @@ equation
   else
     path_curv = telem.kin_sigs.r/max(0.5, telem.kin_sigs.vx);
   end if;
+  connect(speed_target_sig1.y, firstOrder.u) annotation(
+    Line(points = {{-38, 60}, {-32, 60}}, color = {0, 0, 127}));
+  connect(firstOrder.y, chassisBase.rack_input) annotation(
+    Line(points = {{-8, 60}, {0, 60}, {0, 24}}, color = {0, 0, 127}));
   connect(world.frame_b, chassisBase.world_frame) annotation(
     Line(points = {{-80, -90}, {0, -90}, {0, -20}}, color = {95, 95, 95}));
-  connect(Fr_torque_in.y, torque.tau) annotation(
-    Line(points = {{-79, 30}, {-73, 30}}, color = {0, 0, 127}));
-  connect(torque.flange, chassisBase.FL_torque) annotation(
-    Line(points = {{-50, 30}, {-20, 30}, {-20, 14}}));
-  connect(torque.flange, chassisBase.FR_torque) annotation(
-    Line(points = {{-50, 30}, {20, 30}, {20, 14}}));
+  connect(speed_target_sig.y, PID.u_s) annotation(
+    Line(points = {{-118, -30}, {-102, -30}}, color = {0, 0, 127}));
+  connect(speed_measure_sig.y, PID.u_m) annotation(
+    Line(points = {{-98, -50}, {-90, -50}, {-90, -42}}, color = {0, 0, 127}));
+  connect(PID.y, Rr_torque.tau) annotation(
+    Line(points = {{-78, -30}, {-62, -30}}, color = {0, 0, 127}));
   connect(Rr_torque.flange, chassisBase.RL_torque) annotation(
     Line(points = {{-40, -30}, {-20, -30}, {-20, -14}}));
   connect(Rr_torque.flange, chassisBase.RR_torque) annotation(

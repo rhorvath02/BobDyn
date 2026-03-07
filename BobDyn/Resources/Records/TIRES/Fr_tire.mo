@@ -1,6 +1,6 @@
 // ============================================================================
 // AUTO-GENERATED FILE — DO NOT EDIT
-// Source: /home/rober/shared/VehicleDynamics/BobDyn/Resources/JSONs/TIRES/Fr_tire.tir
+// Source: /home/rober/shared/BobDyn/BobDyn/Resources/JSONs/TIRES/Fr_tire.tir
 // Tool: Tools/tires/convert_tir_to_mf52_record.py
 // ============================================================================
 

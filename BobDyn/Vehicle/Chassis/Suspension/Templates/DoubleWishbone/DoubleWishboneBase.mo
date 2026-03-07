@@ -4,10 +4,9 @@ partial model DoubleWishboneBase
   // Modelica units
   import Modelica.SIunits;
 
-  // Modelica linalg
+// Modelica linalg
   import Modelica.Math.Vectors.normalize;
   import Modelica.Math.Vectors.norm;
-  
   // Body template for mass properties
   import BobDyn.Resources.Records.TEMPLATES.BodyTemplate;
   
@@ -49,7 +48,6 @@ partial model DoubleWishboneBase
     Dialog(tab = "Animation", group = "Sizing"));
   parameter SIunits.Length joint_diameter annotation(
     Dialog(tab = "Animation", group = "Sizing"));
-  
   // Frames
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a upper_i_frame annotation(
     Placement(transformation(origin = {100, 60}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {100, 66}, extent = {{-16, -16}, {16, 16}})));
@@ -63,7 +61,6 @@ partial model DoubleWishboneBase
     Placement(transformation(origin = {10, -100}, extent = {{-16, -16}, {16, 16}}, rotation = -90), iconTransformation(origin = {0, -100}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b midpoint_frame annotation(
     Placement(transformation(origin = {-100, 0}, extent = {{16, -16}, {-16, 16}}), iconTransformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}})));
-  
   // Upper wishbone
   final Modelica.Mechanics.MultiBody.Joints.Revolute upper_inboard_joint(animation = false,
                                                                          n = normalize(upper_fore_i - upper_aft_i),
@@ -76,7 +73,6 @@ partial model DoubleWishboneBase
                                                                              r = upper_o - (upper_fore_i + upper_aft_i)/2,
                                                                              extra = 0.0) annotation(
     Placement(transformation(origin = {30, 60}, extent = {{10, -10}, {-10, 10}})));
-  
   // Lower wisbone
   final Modelica.Mechanics.MultiBody.Joints.Revolute lower_inboard_joint(animation = false,
                                                                          n = normalize(lower_fore_i - lower_aft_i),
@@ -88,13 +84,11 @@ partial model DoubleWishboneBase
                                                                              shapeType = "cylinder",
                                                                              extra = 0.0) annotation(
     Placement(transformation(origin = {30, -60}, extent = {{10, -10}, {-10, 10}})));
-  
   // Upright
   final BobDyn.Vehicle.Chassis.Suspension.Linkages.Upright upright(lower = lower_o,
                                                                    upper = upper_o,
                                                                    tie = tie_o) annotation(
     Placement(transformation(origin = {10, 0}, extent = {{-10, -10}, {10, 10}})));
-  
   // Tie rod
   final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical sphericalSpherical(rodLength = norm(tie_o - tie_i),
                                                                                   kinematicConstraint = true,
@@ -102,7 +96,6 @@ partial model DoubleWishboneBase
                                                                                   sphereDiameter = joint_diameter,
                                                                                   rodDiameter = link_diameter) annotation(
     Placement(transformation(origin = {40, 0}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
-  
   // Wheel mass + inertia
   final Modelica.Mechanics.MultiBody.Parts.Body wheel_body(animation = true,
                                                            r_CM = unsprung_mass.r_cm - wheel_center,
@@ -121,7 +114,6 @@ partial model DoubleWishboneBase
                                                            w_0_start = {0, 0, 0},
                                                            z_0_start = {0, 0, 0}) annotation(
     Placement(transformation(origin = {-20, -30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  
   // UCA mass + inertia
   final Modelica.Mechanics.MultiBody.Parts.Body UCA_body(animation = true,
                                                          r_CM = uca_mass.r_cm - upper_o,
@@ -139,7 +131,6 @@ partial model DoubleWishboneBase
                                                          w_0_start = {0, 0, 0},
                                                          z_0_start = {0, 0, 0}) annotation(
     Placement(transformation(origin = {-10, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
-  
   // LCA mass + inertia
   final Modelica.Mechanics.MultiBody.Parts.Body LCA_body(r_CM = lca_mass.r_cm - lower_o,
                                                          m = lca_mass.m,
@@ -174,7 +165,7 @@ partial model DoubleWishboneBase
                                                trans_y_damping = 1e4,
                                                trans_z_damping = 1e4,
                                                diameter = joint_diameter,
-                                               r_rel(start = {0, 0, 0}, each fixed = true))  annotation(
+                                               r_rel(start = {0, 0, 0}))  annotation(
     Placement(transformation(origin = {10, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 
   // Steering interface
@@ -196,7 +187,7 @@ protected
   // Set gamma
   Modelica.Blocks.Sources.RealExpression static_gamma_source(y = static_gamma * Modelica.Constants.pi / 180) annotation(
     Placement(transformation(origin = {-40, 60}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
-  Modelica.Mechanics.Rotational.Sources.Position x_angle(exact = true) annotation(
+  Modelica.Mechanics.Rotational.Sources.Position x_angle(exact = true)  annotation(
     Placement(transformation(origin = {-40, 30}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
   Modelica.Mechanics.MultiBody.Joints.Revolute revolute_x(animation = false,
                                                           n = {1, 0, 0},
@@ -206,7 +197,7 @@ protected
   // Set toe (using alpha sign convention)
   Modelica.Blocks.Sources.RealExpression static_alpha_source(y = static_alpha * Modelica.Constants.pi / 180) annotation(
     Placement(transformation(origin = {-70, 60}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Mechanics.Rotational.Sources.Position z_angle(exact = true) annotation(
+  Modelica.Mechanics.Rotational.Sources.Position z_angle(exact = true)  annotation(
     Placement(transformation(origin = {-70, 30}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
   Modelica.Mechanics.MultiBody.Joints.Revolute revolute_z(animation = false,
                                                           n = {0, 0, 1},

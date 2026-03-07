@@ -21,9 +21,10 @@ partial model TabularCompliant "Tabular translational spring with optional mass"
                                                                           final lineShapeExtra = 0.0)  annotation(
     Placement(transformation(extent = {{-10, -10}, {10, 10}})));
   
+  Real length;
+  
 protected
   Real[3] r_rel;
-  Real length;
 
 equation
   // Deflection calc

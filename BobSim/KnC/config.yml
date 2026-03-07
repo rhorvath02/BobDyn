@@ -1,0 +1,396 @@
+vehicles:
+
+  # - name: Nightwatch
+  #   geometry:
+  #     CG_height_m: 0.280
+  #     wheelbase_m: 1.550
+  #     front_track_m: 1.250
+  #     rear_track_m: 1.230
+  #   front:
+  #     executable: Build/NightwatchFrKnC/BobDyn.Standards.FrOrionKnC
+  #     solver: "dassl"
+  #     tolerance: 1e-5
+  #     params: ""
+  #   rear:
+  #     executable: Build/NightwatchRrKnC/BobDyn.Standards.RrOrionKnC
+  #     solver: "dassl"
+  #     tolerance: 1e-5
+  #     params: ""
+  
+  # - name: Orion Modified
+  #   geometry:
+  #     CG_height_m: 0.280
+  #     wheelbase_m: 1.550
+  #     front_track_m: 1.250
+  #     rear_track_m: 1.230
+  #   front:
+  #     executable: Build/OrionFrKnC/BobDyn.Standards.FrOrionKnC
+  #     solver: "dassl"
+  #     tolerance: 1e-5
+  #     params: ""
+  #   rear:
+  #     executable: Build/OrionRrKnC/BobDyn.Standards.RrOrionKnC
+  #     solver: "dassl"
+  #     tolerance: 1e-5
+  #     params: ""
+  
+  # - name: Orion Original
+  #   geometry:
+  #     CG_height_m: 0.280
+  #     wheelbase_m: 1.550
+  #     front_track_m: 1.250
+  #     rear_track_m: 1.230
+  #   front:
+  #     executable: Build/FrKnC/BobDyn.Standards.FrOrionKnC
+  #     solver: "dassl"
+  #     tolerance: 1e-5
+  #     params: ""
+  #   rear:
+  #     executable: Build/RrKnC/BobDyn.Standards.RrOrionKnC
+  #     solver: "dassl"
+  #     tolerance: 1e-5
+  #     params: ""
+
+  - name: Orion Test
+    geometry:
+      CG_height_m: 0.280
+      wheelbase_m: 1.550
+      front_track_m: 1.250
+      rear_track_m: 1.230
+    front:
+      executable: Build/FrKnC/BobDyn.Standards.FrKnC
+      solver: "dassl"
+      tolerance: 1e-6
+      params: ""
+              # Axle.right_double_wishbone.static_gamma=30
+    rear:
+      executable: Build/RrKnC/BobDyn.Standards.RrKnC
+      solver: "dassl"
+      tolerance: 1e-6
+      params: ""
+
+case:
+  jounce_amplitude: 0.030
+  rack_position: 0.0
+  force_amplitude: 5000.0
+
+tests:
+  bump:
+    - [4, 5]
+    - [7, 8]
+    - [10, 11]
+    - [13, 14]
+
+  roll:
+    - [20, 21]
+    - [23, 24]
+    - [26, 27]
+    - [29, 30]
+
+  long_jack:
+    - [2, 4]
+    - [5, 7]
+    - [8, 10]
+    - [11, 13]
+    - [14, 16]
+
+  lat_jack:
+    - [18, 20]
+    - [21, 23]
+    - [24, 26]
+    - [27, 29]
+    - [30, 32]
+
+plots:
+
+  bump_camber:
+    type: signal
+    layout: quad
+    test: bump
+    x:
+      signal: jounce
+      scale: 1000
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Jounce (mm)
+    y:
+      signal: gamma
+      scale: 57.2958
+      multiplier: 1
+      side_multiplier: { left: -1, right: 1 }
+      label: Camber (deg)
+    title: Bump Camber
+
+  bump_toe:
+    type: signal
+    layout: quad
+    test: bump
+    x:
+      signal: jounce
+      scale: 1000
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Jounce (mm)
+    y:
+      signal: toe
+      scale: 57.2958
+      multiplier: 1
+      side_multiplier: { left: -1, right: 1 }
+      label: Toe (deg)
+    title: Bump Toe
+
+  bump_caster:
+    type: signal
+    layout: quad
+    test: bump
+    x:
+      signal: jounce
+      scale: 1000
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Jounce (mm)
+    y:
+      signal: caster
+      scale: 57.2958
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Caster (deg)
+    title: Bump Caster
+
+  bump_kpi:
+    type: signal
+    layout: quad
+    test: bump
+    x:
+      signal: jounce
+      scale: 1000
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Jounce (mm)
+    y:
+      signal: kpi
+      scale: 57.2958
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Kingpin Inclination (deg)
+    title: Bump Kingpin Inclination
+
+  bump_mech_trail:
+    type: signal
+    layout: quad
+    test: bump
+    x:
+      signal: jounce
+      scale: 1000
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Jounce (mm)
+    y:
+      signal: mech_trail
+      scale: 1000
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Mechanical Trail (mm)
+    title: Bump Mechanical Trail
+
+  bump_mech_scrub:
+    type: signal
+    layout: quad
+    test: bump
+    x:
+      signal: jounce
+      scale: 1000
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Jounce (mm)
+    y:
+      signal: mech_scrub
+      scale: 1000
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Mechanical Scrub (mm)
+    title: Bump Mechanical Scrub
+  
+  bump_spring_mr:
+    type: signal
+    layout: quad
+    test: bump
+    x:
+      signal: jounce
+      scale: 1000
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Jounce (mm)
+    y:
+      signal: spring_mr
+      scale: 1
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Spring Motion Ratio (-)
+    title: Spring Motion Ratio vs Jounce
+
+  long_jack_curve:
+    type: metric
+    layout: axle
+    test: long_jack
+    x:
+      metric: jounce
+      scale: 1000
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Jounce (mm)
+    y:
+      metric: jacking_per_Fx
+      scale: 1
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Longitudinal Jacking Coefficient
+    title: Longitudinal Jacking vs Jounce
+
+  roll_camber:
+    type: signal
+    layout: quad
+    test: roll
+    x:
+      signal: roll
+      scale: 57.2958
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Roll (deg)
+    y:
+      signal: gamma
+      scale: 57.2958
+      multiplier: 1
+      side_multiplier: { left: -1, right: 1 }
+      label: Camber (deg)
+    title: Roll Camber
+
+  roll_toe:
+    type: signal
+    layout: quad
+    test: roll
+    x:
+      signal: roll
+      scale: 57.2958
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Roll (deg)
+    y:
+      signal: toe
+      scale: 57.2958
+      multiplier: 1
+      side_multiplier: { left: -1, right: 1 }
+      label: Toe (deg)
+    title: Roll Toe
+
+  roll_caster:
+    type: signal
+    layout: quad
+    test: roll
+    x:
+      signal: roll
+      scale: 57.2958
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Roll (deg)
+    y:
+      signal: caster
+      scale: 57.2958
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Caster (deg)
+    title: Roll Caster
+
+  roll_kpi:
+    type: signal
+    layout: quad
+    test: roll
+    x:
+      signal: roll
+      scale: 57.2958
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Roll (deg)
+    y:
+      signal: kpi
+      scale: 57.2958
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Kingpin Inclination (deg)
+    title: Roll Kingpin Inclination
+
+  roll_mech_trail:
+    type: signal
+    layout: quad
+    test: roll
+    x:
+      signal: roll
+      scale: 57.2958
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Roll (deg)
+    y:
+      signal: mech_trail
+      scale: 1000
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Mechanical Trail (mm)
+    title: Roll Mechanical Trail
+
+  roll_mech_scrub:
+    type: signal
+    layout: quad
+    test: roll
+    x:
+      signal: roll
+      scale: 57.2958
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Roll (deg)
+    y:
+      signal: mech_scrub
+      scale: 1000
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Mechanical Scrub (mm)
+    title: Roll Mechanical Scrub
+
+  lat_jack_curve:
+    type: metric
+    layout: axle
+    test: lat_jack
+    x:
+      metric: roll
+      scale: 57.2958
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Roll (deg)
+    y:
+      metric: jacking_per_Fy
+      scale: 1
+      multiplier: 1
+      side_multiplier: { left: 1, right: 1 }
+      label: Lateral Jacking Coefficient
+    title: Lateral Jacking vs Roll
+
+  stabar_mr:
+    type: signal
+    layout: axle
+    test: roll
+    x:
+      signal: roll
+      level: wheel
+      scale: 57.2958
+      multiplier: 1
+      label: Roll (deg)
+    y:
+      signal: stabar_mr
+      level: axle
+      scale: 1
+      multiplier: 1
+      label: Stabar Motion Ratio (-)
+    title: Stabar Motion Ratio vs Roll
+
+output:
+  directory: BobSim/KnC/results
+  pdf_name: knc_report.pdf
