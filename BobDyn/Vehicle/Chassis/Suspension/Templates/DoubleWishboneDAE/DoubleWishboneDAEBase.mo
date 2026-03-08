@@ -86,7 +86,7 @@ partial model DoubleWishboneDAEBase
   final BobDyn.Vehicle.Chassis.Suspension.Linkages.Upright upright(lower = lower_o, upper = upper_o, tie = tie_o) annotation(
     Placement(transformation(origin = {10, 0}, extent = {{-10, -10}, {10, 10}})));
   // Tie rod
-  final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical sphericalSpherical(rodLength = norm(tie_o - tie_i), kinematicConstraint = true, m = tie_mass.m, sphereDiameter = joint_diameter, rodDiameter = link_diameter) annotation(
+  final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical sphericalSpherical(rodLength = norm(tie_o - tie_i), kinematicConstraint = true, m = tie_mass.m, sphereDiameter = joint_diameter, rodDiameter = link_diameter, checkTotalPower = true) annotation(
     Placement(transformation(origin = {40, 0}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
   // Wheel mass + inertia
   final Modelica.Mechanics.MultiBody.Parts.Body wheel_body(animation = true, r_CM = unsprung_mass.r_cm - wheel_center, m = unsprung_mass.m, I_11 = unsprung_mass.I[1, 1], I_22 = unsprung_mass.I[2, 2], I_33 = unsprung_mass.I[3, 3], I_21 = unsprung_mass.I[2, 1], I_31 = unsprung_mass.I[3, 1], I_32 = unsprung_mass.I[3, 2], sphereDiameter = joint_diameter, cylinderDiameter = link_diameter, angles_start = {0, 0, 0}, w_0_start = {0, 0, 0}, z_0_start = {0, 0, 0}, useQuaternions = false) annotation(

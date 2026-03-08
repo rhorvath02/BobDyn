@@ -1,8 +1,10 @@
-setCommandLineOptions(
-  "-d=-newInst "
-  + "--simCodeTarget=C "
-  + "--maxSizeLinearTearing=2000 "
-  + "-d=-evaluateAllParameters "
+//   "-d=-newInst "
+//   + "--simCodeTarget=C "
+//   + "--maxSizeLinearTearing=2000 "
+//   + "-d=-evaluateAllParameters "
+
+OpenModelica.Scripting.setCommandLineOptions(
+  "--simCodeTarget=C --maxSizeLinearTearing=2000"
 );
 
 clear();
@@ -11,12 +13,10 @@ loadFile("BobDyn/package.mo");
 
 models := {"FrKnC", "RrKnC"};
 
-// Including as a reference for dynamic file creation. In addition, the first argument to
-// buildModel must be a class reference. There currently isn't support for converting strings
-// to class references.
-for i in 1:size(models,1) loop
+root := cd();
 
-  name := models[i];
+for name in models loop
+
   d := "Build/" + name;
 
   if not OpenModelica.Scripting.directoryExists(d) then
@@ -33,6 +33,7 @@ for i in 1:size(models,1) loop
       tolerance=1e-5,
       cflags="-O3 -march=native -mtune=native"
     );
+
   elseif name == "RrKnC" then
     buildModel(
       BobDyn.Standards.RrKnC,
@@ -41,10 +42,11 @@ for i in 1:size(models,1) loop
       tolerance=1e-5,
       cflags="-O3 -march=native -mtune=native"
     );
+
   end if;
 
-  getErrorString();
+  print(getErrorString());
 
-  cd("../../");
+  cd(root);
 
 end for;

@@ -14,17 +14,7 @@ model RrAxleDWPullBCARBLocked
   
   parameter BobDyn.Resources.Records.TIRES.Rr_tire Rr_tire;
 
-  extends BobDyn.Vehicle.Chassis.Suspension.Templates.AxleDoubleWishboneBase(left_upper_fore_i = RrAxle.upper_fore_i,
-                                                                             left_upper_aft_i = RrAxle.upper_aft_i,
-                                                                             left_lower_fore_i = RrAxle.lower_fore_i,
-                                                                             left_lower_aft_i = RrAxle.lower_aft_i,
-                                                                             left_upper_o = RrAxle.upper_outboard,
-                                                                             left_lower_o = RrAxle.lower_outboard,
-                                                                             left_tie_i = RrAxle.tie_inboard,
-                                                                             left_tie_o = RrAxle.tie_outboard,
-                                                                             left_wheel_center = RrAxle.wheel_center,
-                                                                             left_static_gamma = RrAxle.static_gamma,
-                                                                             left_static_alpha = RrAxle.static_alpha,
+  extends BobDyn.Vehicle.Chassis.Suspension.Templates.AxleDoubleWishboneBase(Axle = RrAxle,
                                                                              left_unsprung_mass = unsprung_mass,
                                                                              left_uca_mass = uca_mass,
                                                                              left_lca_mass = lca_mass,
@@ -55,7 +45,7 @@ model RrAxleDWPullBCARBLocked
   final parameter SIunits.Position left_shock_mount[3] = RrAxleBC.shock_mount annotation(
     Dialog(group = "Geometry"));
   // left apex geometry
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_apex(r = left_UCA_mount - left_upper_o) annotation(
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_apex(r = left_UCA_mount - RrAxle.upper_outboard) annotation(
     Placement(transformation(origin = {-110, 10}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
   // left pushrod
   final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical left_pushrod(rodLength = norm(left_bellcrank_pickup_1 - left_UCA_mount),
@@ -84,10 +74,10 @@ model RrAxleDWPullBCARBLocked
                                                                                     outer_diameter = 0.008) annotation(
     Placement(transformation(origin = {-50, 130}, extent = {{10, -10}, {-10, 10}})));
   // right apex geometry
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_apex(r = {left_UCA_mount[1], -left_UCA_mount[2], left_UCA_mount[3]} - right_upper_o) annotation(
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_apex(r = {left_UCA_mount[1], -left_UCA_mount[2], left_UCA_mount[3]} - {RrAxle.upper_outboard[1], -RrAxle.upper_outboard[2], RrAxle.upper_outboard[3]}) annotation(
     Placement(transformation(origin = {110, 10}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
   // right pushrod
-  final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical right_pushrod(rodLength = norm(left_bellcrank_pickup_1 - left_UCA_mount),
+  final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical right_pushrod(rodLength = norm({left_bellcrank_pickup_1[1], -left_bellcrank_pickup_1[2], left_bellcrank_pickup_1[3]} - {left_UCA_mount[1], -left_UCA_mount[2], left_UCA_mount[3]}),
                                                                           sphereDiameter = joint_diameter,
                                                                           rodDiameter = link_diameter) annotation(
     Placement(transformation(origin = {90, 30}, extent = {{10, -10}, {-10, 10}})));
@@ -156,12 +146,8 @@ equation
     Line(points = {{-50, 10}, {-60, 10}, {-60, 50}}, color = {95, 95, 95}));
   connect(stabar.right_pickup, right_bellcrank.pickup_3_frame) annotation(
     Line(points = {{-30, 10}, {60, 10}, {60, 50}}, color = {95, 95, 95}));
-  connect(left_bellcrank.pickup_3_frame, left_tabular_spring.frame_b) annotation(
-    Line(points = {{-60, 50}, {-60, 70}}, color = {95, 95, 95}));
   connect(left_tabular_spring.frame_a, left_shock_pickup.frame_b) annotation(
     Line(points = {{-40, 70}, {-30, 70}}, color = {95, 95, 95}));
-  connect(right_bellcrank.pickup_3_frame, right_tabular_spring.frame_b) annotation(
-    Line(points = {{60, 50}, {60, 70}}, color = {95, 95, 95}));
   connect(right_tabular_spring.frame_a, right_shock_pickup.frame_b) annotation(
     Line(points = {{40, 70}, {30, 70}}, color = {95, 95, 95}));
   connect(left_tabular_damper.frame_b, left_tabular_spring.frame_b) annotation(
@@ -172,6 +158,10 @@ equation
     Line(points = {{40, 130}, {40, 70}}, color = {95, 95, 95}));
   connect(right_tabular_damper.frame_b, right_tabular_spring.frame_b) annotation(
     Line(points = {{60, 130}, {60, 70}}, color = {95, 95, 95}));
+  connect(left_tabular_spring.frame_b, left_bellcrank.pickup_2_frame) annotation(
+    Line(points = {{-60, 70}, {-70, 70}, {-70, 40}}, color = {95, 95, 95}));
+  connect(right_tabular_spring.frame_b, right_bellcrank.pickup_2_frame) annotation(
+    Line(points = {{60, 70}, {70, 70}, {70, 40}}, color = {95, 95, 95}));
   annotation(
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002));
 end RrAxleDWPullBCARBLocked;

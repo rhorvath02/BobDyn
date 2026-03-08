@@ -2,12 +2,10 @@ within BobDyn.Vehicle.Chassis.Suspension.Linkages;
 
 model Stabar
   import Modelica.Math.Vectors.norm;
-  
   parameter Modelica.SIunits.Position left_bar_end[3] "Left end of torsion bar";
   parameter Modelica.SIunits.Position left_arm_end[3] "End of leftmost lever arm";
   parameter Modelica.SIunits.Position left_droplink_end[3] "End of leftmost droplink, connecting to bellcrank";
   parameter Modelica.SIunits.RotationalSpringConstant bar_rate "Torsion bar stiffness";
-  
   parameter Real joint_diameter;
   parameter Real link_diameter;
   // Frames
@@ -22,7 +20,7 @@ model Stabar
     Placement(transformation(origin = {-70, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_arm(r = {left_arm_end[1], -left_arm_end[2], left_arm_end[3]} - {left_bar_end[1], -left_bar_end[2], left_bar_end[3]}, width = link_diameter) annotation(
     Placement(transformation(origin = {70, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Mechanics.MultiBody.Joints.Revolute stabar_axis(useAxisFlange = false, n = {0, 1, 0}, animation = false, phi(start = 0, fixed = true)) annotation(
+  Modelica.Mechanics.MultiBody.Joints.Revolute stabar_axis(useAxisFlange = false, n = {0, 1, 0}, animation = false, phi(displayUnit = "rad")) annotation(
     Placement(transformation(origin = {0, 40}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Joints.Revolute stabar_deflection(n = {0, 1, 0}, useAxisFlange = true) annotation(
     Placement(transformation(origin = {20, -50}, extent = {{10, -10}, {-10, 10}}, rotation = -180)));

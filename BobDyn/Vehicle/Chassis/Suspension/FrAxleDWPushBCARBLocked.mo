@@ -16,31 +16,21 @@ model FrAxleDWPushBCARBLocked
   
   parameter BobDyn.Resources.Records.TIRES.Fr_tire Fr_tire;
   
-  extends BobDyn.Vehicle.Chassis.Suspension.Templates.AxleDoubleWishboneBase(left_upper_fore_i = FrAxle.upper_fore_i,
-                                                                              left_upper_aft_i = FrAxle.upper_aft_i,
-                                                                              left_lower_fore_i = FrAxle.lower_fore_i,
-                                                                              left_lower_aft_i = FrAxle.lower_aft_i,
-                                                                              left_upper_o = FrAxle.upper_outboard,
-                                                                              left_lower_o = FrAxle.lower_outboard,
-                                                                              left_tie_i = FrAxle.tie_inboard,
-                                                                              left_tie_o = FrAxle.tie_outboard,
-                                                                              left_wheel_center = FrAxle.wheel_center,
-                                                                              left_static_gamma = FrAxle.static_gamma,
-                                                                              left_static_alpha = FrAxle.static_alpha,
-                                                                              left_unsprung_mass = unsprung_mass,
-                                                                              left_uca_mass = uca_mass,
-                                                                              left_lca_mass = lca_mass,
-                                                                              left_tie_mass = tie_mass,
-                                                                              redeclare final BobDyn.Vehicle.Chassis.Tires.BaseTire left_tire(rim_width = Fr_tire.RIM_WIDTH,
+  extends BobDyn.Vehicle.Chassis.Suspension.Templates.AxleDoubleWishboneBase(Axle = FrAxle,
+                                                                             left_unsprung_mass = unsprung_mass,
+                                                                             left_uca_mass = uca_mass,
+                                                                             left_lca_mass = lca_mass,
+                                                                             left_tie_mass = tie_mass,
+                                                                             redeclare final BobDyn.Vehicle.Chassis.Tires.BaseTire left_tire(rim_width = Fr_tire.RIM_WIDTH,
+                                                                                                                                             rim_R0 = Fr_tire.RIM_RADIUS,
+                                                                                                                                             R0 = Fr_tire.UNLOADED_RADIUS,
+                                                                                                                                             tire_c = Fr_tire.VERTICAL_STIFFNESS,
+                                                                                                                                             tire_d = Fr_tire.VERTICAL_DAMPING),
+                                                                             redeclare final BobDyn.Vehicle.Chassis.Tires.BaseTire right_tire(rim_width = Fr_tire.RIM_WIDTH,
                                                                                                                                               rim_R0 = Fr_tire.RIM_RADIUS,
                                                                                                                                               R0 = Fr_tire.UNLOADED_RADIUS,
                                                                                                                                               tire_c = Fr_tire.VERTICAL_STIFFNESS,
-                                                                                                                                              tire_d = Fr_tire.VERTICAL_DAMPING),
-                                                                              redeclare final BobDyn.Vehicle.Chassis.Tires.BaseTire right_tire(rim_width = Fr_tire.RIM_WIDTH,
-                                                                                                                                                rim_R0 = Fr_tire.RIM_RADIUS,
-                                                                                                                                                R0 = Fr_tire.UNLOADED_RADIUS,
-                                                                                                                                                tire_c = Fr_tire.VERTICAL_STIFFNESS,
-                                                                                                                                                tire_d = Fr_tire.VERTICAL_DAMPING));
+                                                                                                                                              tire_d = Fr_tire.VERTICAL_DAMPING));
   
   final parameter SIunits.Position left_bellcrank_pivot[3] = FrAxleBC.bellcrank_pivot annotation(
     Dialog(group = "Geometry"));
@@ -56,9 +46,11 @@ model FrAxleDWPushBCARBLocked
     Dialog(group = "Geometry"));
   final parameter SIunits.Position left_shock_mount[3] = FrAxleBC.shock_mount annotation(
     Dialog(group = "Geometry"));
+
   // left apex geometry
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_apex(r = left_LCA_mount - left_lower_o) annotation(
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_apex(r = left_LCA_mount - FrAxle.lower_outboard) annotation(
     Placement(transformation(origin = {-110, -10}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
+
   // left pushrod
   final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical left_pushrod(rodLength = norm(left_bellcrank_pickup_2 - left_LCA_mount),
                                                                           sphereDiameter = joint_diameter,
@@ -85,7 +77,7 @@ model FrAxleDWPushBCARBLocked
                                                                                    outer_diameter = 0.008)  annotation(
     Placement(transformation(origin = {-50, 130}, extent = {{10, -10}, {-10, 10}})));
   // right apex geometry
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_apex(r = {left_LCA_mount[1], -left_LCA_mount[2], left_LCA_mount[3]} - right_lower_o) annotation(
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_apex(r = {left_LCA_mount[1], -left_LCA_mount[2], left_LCA_mount[3]} - {FrAxle.lower_outboard[1], -FrAxle.lower_outboard[2], FrAxle.lower_outboard[3]}) annotation(
     Placement(transformation(origin = {110, -10}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
 
 // right pushrod

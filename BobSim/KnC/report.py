@@ -301,3 +301,5 @@ Generated:
 
                 pdf.savefig(fig)
                 plt.close(fig)
+    
+    print("PDF generation ran to completion.")

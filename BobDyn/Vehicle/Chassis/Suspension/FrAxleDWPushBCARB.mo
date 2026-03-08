@@ -121,30 +121,30 @@ model FrAxleDWPushBCARB
                                                                                                LSGAL = Fr_tire.LSGAL, LGYR = Fr_tire.LGYR, LMX = Fr_tire.LMX,
                                                                                                LVMX = Fr_tire.LVMX, LMY = Fr_tire.LMY, LIP = Fr_tire.LIP));
 
-  parameter SIunits.Position FL_bellcrank_pivot[3] = FrAxleBC.bellcrank_pivot annotation(
+  parameter SIunits.Position left_bellcrank_pivot[3] = FrAxleBC.bellcrank_pivot annotation(
     Dialog(group = "Geometry"));
-  parameter SIunits.Position FL_bellcrank_pivot_ref[3] = FrAxleBC.bellcrank_pivot_ref annotation(
+  parameter SIunits.Position left_bellcrank_pivot_ref[3] = FrAxleBC.bellcrank_pivot_ref annotation(
     Dialog(group = "Geometry"));
-  parameter SIunits.Position FL_bellcrank_pickup_1[3] = FrAxleBC.bellcrank_pickup_1 annotation(
+  parameter SIunits.Position left_bellcrank_pickup_1[3] = FrAxleBC.bellcrank_pickup_1 annotation(
     Dialog(group = "Geometry"));
-  parameter SIunits.Position FL_bellcrank_pickup_2[3] = FrAxleBC.bellcrank_pickup_2 annotation(
+  parameter SIunits.Position left_bellcrank_pickup_2[3] = FrAxleBC.bellcrank_pickup_2 annotation(
     Dialog(group = "Geometry"));
-  parameter SIunits.Position FL_bellcrank_pickup_3[3] = FrAxleBC.bellcrank_pickup_3 annotation(
+  parameter SIunits.Position left_bellcrank_pickup_3[3] = FrAxleBC.bellcrank_pickup_3 annotation(
     Dialog(group = "Geometry"));
-  parameter SIunits.Position FL_LCA_mount[3] = FrAxleBC.rod_mount annotation(
+  parameter SIunits.Position left_LCA_mount[3] = FrAxleBC.rod_mount annotation(
     Dialog(group = "Geometry"));
-  parameter SIunits.Position FL_shock_mount[3] = FrAxleBC.shock_mount annotation(
+  parameter SIunits.Position left_shock_mount[3] = FrAxleBC.shock_mount annotation(
     Dialog(group = "Geometry"));
-  // FL apex geometry
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation FL_apex(r = FL_LCA_mount - Axle.lower_outboard) annotation(
+  // left apex geometry
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_apex(r = left_LCA_mount - Axle.lower_outboard) annotation(
     Placement(transformation(origin = {-110, -10}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
-  // FL pushrod
-  final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical FL_pushrod(rodLength = norm(FL_bellcrank_pickup_2 - FL_LCA_mount),
+  // left pushrod
+  final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical left_pushrod(rodLength = norm(left_bellcrank_pickup_2 - left_LCA_mount),
                                                                           sphereDiameter = joint_diameter,
                                                                           rodDiameter = link_diameter) annotation(
     Placement(transformation(origin = {-90, 40}, extent = {{-10, -10}, {10, 10}})));
-  // FL bellcrank
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation FL_bellcrank_mount(r = FL_bellcrank_pivot - effective_center) annotation(
+  // left bellcrank
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_bellcrank_mount(r = left_bellcrank_pivot - effective_center) annotation(
     Placement(transformation(origin = {-30, 40}, extent = {{10, -10}, {-10, 10}})));
   final BobDyn.Vehicle.Chassis.Suspension.Linkages.Bellcrank3pu1p left_bellcrank(pickup_1 = left_bellcrank_pickup_1,
                                                                                     pickup_2 = left_bellcrank_pickup_2,
@@ -152,29 +152,29 @@ model FrAxleDWPushBCARB
                                                                                     pivot = left_bellcrank_pivot,
                                                                                     pivot_ref = left_bellcrank_pivot_ref) annotation(
     Placement(transformation(origin = {-60, 40}, extent = {{10, -10}, {-10, 10}})));
-  // FL shock
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation FL_shock_pickup(r = FL_shock_mount - effective_center) annotation(
+  // left shock
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_shock_pickup(r = left_shock_mount - effective_center) annotation(
     Placement(transformation(origin = {-20, 70}, extent = {{10, -10}, {-10, 10}})));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularSpring FL_tabular_spring(spring_table = FrAxle.spring_table,
+  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularSpring left_tabular_spring(spring_table = FrAxle.spring_table,
                                                                                         free_length = FrAxle.free_length,
                                                                                         spring_diameter = 0.050) annotation(
     Placement(transformation(origin = {-50, 70}, extent = {{10, -10}, {-10, 10}})));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularDamper FL_tabular_damper(damper_table = FrAxle.damper_table,
+  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularDamper left_tabular_damper(damper_table = FrAxle.damper_table,
                                                                                         inner_diameter = 0.004,
                                                                                         outer_diameter = 0.008)  annotation(
     Placement(transformation(origin = {-50, 130}, extent = {{10, -10}, {-10, 10}})));
-  // FR apex geometry
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation FR_apex(r = {FL_LCA_mount[1], -FL_LCA_mount[2], FL_LCA_mount[3]} - {Axle.lower_outboard[1], -Axle.lower_outboard[2], Axle.lower_outboard[3]}) annotation(
+  // right apex geometry
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_apex(r = {left_LCA_mount[1], -left_LCA_mount[2], left_LCA_mount[3]} - {Axle.lower_outboard[1], -Axle.lower_outboard[2], Axle.lower_outboard[3]}) annotation(
     Placement(transformation(origin = {110, -10}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
 
-// FR pushrod
-  final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical FR_pushrod(rodLength = norm(FL_bellcrank_pickup_2 - FL_LCA_mount),
+// right pushrod
+  final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical right_pushrod(rodLength = norm(left_bellcrank_pickup_2 - left_LCA_mount),
                                                                           sphereDiameter = joint_diameter,
                                                                           rodDiameter = link_diameter) annotation(
     Placement(transformation(origin = {90, 40}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
 
-// FR bellcrank
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation FR_bellcrank_mount(r = {FL_bellcrank_pivot[1], -FL_bellcrank_pivot[2], FL_bellcrank_pivot[3]} - effective_center) annotation(
+// right bellcrank
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_bellcrank_mount(r = {left_bellcrank_pivot[1], -left_bellcrank_pivot[2], left_bellcrank_pivot[3]} - effective_center) annotation(
     Placement(transformation(origin = {30, 40}, extent = {{-10, -10}, {10, 10}})));
   final BobDyn.Vehicle.Chassis.Suspension.Linkages.Bellcrank3pu1p right_bellcrank(pickup_1 = {left_bellcrank_pickup_1[1], -left_bellcrank_pickup_1[2], left_bellcrank_pickup_1[3]},
                                                                                     pickup_2 = {left_bellcrank_pickup_2[1], -left_bellcrank_pickup_2[2], left_bellcrank_pickup_2[3]},
@@ -182,14 +182,14 @@ model FrAxleDWPushBCARB
                                                                                     pivot = {left_bellcrank_pivot[1], -left_bellcrank_pivot[2], left_bellcrank_pivot[3]},
                                                                                     pivot_ref = {left_bellcrank_pivot_ref[1], -left_bellcrank_pivot_ref[2], left_bellcrank_pivot_ref[3]}) annotation(
     Placement(transformation(origin = {60, 40}, extent = {{-10, -10}, {10, 10}})));
-  // FR shock
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation FR_shock_pickup(r = {FL_shock_mount[1], -FL_shock_mount[2], FL_shock_mount[3]} - effective_center) annotation(
+  // right shock
+  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_shock_pickup(r = {left_shock_mount[1], -left_shock_mount[2], left_shock_mount[3]} - effective_center) annotation(
     Placement(transformation(origin = {20, 70}, extent = {{-10, -10}, {10, 10}})));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularSpring FR_tabular_spring(spring_table = FrAxle.spring_table,
+  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularSpring right_tabular_spring(spring_table = FrAxle.spring_table,
                                                                                         free_length = FrAxle.free_length,
                                                                                         spring_diameter = 0.050)  annotation(
     Placement(transformation(origin = {50, 70}, extent = {{-10, -10}, {10, 10}})));
-  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularDamper FR_tabular_damper(damper_table = FrAxle.damper_table,
+  final BobDyn.Vehicle.Chassis.Suspension.Linkages.TabularDamper right_tabular_damper(damper_table = FrAxle.damper_table,
                                                                                         inner_diameter = 0.004,
                                                                                         outer_diameter = 0.008) annotation(
     Placement(transformation(origin = {50, 130}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
@@ -202,7 +202,7 @@ model FrAxleDWPushBCARB
 //                                                                      bar_rate = FrAxleBC.bar_rate,
 //                                                                      joint_diameter = joint_diameter * 0.75,
 //                                                                      link_diameter = link_diameter / 2)  annotation(
-//    Placement(transformation(origin = {-40, 10}, extent = {{10, -10}, {-10, 10}}, rotation = -180)));  
+//    Placement(transformation(origin = {-40, 10}, extent = {{10, -10}, {-10, 10}}, rotation = -180)));
 
 // Steering interface
   Modelica.Blocks.Interfaces.RealInput steer_input annotation(
@@ -256,6 +256,12 @@ equation
     Line(points = {{90, -14}, {90, 90}, {0, 90}, {0, 120}}, color = {0, 0, 127}));
   connect(stabar_frame.frame_a, axle_frame) annotation(
     Line(points = {{-10, -10}, {0, -10}, {0, -100}}, color = {95, 95, 95}));
+  connect(stabar.left_pickup, left_bellcrank.pickup_1_frame) annotation(
+    Line(points = {{-50, 10}, {-60, 10}, {-60, 30}}, color = {95, 95, 95}));
+  connect(stabar.right_pickup, right_bellcrank.pickup_1_frame) annotation(
+    Line(points = {{-30, 10}, {60, 10}, {60, 30}}, color = {95, 95, 95}));
+  connect(stabar.support_pickup, stabar_frame.frame_b) annotation(
+    Line(points = {{-40, 0}, {-40, -10}, {-30, -10}}, color = {95, 95, 95}));
   annotation(
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002));
 end FrAxleDWPushBCARB;

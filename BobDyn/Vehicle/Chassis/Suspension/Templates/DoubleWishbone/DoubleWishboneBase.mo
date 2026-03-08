@@ -9,7 +9,6 @@ partial model DoubleWishboneBase
   import Modelica.Math.Vectors.norm;
   // Body template for mass properties
   import BobDyn.Resources.Records.TEMPLATES.BodyTemplate;
-  
   // Parameters
   parameter SIunits.Position upper_fore_i[3] "Upper control arm fore inboard joint, expressed in chassis frame" annotation(
     Evaluate=false, Dialog(group = "Geometry"));
@@ -42,7 +41,6 @@ partial model DoubleWishboneBase
     Evaluate=false, Dialog(tab = "Mass Properties", group = "LCA Properties"));
   parameter BodyTemplate tie_mass "Tie rod mass" annotation(
     Evaluate=false, Dialog(tab = "Mass Properties", group = "Tie Properties"));
-  
   // Visual parameters
   parameter SIunits.Length link_diameter annotation(
     Dialog(tab = "Animation", group = "Sizing"));
@@ -106,7 +104,6 @@ partial model DoubleWishboneBase
                                                            I_21 = unsprung_mass.I[2, 1],
                                                            I_31 = unsprung_mass.I[3, 1],
                                                            I_32 = unsprung_mass.I[3, 2],
-                                                           enforceStates = true,
                                                            useQuaternions = false,
                                                            sphereDiameter = joint_diameter,
                                                            cylinderDiameter = link_diameter,
@@ -148,7 +145,7 @@ partial model DoubleWishboneBase
                                                          z_0_start = {0, 0, 0}) annotation(
           Placement(transformation(origin = {-10, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
 
-  // Spherical joints
+// Spherical joints
   BobDyn.Vehicle.Chassis.Suspension.Joints.xyzSphericalCompliant upper_spherical(trans_x_stiffness = 1e8,
                                                trans_y_stiffness = 1e8,
                                                trans_z_stiffness = 1e8,
@@ -165,10 +162,10 @@ partial model DoubleWishboneBase
                                                trans_y_damping = 1e4,
                                                trans_z_damping = 1e4,
                                                diameter = joint_diameter,
-                                               r_rel(start = {0, 0, 0}))  annotation(
+                                               r_rel(start = {0, 0, 0}, each fixed = true))  annotation(
     Placement(transformation(origin = {10, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 
-  // Steering interface
+// Steering interface
   Modelica.Blocks.Interfaces.RealInput steer_input annotation(
     Placement(transformation(origin = {120, -30}, extent = {{-20, -20}, {20, 20}}, rotation = 180), iconTransformation(origin = {-66, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90)));
   Modelica.Mechanics.Translational.Sources.Position position(useSupport = true) annotation(
@@ -180,7 +177,6 @@ protected
   // Connect midpoint of kingpin to center of the wheel
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation(r = wheel_center - (upper_o + lower_o)/2, animation = false) annotation(
     Placement(transformation(origin = {-10, 0}, extent = {{10, -10}, {-10, 10}})));
-  
   // ==================================================
   // === I dare you to find a better way to do this ===
   // ==================================================

@@ -8,7 +8,7 @@ model TestDoubleWishbone
   final parameter BobDyn.Resources.Records.MASSPROPS.FrLCA lca_mass;
   final parameter BobDyn.Resources.Records.MASSPROPS.FrTie tie_mass;
   
-  Vehicle.Chassis.Suspension.Templates.DoubleWishboneDAE.LeftDoubleWishboneDAE leftDoubleWishbone(upper_fore_i = Axle.upper_fore_i,
+  Vehicle.Chassis.Suspension.Templates.DoubleWishboneMSL.LeftDoubleWishboneMSL leftDoubleWishbone(upper_fore_i = Axle.upper_fore_i,
                                                                                                   upper_aft_i = Axle.upper_aft_i,
                                                                                                   lower_fore_i = Axle.lower_fore_i,
                                                                                                   lower_aft_i = Axle.lower_aft_i,
@@ -45,25 +45,24 @@ model TestDoubleWishbone
     Placement(transformation(origin = {-30, 30}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
   Modelica.Mechanics.MultiBody.Joints.Spherical spherical(animation = false)  annotation(
     Placement(transformation(origin = {-30, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  inner Modelica.Mechanics.MultiBody.World world(n = {0, 0, -1})  annotation(
-    Placement(transformation(origin = {-90, -90}, extent = {{-10, -10}, {10, 10}})));
+
 equation
-  connect(steer_ramp.y, leftDoubleWishbone.steer_input) annotation(
-    Line(points = {{-18, 30}, {-6, 30}, {-6, 12}}, color = {0, 0, 127}));
-  connect(upper_fixed.frame_b, leftDoubleWishbone.upper_i_frame) annotation(
-    Line(points = {{60, 40}, {40, 40}, {40, 6}, {10, 6}}, color = {95, 95, 95}));
-  connect(lower_fixed.frame_b, leftDoubleWishbone.lower_i_frame) annotation(
-    Line(points = {{60, -40}, {40, -40}, {40, -6}, {10, -6}}, color = {95, 95, 95}));
-  connect(tie_fixed.frame_b, leftDoubleWishbone.tie_i_frame) annotation(
-    Line(points = {{60, 0}, {10, 0}}, color = {95, 95, 95}));
   connect(hub_fixed.frame_b, linearActuator.frame_a) annotation(
     Line(points = {{-30, -80}, {-30, -60}}, color = {95, 95, 95}));
   connect(jounce_ramp.y, linearActuator.u_position) annotation(
-    Line(points = {{-59, -50}, {-43, -50}}, color = {0, 0, 127}));
+    Line(points = {{-58, -50}, {-42, -50}}, color = {0, 0, 127}));
   connect(linearActuator.frame_b, spherical.frame_a) annotation(
     Line(points = {{-30, -40}, {-30, -30}}, color = {95, 95, 95}));
-  connect(spherical.frame_b, leftDoubleWishbone.midpoint_frame) annotation(
-    Line(points = {{-30, -10}, {-30, 0}, {-10, 0}}, color = {95, 95, 95}));
+  connect(leftDoubleWishbone.midpoint_frame, spherical.frame_b) annotation(
+    Line(points = {{-10, 0}, {-30, 0}, {-30, -10}}, color = {95, 95, 95}));
+  connect(lower_fixed.frame_b, leftDoubleWishbone.lower_i_frame) annotation(
+    Line(points = {{60, -40}, {20, -40}, {20, -6}, {10, -6}}, color = {95, 95, 95}));
+  connect(upper_fixed.frame_b, leftDoubleWishbone.upper_i_frame) annotation(
+    Line(points = {{60, 40}, {20, 40}, {20, 6}, {10, 6}}, color = {95, 95, 95}));
+  connect(tie_fixed.frame_b, leftDoubleWishbone.tie_i_frame) annotation(
+    Line(points = {{60, 0}, {10, 0}}, color = {95, 95, 95}));
+  connect(steer_ramp.y, leftDoubleWishbone.steer_input) annotation(
+    Line(points = {{-18, 30}, {-6, 30}, {-6, 12}}, color = {0, 0, 127}));
 
 annotation(
     experiment(StartTime = 0, StopTime = 3, Tolerance = 1e-06, Interval = 0.006),
