@@ -1,4 +1,4 @@
-# BobDyn
+# BobLib
 
 Modelica-based templates and components for vehicle dynamics analysis.
 
@@ -6,13 +6,13 @@ This repository provides a modular, physically grounded vehicle modeling
 library for suspension, tire, chassis, and full-vehicle simulation, with
 an emphasis on correctness, reproducibility, and FMU export.
 
-Documentation is published at bobdyn.com and updated continuously.
+Documentation is published at BobLib.com and updated continuously.
 
 ---
 
 ## Overview
 
-The `BobDyn` package is a reusable Modelica library containing:
+The `BobLib` package is a reusable Modelica library containing:
 
 - Vehicle subsystems (chassis, suspension, tires, powertrain)
 - Reusable mathematical and mechanical utilities
@@ -35,7 +35,7 @@ files to ensure deterministic behavior and FMU portability.
 ├── requirements.txt
 ├── Docs/
 ├── Tools/
-└── BobDyn/
+└── BobLib/
     ├── package.mo
     ├── package.order
     ├── Resources/
@@ -69,7 +69,7 @@ files to ensure deterministic behavior and FMU portability.
 ## Documentation
 
 The VitePress documentation site lives in `Docs/` and is published at
-bobdyn.com. The website is the reference and will continue
+BobLib.com. The website is the reference and will continue
 to be updated.
 
 ---
@@ -86,13 +86,13 @@ Example:
 
 ```bash
 python Tools/tires/convert_tir_to_mf52_record.py \
-  BobDyn/Resources/JSONs/TIRES/hoosier_r25b.tir
+  BobLib/Resources/JSONs/TIRES/hoosier_r25b.tir
 ```
 
 Generated records are written to:
 
 ```
-BobDyn/Resources/Records/TIRES/
+BobLib/Resources/Records/TIRES/
 ```
 
 Once generated, simulations and FMUs depend only on Modelica source files.

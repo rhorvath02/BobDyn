@@ -172,7 +172,7 @@ def emit_record(
     extends: str | None = None,
 ):
     lines = [
-        "within BobDyn.Resources.Records.SUS;",
+        "within BobLib.Resources.Records.SUS;",
         "",
         "// ============================================================================",
         "// AUTO-GENERATED FILE — DO NOT EDIT",
@@ -278,7 +278,7 @@ def main():
     src = Path(sys.argv[1]).resolve()
     data = json.loads(src.read_text())
 
-    out_dir = Path("BobDyn/Resources/Records/SUS")
+    out_dir = Path("BobLib/Resources/Records/SUS")
 
     emit_axle(data, axle="Front", prefix="Fr", out_dir=out_dir, src=src)
     emit_axle(data, axle="Rear",  prefix="Rr", out_dir=out_dir, src=src)

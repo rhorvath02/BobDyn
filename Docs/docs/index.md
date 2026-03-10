@@ -1,17 +1,17 @@
 ---
 layout: doc
-title: BobDyn
+title: BobLib
 ---
 
-# BobDyn
+# BobLib
 
-BobDyn is a reference framework for defining, interpreting, and evaluating vehicle behavior using first-principles vehicle dynamics. The emphasis is on physically meaningful descriptions of vehicle response, independent of any specific test procedure, competition rule set, or prescriptive design target.
+BobLib is a reference framework for defining, interpreting, and evaluating vehicle behavior using first-principles vehicle dynamics. The emphasis is on physically meaningful descriptions of vehicle response, independent of any specific test procedure, competition rule set, or prescriptive design target.
 
 This site documents a canonical set of vehicle performance metrics used to describe handling, stability, and dynamic response. These metrics are intended to form a common technical language that bridges simulation, physical testing, and vehicle design workflows.
 
 ## Design Philosophy
 
-Rather than prescribing what a vehicle *should* be optimized for, BobDyn defines what a vehicle *does* physically. Each metric is grounded in vehicle dynamics theory and describes an observable aspect of system behavior.
+Rather than prescribing what a vehicle *should* be optimized for, BobLib defines what a vehicle *does* physically. Each metric is grounded in vehicle dynamics theory and describes an observable aspect of system behavior.
 
 The relative importance of any metric is intentionally left unspecified. Weighting and prioritization depend on the intended application, operating environment, and design objectives of a given team or program.
 
@@ -31,5 +31,5 @@ By separating physical behavior from prioritization, the same framework can be a
 - Provide tuning rules, control strategies, or optimization guidance
 
 <p class="closing-note">
-The intent of BobDyn is to provide a clear, physics-based foundation upon which application-specific decisions can be made using objective, reproducible metrics.
+The intent of BobLib is to provide a clear, physics-based foundation upon which application-specific decisions can be made using objective, reproducible metrics.
 </p>

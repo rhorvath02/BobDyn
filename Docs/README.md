@@ -1,6 +1,6 @@
-# BobDyn Documentation
+# BobLib Documentation
 
-VitePress-based documentation site for BobDyn vehicle dynamics framework.
+VitePress-based documentation site for BobLib vehicle dynamics framework.
 
 ## Tech Stack
 

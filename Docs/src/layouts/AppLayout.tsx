@@ -8,8 +8,8 @@ export default function AppLayout() {
       <header className="nav">
         <div className="nav-inner">
           <div className="left brand">
-            <img src={bobIcon} alt="BobDyn logo" />
-            <div className="nav-title">BobDyn</div>
+            <img src={bobIcon} alt="BobLib logo" />
+            <div className="nav-title">BobLib</div>
           </div>
 
           <nav className="nav-links">

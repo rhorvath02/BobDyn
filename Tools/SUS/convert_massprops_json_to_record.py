@@ -73,7 +73,7 @@ def emit_mass_record(
     validate_block(name, data)
 
     lines = [
-        "within BobDyn.Resources.Records.MASSPROPS;",
+        "within BobLib.Resources.Records.MASSPROPS;",
         "",
         "// ============================================================================",
         "// AUTO-GENERATED FILE — DO NOT EDIT",
@@ -120,7 +120,7 @@ def main():
     src = Path(sys.argv[1]).resolve()
     data = json.loads(src.read_text())
 
-    out_dir = Path("BobDyn/Resources/Records/MASSPROPS")
+    out_dir = Path("BobLib/Resources/Records/MASSPROPS")
 
     for name, block in data.items():
         emit_mass_record(

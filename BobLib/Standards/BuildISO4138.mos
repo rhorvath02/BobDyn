@@ -1,0 +1,19 @@
+setCommandLineOptions(
+  "--simCodeTarget=C "
+);
+
+clear();
+loadModel(Modelica);
+loadFile("BobLib/package.mo");
+
+cd("Build/ISO4138");
+
+res := buildModel(
+    BobLib.Standards.ISO4138,
+    outputFormat="mat",
+    numberOfIntervals=0,
+    tolerance=1e-5,
+    cflags="-O3 -march=native -mtune=native -ffast-math"
+);
+
+getErrorString();

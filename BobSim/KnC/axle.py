@@ -73,9 +73,9 @@ class AxleKncReport:
             f"-tolerance={self.tolerance}",
             "-startTime=0",
             "-stopTime=32",
-            "-stepSize=0.001",
             "-outputFormat=csv",
-            "-variableFilter=(left_wheel_kin_telemetry|right_wheel_kin_telemetry)\..*",
+            "-noEventEmit",
+            r"-variableFilter=(left_wheel_kin_telemetry|right_wheel_kin_telemetry)\..*",
             "-lv=LOG_STATS",
             f"-r={self.result_file}",
         ]

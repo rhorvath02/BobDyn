@@ -7,12 +7,12 @@ vehicles:
   #     front_track_m: 1.250
   #     rear_track_m: 1.230
   #   front:
-  #     executable: Build/NightwatchFrKnC/BobDyn.Standards.FrOrionKnC
+  #     executable: Build/NightwatchFrKnC/BobLib.Standards.FrOrionKnC
   #     solver: "dassl"
   #     tolerance: 1e-5
   #     params: ""
   #   rear:
-  #     executable: Build/NightwatchRrKnC/BobDyn.Standards.RrOrionKnC
+  #     executable: Build/NightwatchRrKnC/BobLib.Standards.RrOrionKnC
   #     solver: "dassl"
   #     tolerance: 1e-5
   #     params: ""
@@ -24,12 +24,12 @@ vehicles:
   #     front_track_m: 1.250
   #     rear_track_m: 1.230
   #   front:
-  #     executable: Build/OrionFrKnC/BobDyn.Standards.FrOrionKnC
+  #     executable: Build/OrionFrKnC/BobLib.Standards.FrOrionKnC
   #     solver: "dassl"
   #     tolerance: 1e-5
   #     params: ""
   #   rear:
-  #     executable: Build/OrionRrKnC/BobDyn.Standards.RrOrionKnC
+  #     executable: Build/OrionRrKnC/BobLib.Standards.RrOrionKnC
   #     solver: "dassl"
   #     tolerance: 1e-5
   #     params: ""
@@ -41,12 +41,12 @@ vehicles:
   #     front_track_m: 1.250
   #     rear_track_m: 1.230
   #   front:
-  #     executable: Build/FrKnC/BobDyn.Standards.FrOrionKnC
+  #     executable: Build/FrKnC/BobLib.Standards.FrOrionKnC
   #     solver: "dassl"
   #     tolerance: 1e-5
   #     params: ""
   #   rear:
-  #     executable: Build/RrKnC/BobDyn.Standards.RrOrionKnC
+  #     executable: Build/RrKnC/BobLib.Standards.RrOrionKnC
   #     solver: "dassl"
   #     tolerance: 1e-5
   #     params: ""
@@ -58,20 +58,20 @@ vehicles:
       front_track_m: 1.250
       rear_track_m: 1.230
     front:
-      executable: Build/FrKnC/BobDyn.Standards.FrKnC
+      executable: Build/FrKnC/BobLib.Standards.FrKnC
       solver: "dassl"
       tolerance: 1e-6
       params: ""
               # Axle.right_double_wishbone.static_gamma=30
     rear:
-      executable: Build/RrKnC/BobDyn.Standards.RrKnC
+      executable: Build/RrKnC/BobLib.Standards.RrKnC
       solver: "dassl"
       tolerance: 1e-6
       params: ""
 
 case:
   jounce_amplitude: 0.030
-  rack_position: 0.0
+  rack_position: 1e-6
   force_amplitude: 10000.0
 
 tests:

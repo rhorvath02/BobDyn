@@ -25,13 +25,13 @@ clear();
 loadModel(Modelica);
 
 // Load project root package
-loadFile("BobDyn/package.mo");
+loadFile("BobLib/package.mo");
 
 // Switch working directory to build output
 cd("Build/fmu");
 
 // // Sanity check model
-// checkModel(BobDyn.TestVehicle.TestChassis.TestSuspension.TestFrDoubleWishboneBase);
+// checkModel(BobLib.TestVehicle.TestChassis.TestSuspension.TestFrDoubleWishboneBase);
 
 // setCommandLineOptions(
 //   "--fmiFlags=s:cvode "
@@ -41,7 +41,7 @@ cd("Build/fmu");
 
 // --- BUILD FMU (FORCED EVALUATION) ---
 // res := buildModelFMU(
-//   BobDyn.TestVehicle.TestChassis.TestSuspension.TestTemplates.TestFrDoubleWishboneBase,
+//   BobLib.TestVehicle.TestChassis.TestSuspension.TestTemplates.TestFrDoubleWishboneBase,
 //   version = "2.0",
 //   fmuType = "me_cs",
 //   // platforms = {"x86_64-w64-mingw32 docker run --pull=never multiarch/crossbuild"},
@@ -52,7 +52,7 @@ cd("Build/fmu");
 // );
 
 // res := buildModelFMU(
-//   BobDyn.TestVehicle.TestChassis.TestSuspension.TestTemplates.TestFrRigidDoubleWishbone,
+//   BobLib.TestVehicle.TestChassis.TestSuspension.TestTemplates.TestFrRigidDoubleWishbone,
 //   version = "2.0",
 //   fmuType = "me_cs",
 //   // platforms = {"x86_64-w64-mingw32 docker run --pull=never multiarch/crossbuild"},
@@ -63,7 +63,7 @@ cd("Build/fmu");
 // );
 
 // res := buildModelFMU(
-//   BobDyn.TestVehicle.TestChassis.TestSuspension.TestFrRigidAxleBellcrank,
+//   BobLib.TestVehicle.TestChassis.TestSuspension.TestFrRigidAxleBellcrank,
 //   version = "2.0",
 //   fmuType = "me_cs",
 //   // platforms = {"x86_64-w64-mingw32 docker run --pull=never multiarch/crossbuild"},
@@ -74,7 +74,7 @@ cd("Build/fmu");
 // );
 
 // res := buildModelFMU(
-//   BobDyn.TestVehicle.TestChassis.TestSuspension.TestRrRigidAxleBellcrank,
+//   BobLib.TestVehicle.TestChassis.TestSuspension.TestRrRigidAxleBellcrank,
 //   version = "2.0",
 //   fmuType = "me_cs",
 //   // platforms = {"x86_64-w64-mingw32 docker run --pull=never multiarch/crossbuild"},
@@ -85,7 +85,7 @@ cd("Build/fmu");
 // );
 
 // res := buildModelFMU(
-//   BobDyn.TestVehicle.TestChassis.TestSuspension.TestRrRigidAxleBellcrank,
+//   BobLib.TestVehicle.TestChassis.TestSuspension.TestRrRigidAxleBellcrank,
 //   version = "2.0",
 //   fmuType = "me_cs",
 //   // platforms = {"x86_64-w64-mingw32 docker run --pull=never multiarch/crossbuild"},
@@ -96,7 +96,7 @@ cd("Build/fmu");
 // );
 
 // res := buildModelFMU(
-//   BobDyn.TestVehicle.TestChassis.TestSuspension.TestTemplates.TestRrRigidDoubleWishbone,
+//   BobLib.TestVehicle.TestChassis.TestSuspension.TestTemplates.TestRrRigidDoubleWishbone,
 //   version = "2.0",
 //   fmuType = "me_cs",
 //   // platforms = {"x86_64-w64-mingw32 docker run --pull=never multiarch/crossbuild"},
@@ -107,7 +107,7 @@ cd("Build/fmu");
 // );
 
 // res := buildModelFMU(
-//   BobDyn.TestVehicle.TestChassis.TestTires.TestMF5p2RigidVehicle,
+//   BobLib.TestVehicle.TestChassis.TestTires.TestMF5p2RigidVehicle,
 //   version = "2.0",
 //   fmuType = "me_cs",
 //   // platforms = {"x86_64-w64-mingw32 docker run --pull=never multiarch/crossbuild"},
@@ -118,7 +118,7 @@ cd("Build/fmu");
 // );
 
 // res := buildModelFMU(
-//   BobDyn.TestVehicle.TestChassis.TestChassisBase,
+//   BobLib.TestVehicle.TestChassis.TestChassisBase,
 //   version = "2.0",
 //   fmuType = "me_cs",
 //   // platforms = {"x86_64-w64-mingw32 docker run --pull=never multiarch/crossbuild"},
@@ -129,7 +129,7 @@ cd("Build/fmu");
 // );
 
 res := buildModelFMU(
-  BobDyn.TestVehicle.TestChassis.TestRigidChassisBase,
+  BobLib.TestVehicle.TestChassis.TestRigidChassisBase,
   version = "2.0",
   fmuType = "me_cs",
   // platforms = {"x86_64-w64-mingw32 docker run --pull=never multiarch/crossbuild"},

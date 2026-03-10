@@ -72,10 +72,10 @@ package:
 	fi
 
 records:
-	$(PYTHON) ./Tools/TIRES/convert_mf52_tir_to_record.py ./BobDyn/Resources/JSONs/TIRES/Fr_tire.tir
-	$(PYTHON) ./Tools/TIRES/convert_mf52_tir_to_record.py ./BobDyn/Resources/JSONs/TIRES/Rr_tire.tir
-	$(PYTHON) ./Tools/SUS/convert_suspension_json_to_record.py ./BobDyn/Resources/JSONs/SUS/tune.json
-	$(PYTHON) ./Tools/SUS/convert_massprops_json_to_record.py ./BobDyn/Resources/JSONs/MASSPROPS/mass_props.json
+	$(PYTHON) ./Tools/TIRES/convert_mf52_tir_to_record.py ./BobLib/Resources/JSONs/TIRES/Fr_tire.tir
+	$(PYTHON) ./Tools/TIRES/convert_mf52_tir_to_record.py ./BobLib/Resources/JSONs/TIRES/Rr_tire.tir
+	$(PYTHON) ./Tools/SUS/convert_suspension_json_to_record.py ./BobLib/Resources/JSONs/SUS/tune.json
+	$(PYTHON) ./Tools/SUS/convert_massprops_json_to_record.py ./BobLib/Resources/JSONs/MASSPROPS/mass_props.json
 
 init:
 	sudo apt install gcc-arm-linux-gnueabihf  # arm linux

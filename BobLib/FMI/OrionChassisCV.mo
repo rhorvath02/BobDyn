@@ -1,0 +1,198 @@
+within BobLib.FMI;
+
+model OrionChassisCV
+  import Modelica.Math.Vectors.norm;
+  
+  final inner Modelica.Mechanics.MultiBody.World world(n = {0, 0, -1}) annotation(
+    Placement(transformation(origin = {-90, -90}, extent = {{-10, -10}, {10, 10}})));
+  
+  // Chassis
+  BobLib.Vehicle.Chassis.RigidChassis chassisBase annotation(
+    Placement(transformation(extent = {{-20, -20}, {20, 20}})));
+  
+  // Wheel torques
+  final Modelica.Blocks.Sources.Constant Fr_torque_in(k = 0) annotation(
+    Placement(transformation(origin = {-90, 40}, extent = {{-10, -10}, {10, 10}})));
+  
+  input Real rack_travel;
+  input Real speed_cmd;
+  
+  // Sensor package
+  output BobLib.Resources.Records.SENSING.VehicleTelemetry telem;
+  
+  Real a_body[3];
+  Real vel_body[3];
+  Real w_body[3];
+  Real phi_body[3];
+  
+  Real FL_delta_vec[3];
+  Real FR_delta_vec[3];
+  Real RL_delta_vec[3];
+  Real RR_delta_vec[3];
+  
+  parameter Real k = 30;
+  parameter Real Ti = 0.5;
+  parameter Real Td = 0;
+  parameter Real yMax = 400;
+  
+  final Modelica.Mechanics.Rotational.Sources.Torque torque annotation(
+    Placement(transformation(origin = {-60, 40}, extent = {{-10, -10}, {10, 10}})));
+  final Modelica.Mechanics.Rotational.Sources.Torque Rr_torque annotation(
+    Placement(transformation(origin = {-50, -30}, extent = {{-10, -10}, {10, 10}})));
+  final Modelica.Blocks.Continuous.LimPID PID(k = k, Ti = Ti, Td = Td, yMax = yMax)  annotation(
+    Placement(transformation(origin = {-90, -30}, extent = {{-10, -10}, {10, 10}})));
+  final Modelica.Blocks.Sources.RealExpression vel_target_expr(y = speed_cmd)  annotation(
+    Placement(transformation(origin = {-130, -30}, extent = {{-10, -10}, {10, 10}})));
+  final Modelica.Blocks.Sources.RealExpression vel_measure_expr(y = norm({vel_body[1], vel_body[2], 0}))  annotation(
+    Placement(transformation(origin = {-130, -50}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.RealExpression rack_travel_expr(y = rack_travel)  annotation(
+    Placement(transformation(origin = {-30, 70}, extent = {{-10, -10}, {10, 10}})));
+equation
+  a_body = Modelica.Mechanics.MultiBody.Frames.resolve2(chassisBase.R_IMF, chassisBase.sprung_mass.a_0);
+  vel_body = Modelica.Mechanics.MultiBody.Frames.resolve2(chassisBase.R_IMF, chassisBase.sprung_mass.v_0);
+  w_body = Modelica.Mechanics.MultiBody.Frames.resolve2(chassisBase.R_IMF, chassisBase.sprung_mass.w_a);
+  phi_body = Modelica.Mechanics.MultiBody.Frames.resolve2(chassisBase.R_IMF, chassisBase.absoluteAngles.angles);
+  
+  // Input sensing
+  telem.input_sigs.handwheel_angle = chassisBase.FrAxle.steer_input;
+  telem.input_sigs.torque_command = 0;
+// Aero sensing
+  telem.aero_sigs.drag = 0;
+  telem.aero_sigs.side_force = 0;
+  telem.aero_sigs.lift = 0;
+  telem.aero_sigs.roll_moment = 0;
+  telem.aero_sigs.pitch_moment = 0;
+  telem.aero_sigs.yaw_moment = 0;
+// Kinematic sensing
+  telem.kin_sigs.roll = phi_body[1];
+  telem.kin_sigs.pitch = phi_body[2];
+  telem.kin_sigs.yaw = chassisBase.absoluteAngles.angles[3];
+  telem.kin_sigs.p = w_body[1];
+  telem.kin_sigs.q = w_body[2];
+  telem.kin_sigs.r = w_body[3];
+  telem.kin_sigs.vx = vel_body[1];
+  telem.kin_sigs.vy = vel_body[2];
+  telem.kin_sigs.vz = vel_body[3];
+  telem.kin_sigs.speed = norm(chassisBase.sprung_mass.v_0);
+  telem.kin_sigs.beta = atan2(vel_body[2], vel_body[1]);
+  telem.kin_sigs.X = chassisBase.sprung_mass.r_0[1];
+  telem.kin_sigs.Y = chassisBase.sprung_mass.r_0[2];
+  telem.kin_sigs.Z = chassisBase.sprung_mass.r_0[3];
+// Dynamic sensing
+  telem.dyn_sigs.ax = a_body[1];
+  telem.dyn_sigs.ay = a_body[2];
+  telem.dyn_sigs.az = a_body[3];
+  telem.dyn_sigs.Fx = 0;
+  telem.dyn_sigs.Fy = 0;
+  telem.dyn_sigs.Fz = 0;
+  telem.dyn_sigs.Mx = 0;
+  telem.dyn_sigs.My = 0;
+  telem.dyn_sigs.Mz = 0;
+// Powertrain sensing
+  telem.powertrain_sigs.wheel_torque[1] = 0;
+  telem.powertrain_sigs.wheel_torque[2] = 0;
+  telem.powertrain_sigs.wheel_torque[3] = 0;
+  telem.powertrain_sigs.wheel_torque[4] = 0;
+  telem.powertrain_sigs.wheel_power[1] = 0;
+  telem.powertrain_sigs.wheel_power[2] = 0;
+  telem.powertrain_sigs.wheel_power[3] = 0;
+  telem.powertrain_sigs.wheel_power[4] = 0;
+// Suspension sensing
+  telem.sus_sigs[1].jounce = 0;
+  telem.sus_sigs[1].frame_height = chassisBase.FL_frame_coord.r_rel[3];
+  telem.sus_sigs[1].shock_deflection = chassisBase.FrAxle.FL_tabular_spring.defl_abs*chassisBase.FrAxle.FL_tabular_spring.sgn;
+  telem.sus_sigs[1].shock_velocity = chassisBase.FrAxle.FL_tabular_damper.v_abs*chassisBase.FrAxle.FL_tabular_damper.vel_sgn;
+  telem.sus_sigs[1].stabar_torque = chassisBase.FrAxle.stabar.spring.tau;
+  telem.sus_sigs[2].jounce = 0;
+  telem.sus_sigs[2].frame_height = chassisBase.FR_frame_coord.r_rel[3];
+  telem.sus_sigs[2].shock_deflection = chassisBase.FrAxle.FR_tabular_spring.defl_abs*chassisBase.FrAxle.FR_tabular_spring.sgn;
+  telem.sus_sigs[2].shock_velocity = chassisBase.FrAxle.FR_tabular_damper.v_abs*chassisBase.FrAxle.FR_tabular_damper.vel_sgn;
+  telem.sus_sigs[2].stabar_torque = chassisBase.FrAxle.stabar.spring.tau;
+  telem.sus_sigs[3].jounce = 0;
+  telem.sus_sigs[3].frame_height = chassisBase.RL_frame_coord.r_rel[3];
+  telem.sus_sigs[3].shock_deflection = chassisBase.RrAxle.RL_tabular_spring.defl_abs*chassisBase.RrAxle.RL_tabular_spring.sgn;
+  telem.sus_sigs[3].shock_velocity = chassisBase.RrAxle.RL_tabular_damper.v_abs*chassisBase.RrAxle.RL_tabular_damper.vel_sgn;
+  telem.sus_sigs[3].stabar_torque = chassisBase.RrAxle.stabar.spring.tau;
+  telem.sus_sigs[4].jounce = 0;
+  telem.sus_sigs[4].frame_height = chassisBase.RR_frame_coord.r_rel[3];
+  telem.sus_sigs[4].shock_deflection = chassisBase.RrAxle.RR_tabular_spring.defl_abs*chassisBase.RrAxle.RR_tabular_spring.sgn;
+  telem.sus_sigs[4].shock_velocity = chassisBase.RrAxle.RR_tabular_damper.v_abs*chassisBase.RrAxle.RR_tabular_damper.vel_sgn;
+  telem.sus_sigs[4].stabar_torque = chassisBase.RrAxle.stabar.spring.tau;
+// Wheel sensing
+  telem.wheel_sigs[1].Fx = chassisBase.FrAxle.left_tire.Fx;
+  telem.wheel_sigs[1].Fy = chassisBase.FrAxle.left_tire.Fy;
+  telem.wheel_sigs[1].Mx = chassisBase.FrAxle.left_tire.Mx;
+  telem.wheel_sigs[1].My = chassisBase.FrAxle.left_tire.My;
+  telem.wheel_sigs[1].Mz = chassisBase.FrAxle.left_tire.Mz;
+  telem.wheel_sigs[1].Fz = chassisBase.FrAxle.left_tire.Fz;
+  telem.wheel_sigs[1].alpha = chassisBase.FrAxle.left_tire.alpha;
+  telem.wheel_sigs[1].kappa = chassisBase.FrAxle.left_tire.kappa;
+  telem.wheel_sigs[1].gamma = chassisBase.FrAxle.left_tire.gamma;
+  telem.wheel_sigs[1].omega = chassisBase.FrAxle.left_tire.tire2DOF.wheel_speed.w;
+  FL_delta_vec = Modelica.Mechanics.MultiBody.Frames.resolve2(chassisBase.R_IMF, Modelica.Mechanics.MultiBody.Frames.resolve1(chassisBase.FrAxle.left_cp.R, {1, 0, 0}));
+  telem.wheel_sigs[1].delta = atan2(FL_delta_vec[2], FL_delta_vec[1]);
+  
+  telem.wheel_sigs[2].Fx = chassisBase.FrAxle.right_tire.Fx;
+  telem.wheel_sigs[2].Fy = chassisBase.FrAxle.right_tire.Fy;
+  telem.wheel_sigs[2].Mx = chassisBase.FrAxle.right_tire.Mx;
+  telem.wheel_sigs[2].My = chassisBase.FrAxle.right_tire.My;
+  telem.wheel_sigs[2].Mz = chassisBase.FrAxle.right_tire.Mz;
+  telem.wheel_sigs[2].Fz = chassisBase.FrAxle.right_tire.Fz;
+  telem.wheel_sigs[2].alpha = chassisBase.FrAxle.right_tire.alpha;
+  telem.wheel_sigs[2].kappa = chassisBase.FrAxle.right_tire.kappa;
+  telem.wheel_sigs[2].gamma = chassisBase.FrAxle.right_tire.gamma;
+  telem.wheel_sigs[2].omega = chassisBase.FrAxle.right_tire.tire2DOF.wheel_speed.w;
+  FR_delta_vec = Modelica.Mechanics.MultiBody.Frames.resolve2(chassisBase.R_IMF, Modelica.Mechanics.MultiBody.Frames.resolve1(chassisBase.FrAxle.right_cp.R, {1, 0, 0}));
+  telem.wheel_sigs[2].delta = atan2(FR_delta_vec[2], FR_delta_vec[1]);
+  
+  telem.wheel_sigs[3].Fx = chassisBase.RrAxle.left_tire.Fx;
+  telem.wheel_sigs[3].Fy = chassisBase.RrAxle.left_tire.Fy;
+  telem.wheel_sigs[3].Mx = chassisBase.RrAxle.left_tire.Mx;
+  telem.wheel_sigs[3].My = chassisBase.RrAxle.left_tire.My;
+  telem.wheel_sigs[3].Mz = chassisBase.RrAxle.left_tire.Mz;
+  telem.wheel_sigs[3].Fz = chassisBase.RrAxle.left_tire.Fz;
+  telem.wheel_sigs[3].alpha = chassisBase.RrAxle.left_tire.alpha;
+  telem.wheel_sigs[3].kappa = chassisBase.RrAxle.left_tire.kappa;
+  telem.wheel_sigs[3].gamma = chassisBase.RrAxle.left_tire.gamma;
+  telem.wheel_sigs[3].omega = chassisBase.RrAxle.left_tire.tire2DOF.wheel_speed.w;
+  RL_delta_vec = Modelica.Mechanics.MultiBody.Frames.resolve2(chassisBase.R_IMF, Modelica.Mechanics.MultiBody.Frames.resolve1(chassisBase.RrAxle.left_cp.R, {1, 0, 0}));
+  telem.wheel_sigs[3].delta = atan2(RL_delta_vec[2], RL_delta_vec[1]);
+  
+  telem.wheel_sigs[4].Fx = chassisBase.RrAxle.right_tire.Fx;
+  telem.wheel_sigs[4].Fy = chassisBase.RrAxle.right_tire.Fy;
+  telem.wheel_sigs[4].Mx = chassisBase.RrAxle.right_tire.Mx;
+  telem.wheel_sigs[4].My = chassisBase.RrAxle.right_tire.My;
+  telem.wheel_sigs[4].Mz = chassisBase.RrAxle.right_tire.Mz;
+  telem.wheel_sigs[4].Fz = chassisBase.RrAxle.right_tire.Fz;
+  telem.wheel_sigs[4].alpha = chassisBase.RrAxle.right_tire.alpha;
+  telem.wheel_sigs[4].kappa = chassisBase.RrAxle.right_tire.kappa;
+  telem.wheel_sigs[4].gamma = chassisBase.RrAxle.right_tire.gamma;
+  telem.wheel_sigs[4].omega = chassisBase.RrAxle.right_tire.tire2DOF.wheel_speed.w;
+  RR_delta_vec = Modelica.Mechanics.MultiBody.Frames.resolve2(chassisBase.R_IMF, Modelica.Mechanics.MultiBody.Frames.resolve1(chassisBase.RrAxle.right_cp.R, {1, 0, 0}));
+  telem.wheel_sigs[4].delta = atan2(RR_delta_vec[2], RR_delta_vec[1]);
+  
+  connect(world.frame_b, chassisBase.world_frame) annotation(
+    Line(points = {{-80, -90}, {0, -90}, {0, -20}}, color = {95, 95, 95}));
+  connect(Fr_torque_in.y, torque.tau) annotation(
+    Line(points = {{-78, 40}, {-72, 40}}, color = {0, 0, 127}));
+  connect(torque.flange, chassisBase.FL_torque) annotation(
+    Line(points = {{-50, 40}, {-20, 40}, {-20, 14}}));
+  connect(torque.flange, chassisBase.FR_torque) annotation(
+    Line(points = {{-50, 40}, {20, 40}, {20, 14}}));
+  connect(Rr_torque.flange, chassisBase.RL_torque) annotation(
+    Line(points = {{-40, -30}, {-20, -30}, {-20, -14}}));
+  connect(Rr_torque.flange, chassisBase.RR_torque) annotation(
+    Line(points = {{-40, -30}, {20, -30}, {20, -14}}));
+  connect(rack_travel_expr.y, chassisBase.rack_input) annotation(
+    Line(points = {{-18, 70}, {0, 70}, {0, 24}}, color = {0, 0, 127}));
+  connect(vel_target_expr.y, PID.u_s) annotation(
+    Line(points = {{-118, -30}, {-102, -30}}, color = {0, 0, 127}));
+  connect(vel_measure_expr.y, PID.u_m) annotation(
+    Line(points = {{-118, -50}, {-90, -50}, {-90, -42}}, color = {0, 0, 127}));
+  connect(PID.y, Rr_torque.tau) annotation(
+    Line(points = {{-78, -30}, {-62, -30}}, color = {0, 0, 127}));
+  annotation(
+    experiment(StartTime = 0, StopTime = 25, Tolerance = 1e-06, Interval = 0.02),
+  __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian --maxSizeLinearTearing=2000",
+  __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "cvode", variableFilter = ".*", noEventEmit = "()"));
+end OrionChassisCV;

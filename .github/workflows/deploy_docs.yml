@@ -20,5 +20,5 @@ jobs:
 
       - working-directory: Docs
         run: |
-          robocopy docs\.vitepress\dist C:\bobdyn_docs\BobDyn\Docs\dist /MIR
+          robocopy docs\.vitepress\dist C:\BobLib_docs\BobLib\Docs\dist /MIR
           if ($LASTEXITCODE -le 7) { exit 0 } else { exit $LASTEXITCODE }
