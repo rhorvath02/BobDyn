@@ -96,7 +96,7 @@ partial model AxleDoubleWishboneBase
     Placement(transformation(origin = {120, -100}, extent = {{16, -16}, {-16, 16}}, rotation = -90), iconTransformation(origin = {100, 0}, extent = {{-16, -16}, {16, 16}}, rotation = 0)));
   
   // Double wishbone assemblies
-  BobLib.Vehicle.Chassis.Suspension.Templates.DoubleWishboneMSL.LeftDoubleWishboneMSL left_double_wishbone(upper_fore_i = Axle.upper_fore_i,
+  BobLib.Vehicle.Chassis.Suspension.Templates.DoubleWishboneV2.LeftDoubleWishboneV2 left_double_wishbone(upper_fore_i = Axle.upper_fore_i,
                                                                                                      upper_aft_i = Axle.upper_aft_i,
                                                                                                      lower_fore_i = Axle.lower_fore_i,
                                                                                                      lower_aft_i = Axle.lower_aft_i,
@@ -115,7 +115,7 @@ partial model AxleDoubleWishboneBase
                                                                                                      tie_mass = left_tie_mass) annotation(
     Evaluate=false, Placement(transformation(origin = {-70, -50}, extent = {{-30, -30}, {30, 30}})));
   
-  BobLib.Vehicle.Chassis.Suspension.Templates.DoubleWishboneMSL.RightDoubleWishboneMSL right_double_wishbone(upper_fore_i = {Axle.upper_fore_i[1], -Axle.upper_fore_i[2], Axle.upper_fore_i[3]},
+  BobLib.Vehicle.Chassis.Suspension.Templates.DoubleWishboneV2.RightDoubleWishboneV2 right_double_wishbone(upper_fore_i = {Axle.upper_fore_i[1], -Axle.upper_fore_i[2], Axle.upper_fore_i[3]},
                                                                                                        upper_aft_i = {Axle.upper_aft_i[1], -Axle.upper_aft_i[2], Axle.upper_aft_i[3]},
                                                                                                        lower_fore_i = {Axle.lower_fore_i[1], -Axle.lower_fore_i[2], Axle.lower_fore_i[3]},
                                                                                                        lower_aft_i = {Axle.lower_aft_i[1], -Axle.lower_aft_i[2], Axle.lower_aft_i[3]},

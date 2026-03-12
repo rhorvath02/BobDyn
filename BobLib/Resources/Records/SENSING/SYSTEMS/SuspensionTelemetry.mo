@@ -5,8 +5,8 @@ record SuspensionTelemetry
 
   SIunits.Position frame_height "Height of the vehicle frame above the ground";
 
-  SIunits.Length shock_deflection "Deflection of the suspension spring + damper (co-axial)";
-  SIunits.Velocity shock_velocity "Velocity of the suspension spring + damper (co-axial)";
+  SIunits.Length shock_deflection = 0 "Deflection of the suspension spring + damper (co-axial)";
+  SIunits.Velocity shock_velocity = 0 "Velocity of the suspension spring + damper (co-axial)";
 
   SIunits.Torque stabar_torque "Torque through the stabar";
   SIunits.Torque stabar_angle "Angular deflection of torsion bar";

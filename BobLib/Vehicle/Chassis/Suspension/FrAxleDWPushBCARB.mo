@@ -136,13 +136,7 @@ model FrAxleDWPushBCARB
   parameter SIunits.Position left_shock_mount[3] = FrAxleBC.shock_mount annotation(
     Dialog(group = "Geometry"));
   // left apex geometry
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_apex(r = left_LCA_mount - Axle.lower_outboard) annotation(
-    Placement(transformation(origin = {-110, -10}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
   // left pushrod
-  final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical left_pushrod(rodLength = norm(left_bellcrank_pickup_2 - left_LCA_mount),
-                                                                          sphereDiameter = joint_diameter,
-                                                                          rodDiameter = link_diameter) annotation(
-    Placement(transformation(origin = {-90, 40}, extent = {{-10, -10}, {10, 10}})));
   // left bellcrank
   final Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_bellcrank_mount(r = left_bellcrank_pivot - effective_center) annotation(
     Placement(transformation(origin = {-30, 40}, extent = {{10, -10}, {-10, 10}})));
@@ -163,17 +157,10 @@ model FrAxleDWPushBCARB
                                                                                         inner_diameter = 0.004,
                                                                                         outer_diameter = 0.008)  annotation(
     Placement(transformation(origin = {-50, 130}, extent = {{10, -10}, {-10, 10}})));
-  // right apex geometry
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_apex(r = {left_LCA_mount[1], -left_LCA_mount[2], left_LCA_mount[3]} - {Axle.lower_outboard[1], -Axle.lower_outboard[2], Axle.lower_outboard[3]}) annotation(
-    Placement(transformation(origin = {110, -10}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
 
-// right pushrod
-  final Modelica.Mechanics.MultiBody.Joints.SphericalSpherical right_pushrod(rodLength = norm(left_bellcrank_pickup_2 - left_LCA_mount),
-                                                                          sphereDiameter = joint_diameter,
-                                                                          rodDiameter = link_diameter) annotation(
-    Placement(transformation(origin = {90, 40}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
-
-// right bellcrank
+// right apex geometry
+  // right pushrod
+  // right bellcrank
   final Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_bellcrank_mount(r = {left_bellcrank_pivot[1], -left_bellcrank_pivot[2], left_bellcrank_pivot[3]} - effective_center) annotation(
     Placement(transformation(origin = {30, 40}, extent = {{-10, -10}, {10, 10}})));
   final BobLib.Vehicle.Chassis.Suspension.Linkages.Bellcrank3pu1p right_bellcrank(pickup_1 = {left_bellcrank_pickup_1[1], -left_bellcrank_pickup_1[2], left_bellcrank_pickup_1[3]},
@@ -209,13 +196,12 @@ model FrAxleDWPushBCARB
     Placement(transformation(origin = {0, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {0, 120}, extent = {{-20, -20}, {20, 20}}, rotation=-90)));
   final BobLib.Vehicle.Chassis.Suspension.Linkages.Stabar stabar(bar_rate = FrAxleBC.bar_rate, joint_diameter = joint_diameter*0.5, left_arm_end = FrAxleBC.left_arm_end, left_bar_end = FrAxleBC.left_bar_end, left_droplink_end = FrAxleBC.bellcrank_pickup_1, link_diameter = link_diameter*0.5) annotation(
     Placement(transformation(origin = {-40, 10}, extent = {{10, -10}, {-10, 10}}, rotation = -180)));
+  Modelica.Mechanics.MultiBody.Joints.Assemblies.JointUSP left_pushrod_apex(n1_a = {1, 0, 0}, n_b = {0, 1, 0}, rRod2_ib = left_LCA_mount - Axle.lower_outboard, rRod1_ia = left_bellcrank_pickup_2 - left_LCA_mount)  annotation(
+    Placement(transformation(origin = {-110, 20}, extent = {{-20, -20}, {20, 20}}, rotation = -90)));
+  Modelica.Mechanics.MultiBody.Joints.Assemblies.JointUSP right_pushrod_apex(n1_a = {1, 0, 0}, n_b = {0, 1, 0}, rRod1_ia = {left_bellcrank_pickup_2[1], -left_bellcrank_pickup_2[2], left_bellcrank_pickup_2[3]} - {left_LCA_mount[1], -left_LCA_mount[2], left_LCA_mount[3]}, rRod2_ib = {left_LCA_mount[1], -left_LCA_mount[2], left_LCA_mount[3]} - {Axle.lower_outboard[1], -Axle.lower_outboard[2], Axle.lower_outboard[3]}) annotation(
+    Placement(transformation(origin = {110, 20}, extent = {{20, -20}, {-20, 20}}, rotation = 90)));
+
 equation
-  connect(left_apex.frame_a, left_double_wishbone.lower_wishbone_frame) annotation(
-    Line(points = {{-110, -20}, {-110, -90}, {-70, -90}, {-70, -80}}, color = {95, 95, 95}));
-  connect(left_apex.frame_b, left_pushrod.frame_a) annotation(
-    Line(points = {{-110, 0}, {-110, 40}, {-100, 40}}, color = {95, 95, 95}));
-  connect(left_pushrod.frame_b, left_bellcrank.pickup_2_frame) annotation(
-    Line(points = {{-80, 40}, {-70, 40}}, color = {95, 95, 95}));
   connect(left_bellcrank.pickup_3_frame, left_tabular_spring.frame_b) annotation(
     Line(points = {{-60, 50}, {-60, 70}}, color = {95, 95, 95}));
   connect(left_tabular_spring.frame_a, left_shock_pickup.frame_b) annotation(
@@ -226,12 +212,6 @@ equation
     Line(points = {{-10, 70}, {0, 70}, {0, -100}}, color = {95, 95, 95}));
   connect(left_bellcrank_mount.frame_a, axle_frame) annotation(
     Line(points = {{-20, 40}, {0, 40}, {0, -100}}, color = {95, 95, 95}));
-  connect(right_apex.frame_a, right_double_wishbone.lower_wishbone_frame) annotation(
-    Line(points = {{110, -20}, {110, -90}, {70, -90}, {70, -80}}, color = {95, 95, 95}));
-  connect(right_apex.frame_b, right_pushrod.frame_a) annotation(
-    Line(points = {{110, 0}, {110, 40}, {100, 40}}, color = {95, 95, 95}));
-  connect(right_pushrod.frame_b, right_bellcrank.pickup_2_frame) annotation(
-    Line(points = {{80, 40}, {70, 40}}, color = {95, 95, 95}));
   connect(right_bellcrank.pickup_3_frame, right_tabular_spring.frame_b) annotation(
     Line(points = {{60, 50}, {60, 70}}, color = {95, 95, 95}));
   connect(right_tabular_spring.frame_a, right_shock_pickup.frame_b) annotation(
@@ -262,6 +242,18 @@ equation
     Line(points = {{-30, 10}, {60, 10}, {60, 30}}, color = {95, 95, 95}));
   connect(stabar.support_pickup, stabar_frame.frame_b) annotation(
     Line(points = {{-40, 0}, {-40, -10}, {-30, -10}}, color = {95, 95, 95}));
+  connect(left_pushrod_apex.bearing, left_pushrod_apex.axis) annotation(
+    Line(points = {{-102, 0}, {-94, 0}}, color = {0, 127, 0}));
+  connect(left_double_wishbone.lower_wishbone_frame, left_pushrod_apex.frame_b) annotation(
+    Line(points = {{-70, -80}, {-70, -90}, {-110, -90}, {-110, 0}}, color = {95, 95, 95}));
+  connect(left_bellcrank.pickup_2_frame, left_pushrod_apex.frame_a) annotation(
+    Line(points = {{-70, 40}, {-110, 40}}, color = {95, 95, 95}));
+  connect(right_bellcrank.pickup_2_frame, right_pushrod_apex.frame_a) annotation(
+    Line(points = {{70, 40}, {110, 40}}, color = {95, 95, 95}));
+  connect(right_pushrod_apex.axis, right_pushrod_apex.bearing) annotation(
+    Line(points = {{94, 0}, {102, 0}}, color = {0, 127, 0}));
+  connect(right_pushrod_apex.frame_b, right_double_wishbone.lower_wishbone_frame) annotation(
+    Line(points = {{110, 0}, {110, -90}, {70, -90}, {70, -80}}, color = {95, 95, 95}));
   annotation(
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002));
 end FrAxleDWPushBCARB;

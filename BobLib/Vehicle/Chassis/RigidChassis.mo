@@ -45,7 +45,17 @@ model RigidChassis
                                                              lca_mass = Fr_lca_props,
                                                              tie_mass = Fr_tie_props,
                                                              final link_diameter = 0.025,
-                                                             final joint_diameter = 0.030) annotation(
+                                                             final joint_diameter = 0.030/*,
+                                                             redeclare final BobLib.Vehicle.Chassis.Tires.BaseTire left_tire(rim_width = Fr_tire_props.RIM_WIDTH,
+                                                                                                                             rim_R0 = Fr_tire_props.RIM_RADIUS,
+                                                                                                                             R0 = Fr_tire_props.UNLOADED_RADIUS,
+                                                                                                                             tire_c = Fr_tire_props.VERTICAL_STIFFNESS,
+                                                                                                                             tire_d = Fr_tire_props.VERTICAL_DAMPING),
+                                                             redeclare final BobLib.Vehicle.Chassis.Tires.BaseTire right_tire(rim_width = Fr_tire_props.RIM_WIDTH,
+                                                                                                                              rim_R0 = Fr_tire_props.RIM_RADIUS,
+                                                                                                                              R0 = Fr_tire_props.UNLOADED_RADIUS,
+                                                                                                                              tire_c = Fr_tire_props.VERTICAL_STIFFNESS,
+                                                                                                                              tire_d = Fr_tire_props.VERTICAL_DAMPING)*/) annotation(
     Placement(transformation(origin = {0, 47}, extent = {{-20, -20}, {20, 20}})));
   BobLib.Vehicle.Chassis.Suspension.RrAxleDWPullBCARB RrAxle(RrAxle = Rr_axle_props,
                                                              RrAxleBC = Rr_axle_bc_props,
@@ -54,7 +64,18 @@ model RigidChassis
                                                              lca_mass = Rr_lca_props,
                                                              tie_mass = Rr_tie_props,
                                                              final link_diameter = 0.025,
-                                                             final joint_diameter = 0.030) annotation(
+                                                             final joint_diameter = 0.030/*,
+                                                             redeclare final BobLib.Vehicle.Chassis.Tires.BaseTire left_tire(rim_width = Rr_tire_props.RIM_WIDTH,
+                                                                                                                             rim_R0 = Rr_tire_props.RIM_RADIUS,
+                                                                                                                             R0 = Rr_tire_props.UNLOADED_RADIUS,
+                                                                                                                             tire_c = Rr_tire_props.VERTICAL_STIFFNESS,
+                                                                                                                             tire_d = Rr_tire_props.VERTICAL_DAMPING),
+                                                             redeclare final BobLib.Vehicle.Chassis.Tires.BaseTire right_tire(rim_width = Rr_tire_props.RIM_WIDTH,
+                                                                                                                              rim_R0 = Rr_tire_props.RIM_RADIUS,
+                                                                                                                              R0 = Rr_tire_props.UNLOADED_RADIUS,
+                                                                                                                              tire_c = Rr_tire_props.VERTICAL_STIFFNESS,
+                                                                                                                              tire_d = Rr_tire_props.VERTICAL_DAMPING)*/
+                                                             ) annotation(
     Placement(transformation(origin = {0, -47}, extent = {{20, -20}, {-20, 20}}, rotation = -180)));
   
   final Modelica.Mechanics.MultiBody.Parts.FixedTranslation fixedTranslation(r = RrAxle.effective_center - FrAxle.effective_center) annotation(
@@ -72,7 +93,7 @@ model RigidChassis
   Modelica.Blocks.Interfaces.RealInput rack_input annotation(
     Placement(transformation(origin = {0, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90), iconTransformation(origin = {0, 120}, extent = {{-20, -20}, {20, 20}}, rotation = -90)));
   // Sprung mass
-  final Modelica.Mechanics.MultiBody.Parts.Body sprung_mass(r_CM = sprung_mass_props.r_cm - FrAxle.effective_center, m = sprung_mass_props.m, I_11 = sprung_mass_props.I[1, 1], I_22 = sprung_mass_props.I[2, 2], I_33 = sprung_mass_props.I[3, 3], I_21 = sprung_mass_props.I[2, 1], I_31 = sprung_mass_props.I[3, 1], I_32 = sprung_mass_props.I[3, 2], enforceStates = true, useQuaternions = false) annotation(
+  final Modelica.Mechanics.MultiBody.Parts.Body sprung_mass(r_CM = sprung_mass_props.r_cm - FrAxle.effective_center, m = sprung_mass_props.m, I_11 = sprung_mass_props.I[1, 1], I_22 = sprung_mass_props.I[2, 2], I_33 = sprung_mass_props.I[3, 3], I_21 = sprung_mass_props.I[2, 1], I_31 = sprung_mass_props.I[3, 1], I_32 = sprung_mass_props.I[3, 2], enforceStates = true, useQuaternions = false, v_0(start = {15, 0, 0}, each fixed = true)) annotation(
     Placement(transformation(origin = {70, 70}, extent = {{-10, -10}, {10, 10}})));
   // Driver mass
   final Modelica.Mechanics.MultiBody.Parts.Body driver_mass(r_CM = driver_mass_props.r_cm - FrAxle.effective_center, m = driver_mass_props.m, I_11 = driver_mass_props.I[1, 1], I_22 = driver_mass_props.I[2, 2], I_33 = driver_mass_props.I[3, 3], I_21 = driver_mass_props.I[2, 1], I_31 = driver_mass_props.I[3, 1], I_32 = driver_mass_props.I[3, 2], useQuaternions = false) annotation(

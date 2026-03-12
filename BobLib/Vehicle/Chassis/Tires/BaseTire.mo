@@ -36,8 +36,20 @@ model BaseTire
   Real Fz "Normal load in global frame";
   // General States
   Real gamma;
-  Modelica.Mechanics.MultiBody.Parts.Mounting1D rotation_lock annotation(
+  Modelica.Mechanics.MultiBody.Parts.Mounting1D rotation_lock(n = {0, 1, 0})  annotation(
     Placement(transformation(origin = {-30, 20}, extent = {{-10, -10}, {10, 10}})));
+
+  // Common interface
+  Real Fx = 0;
+  Real Fy = 0;
+  Real Mx = 0;
+  Real My = 0;
+  Real Mz = 0;
+  
+  Real alpha = 0;
+  Real kappa = 0;
+  
+
 protected
   // World / ground unit vectors
   Real[3] e_z = {0, 0, 1};

@@ -19,7 +19,7 @@ record RrAxleDW
   parameter SIunits.Position lower_outboard[3] = {-1.55448000, 0.57658000, 0.11607800} annotation(Evaluate = false);
   parameter SIunits.Position tie_inboard[3] = {-1.37634980, 0.28971240, 0.17000220} annotation(Evaluate = false);
   parameter SIunits.Position tie_outboard[3] = {-1.45796000, 0.58239660, 0.21435060} annotation(Evaluate = false);
-  parameter Real free_length = 0.27490478 annotation(Evaluate = false);
+  parameter Real free_length = 0.266 annotation(Evaluate = false);
   parameter Real spring_table[2, 2] = [0, 0; 1, 43782] annotation(Evaluate = false);
   parameter Real damper_table[11, 2] = [0, 0; 0.002, 40; 0.005, 100; 0.01, 200; 0.02, 350; 0.05, 600; 0.1, 850; 0.2, 1100; 0.3, 1250; 0.5, 1450; 1, 1750] annotation(Evaluate = false);
   parameter SIunits.Position wheel_center[3] = {-1.5494, 0.60611077, 0.199898} annotation(Evaluate = false);

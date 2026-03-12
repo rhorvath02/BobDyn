@@ -8,8 +8,6 @@ model ISO4138
   BobLib.Vehicle.Chassis.RigidChassis chassisBase annotation(
     Placement(transformation(extent = {{-20, -20}, {20, 20}})));
   // Wheel torques
-  Modelica.Blocks.Sources.Constant Fr_torque_in(k = 0) annotation(
-    Placement(transformation(origin = {-90, 30}, extent = {{-10, -10}, {10, 10}})));
   // Sensor package
   output BobLib.Resources.Records.SENSING.VehicleTelemetry telem;
   Real a_body[3];
@@ -25,30 +23,12 @@ model ISO4138
   parameter Real Ti = 0.8;
   parameter Real Td = 0;
   parameter Real yMax = 732.6;
-  final Modelica.Mechanics.Rotational.Sources.Torque torque annotation(
-    Placement(transformation(origin = {-50, 30}, extent = {{-10, -10}, {10, 10}})));
-  final Modelica.Mechanics.Rotational.Sources.Torque Rr_torque annotation(
+  Modelica.Blocks.Sources.Ramp ramp(height = 0.45*0.0254, duration = 20, offset = 0, startTime = 10)  annotation(
+    Placement(transformation(origin = {-30, 50}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Mechanics.Rotational.Sources.Speed speed(exact = true)  annotation(
     Placement(transformation(origin = {-50, -30}, extent = {{-10, -10}, {10, 10}})));
-//  final Modelica.Blocks.Continuous.LimPID PID(k = k, Ti = Ti, Td = Td, yMax = yMax, initType = Modelica.Blocks.Types.InitPID.InitialOutput, y_start = 0) annotation(
-//    Placement(transformation(origin = {-90, -30}, extent = {{-10, -10}, {10, 10}})));
-//  final Modelica.Blocks.Sources.Ramp speed_target_sig(height = 0, duration = 20, offset = 15, startTime = 15) annotation(
-//    Placement(transformation(origin = {-130, -30}, extent = {{-10, -10}, {10, 10}})));
-//  final Modelica.Blocks.Sources.RealExpression speed_measure_sig(y = telem.kin_sigs.speed) annotation(
-//    Placement(transformation(origin = {-110, -50}, extent = {{-10, -10}, {10, 10}})));
-  //  Modelica.Blocks.Sources.RealExpression yaw_rate_sig(y = telem.kin_sigs.r) annotation(
-  //    Placement(transformation(origin = {-50, 50}, extent = {{-10, -10}, {10, 10}})));
-  //  BobLib.Vehicle.Electronics.Controllers.CurvatureController curvatureController(activation_time = 7.5, kp = 0.35, ki = 0.08, Tr = 0.05, T_rack = 0.08) annotation(
-  //    Placement(transformation(origin = {-30, 70}, extent = {{-10, -10}, {10, 10}})));
-  //  Modelica.Blocks.Sources.Constant curv_const(k = 1/20) annotation(
-  //    Placement(transformation(origin = {-70, 70}, extent = {{-10, -10}, {10, 10}})));
-  final Modelica.Blocks.Sources.Ramp speed_target_sig1(duration = 5, height = 0.125*0.0254, offset = 0, startTime = 10) annotation(
-    Placement(transformation(origin = {-50, 50}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Continuous.FirstOrder firstOrder(k = 1, T = 1, initType = Modelica.Blocks.Types.Init.InitialOutput, y_start = 0)  annotation(
-    Placement(transformation(origin = {-20, 50}, extent = {{-10, -10}, {10, 10}})));
-  final Modelica.Blocks.Sources.Ramp speed_target_sig11(duration = 5, height = 220, offset = 0, startTime = 0) annotation(
-    Placement(transformation(origin = {-110, -30}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Continuous.FirstOrder firstOrder1(T = 1, initType = Modelica.Blocks.Types.Init.InitialOutput, k = 1, y_start = 0) annotation(
-    Placement(transformation(origin = {-80, -30}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.Constant const(k = 15 / chassisBase.FrAxle.left_tire.R0)  annotation(
+    Placement(transformation(origin = {-90, -30}, extent = {{-10, -10}, {10, 10}})));
 equation
   a_body = Modelica.Mechanics.MultiBody.Frames.resolve2(chassisBase.R_IMF, chassisBase.sprung_mass.a_0);
   vel_body = Modelica.Mechanics.MultiBody.Frames.resolve2(chassisBase.R_IMF, chassisBase.sprung_mass.v_0);
@@ -100,23 +80,23 @@ equation
   telem.powertrain_sigs.wheel_power[4] = 0;
 // Suspension sensing
   telem.sus_sigs[1].frame_height = chassisBase.FL_frame_coord.r_rel[3];
-  telem.sus_sigs[1].shock_deflection = chassisBase.FrAxle.left_tabular_spring.defl_abs*chassisBase.FrAxle.left_tabular_spring.sgn;
-  telem.sus_sigs[1].shock_velocity = chassisBase.FrAxle.left_tabular_damper.v_abs*chassisBase.FrAxle.left_tabular_damper.vel_sgn;
+//  telem.sus_sigs[1].shock_deflection = chassisBase.FrAxle.left_tabular_spring.defl_abs*chassisBase.FrAxle.left_tabular_spring.sgn;
+//  telem.sus_sigs[1].shock_velocity = chassisBase.FrAxle.left_tabular_damper.v_abs*chassisBase.FrAxle.left_tabular_damper.vel_sgn;
   telem.sus_sigs[1].stabar_torque = chassisBase.FrAxle.stabar.spring.tau;
   telem.sus_sigs[1].stabar_angle = chassisBase.FrAxle.stabar.spring.phi_rel;
   telem.sus_sigs[2].frame_height = chassisBase.FR_frame_coord.r_rel[3];
-  telem.sus_sigs[2].shock_deflection = chassisBase.FrAxle.right_tabular_spring.defl_abs*chassisBase.FrAxle.right_tabular_spring.sgn;
-  telem.sus_sigs[2].shock_velocity = chassisBase.FrAxle.right_tabular_damper.v_abs*chassisBase.FrAxle.right_tabular_damper.vel_sgn;
+//  telem.sus_sigs[2].shock_deflection = chassisBase.FrAxle.right_tabular_spring.defl_abs*chassisBase.FrAxle.right_tabular_spring.sgn;
+//  telem.sus_sigs[2].shock_velocity = chassisBase.FrAxle.right_tabular_damper.v_abs*chassisBase.FrAxle.right_tabular_damper.vel_sgn;
   telem.sus_sigs[2].stabar_torque = chassisBase.FrAxle.stabar.spring.tau;
   telem.sus_sigs[2].stabar_angle = chassisBase.FrAxle.stabar.spring.phi_rel;
   telem.sus_sigs[3].frame_height = chassisBase.RL_frame_coord.r_rel[3];
-  telem.sus_sigs[3].shock_deflection = chassisBase.RrAxle.left_tabular_spring.defl_abs*chassisBase.RrAxle.left_tabular_spring.sgn;
-  telem.sus_sigs[3].shock_velocity = chassisBase.RrAxle.left_tabular_damper.v_abs*chassisBase.RrAxle.left_tabular_damper.vel_sgn;
+//  telem.sus_sigs[3].shock_deflection = chassisBase.RrAxle.left_tabular_spring.defl_abs*chassisBase.RrAxle.left_tabular_spring.sgn;
+//  telem.sus_sigs[3].shock_velocity = chassisBase.RrAxle.left_tabular_damper.v_abs*chassisBase.RrAxle.left_tabular_damper.vel_sgn;
   telem.sus_sigs[3].stabar_torque = chassisBase.RrAxle.stabar.spring.tau;
   telem.sus_sigs[3].stabar_angle = chassisBase.RrAxle.stabar.spring.phi_rel;
   telem.sus_sigs[4].frame_height = chassisBase.RR_frame_coord.r_rel[3];
-  telem.sus_sigs[4].shock_deflection = chassisBase.RrAxle.right_tabular_spring.defl_abs*chassisBase.RrAxle.right_tabular_spring.sgn;
-  telem.sus_sigs[4].shock_velocity = chassisBase.RrAxle.right_tabular_damper.v_abs*chassisBase.RrAxle.right_tabular_damper.vel_sgn;
+//  telem.sus_sigs[4].shock_deflection = chassisBase.RrAxle.right_tabular_spring.defl_abs*chassisBase.RrAxle.right_tabular_spring.sgn;
+//  telem.sus_sigs[4].shock_velocity = chassisBase.RrAxle.right_tabular_damper.v_abs*chassisBase.RrAxle.right_tabular_damper.vel_sgn;
   telem.sus_sigs[4].stabar_torque = chassisBase.RrAxle.stabar.spring.tau;
   telem.sus_sigs[4].stabar_angle = chassisBase.RrAxle.stabar.spring.phi_rel;
 // Wheel sensing
@@ -178,26 +158,20 @@ equation
   end if;
   connect(world.frame_b, chassisBase.world_frame) annotation(
     Line(points = {{-80, -90}, {0, -90}, {0, -20}}, color = {95, 95, 95}));
-  connect(Rr_torque.flange, chassisBase.RL_torque) annotation(
+  connect(ramp.y, chassisBase.rack_input) annotation(
+    Line(points = {{-18, 50}, {0, 50}, {0, 24}}, color = {0, 0, 127}));
+  connect(const.y, speed.w_ref) annotation(
+    Line(points = {{-78, -30}, {-62, -30}}, color = {0, 0, 127}));
+  connect(speed.flange, chassisBase.RL_torque) annotation(
     Line(points = {{-40, -30}, {-20, -30}, {-20, -14}}));
-  connect(Rr_torque.flange, chassisBase.RR_torque) annotation(
+  connect(speed.flange, chassisBase.RR_torque) annotation(
     Line(points = {{-40, -30}, {20, -30}, {20, -14}}));
-  connect(Fr_torque_in.y, torque.tau) annotation(
-    Line(points = {{-78, 30}, {-62, 30}}, color = {0, 0, 127}));
-  connect(speed_target_sig1.y, firstOrder.u) annotation(
-    Line(points = {{-38, 50}, {-32, 50}}, color = {0, 0, 127}));
-  connect(firstOrder.y, chassisBase.rack_input) annotation(
-    Line(points = {{-8, 50}, {0, 50}, {0, 24}}, color = {0, 0, 127}));
-  connect(torque.flange, chassisBase.FL_torque) annotation(
-    Line(points = {{-40, 30}, {-20, 30}, {-20, 14}}));
-  connect(torque.flange, chassisBase.FR_torque) annotation(
-    Line(points = {{-40, 30}, {20, 30}, {20, 14}}));
-  connect(speed_target_sig11.y, firstOrder1.u) annotation(
-    Line(points = {{-98, -30}, {-92, -30}}, color = {0, 0, 127}));
-  connect(firstOrder1.y, Rr_torque.tau) annotation(
-    Line(points = {{-68, -30}, {-62, -30}}, color = {0, 0, 127}));
+  connect(speed.flange, chassisBase.FL_torque) annotation(
+    Line(points = {{-40, -30}, {-20, -30}, {-20, 14}}));
+  connect(speed.flange, chassisBase.FR_torque) annotation(
+    Line(points = {{-40, -30}, {20, -30}, {20, 14}}));
   annotation(
-    experiment(StartTime = 0, StopTime = 25, Tolerance = 1e-05, Interval = 0.02),
+    experiment(StartTime = 0, StopTime = 32.5, Tolerance = 1e-05, Interval = 0.02),
     __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian --maxSizeLinearTearing=5000",
     __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "cvode", variableFilter = ".*", noEventEmit = "()"));
 end ISO4138;

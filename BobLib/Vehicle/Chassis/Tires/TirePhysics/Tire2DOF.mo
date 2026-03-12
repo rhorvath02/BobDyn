@@ -26,7 +26,7 @@ model Tire2DOF
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b chassis_frame annotation(
     Placement(transformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}}, rotation=0)));
   // Joint interfaces
-  Modelica.Mechanics.MultiBody.Joints.Revolute hub_axis(n = {0, 1, 0}, useAxisFlange = true, animation = false, phi(start = 0, fixed = true), w(start = 0, fixed = true)) annotation(
+  Modelica.Mechanics.MultiBody.Joints.Revolute hub_axis(n = {0, 1, 0}, useAxisFlange = true, animation = false, phi(start = 0, fixed = true)) annotation(
     Placement(transformation(origin = {20, 0}, extent = {{-10, -10}, {10, 10}})));
   // Tire vertical deflection
   // Rotational dynamics
