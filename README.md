@@ -6,7 +6,7 @@ This repository provides a modular, physically grounded vehicle modeling
 library for suspension, tire, chassis, and full-vehicle simulation, with
 an emphasis on correctness, reproducibility, and FMU export.
 
-Documentation is published at BobLib.com and updated continuously.
+Documentation is published at BobDyn.com and updated continuously.
 
 ---
 
