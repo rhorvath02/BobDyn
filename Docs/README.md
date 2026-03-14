@@ -12,6 +12,7 @@ VitePress-based documentation site for BobLib vehicle dynamics framework.
 ## Design
 
 GNOME Nautilus-inspired dark theme with:
+
 - System font stack
 - 75ch max text width for readability
 - Sticky navigation with Bob logo
@@ -30,27 +31,11 @@ npm run build
 npm run preview
 ```
 
-## Project Structure
-
-```
-Docs/
-├── docs/
-│   ├── index.md            # Home page
-│   ├── metrics.md          # Vehicle performance metrics
-│   ├── vision.md           # Vision and roadmap
-│   └── public/
-│       └── CNAME           # Page domain
-├── package.json
-└── README.md
-```
-
 ## Content Editing
 
 All content is written in Markdown:
 
 - **docs/index.md** - Home page content
-- **docs/metrics.md** - Metrics reference with math equations
-- **docs/vision.md** - Vision and roadmap
 
 ### Math Equations
 
@@ -60,6 +45,7 @@ Use KaTeX syntax:
 Inline math: $a_y = \frac{v^2}{R}$
 
 Display math:
+
 $$
 K = \frac{\partial \delta}{\partial a_y}
 $$
@@ -78,4 +64,3 @@ Introductory text with muted color
 Closing note with extra spacing
 </p>
 ```
-

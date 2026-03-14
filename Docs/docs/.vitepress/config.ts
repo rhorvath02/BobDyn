@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   title: 'Bob Dynamics',
-  description: 'Vehicle dynamics reference and analysis framework',
+  description: 'First-principles vehicle dynamics analysis for Formula SAE',
   base: '/',
   appearance: 'dark',
 
@@ -15,32 +15,58 @@ export default defineConfig({
     siteTitle: 'Bob Dynamics',
 
     nav: [
-      { text: 'The Vision', link: '/vision' },
+      { text: 'BobSim', link: '/bobsim/' },
+      { text: 'Reference', link: '/reference/' },
+      // Add new top-nav entries here
     ],
 
-    sidebar: [
-      {
-        text: 'Introduction',
-        collapsed: false,
-        link: '/',
-        items: [
-          { text: 'Design Philosophy', link: '/#design-philosophy' },
-          { text: 'What This Site Contains', link: '/#what-this-site-contains' },
-          { text: 'What This Site Does Not Do', link: '/#what-this-site-does-not-do' },
-        ]
-      },
-      {
-        text: 'Performance Metrics',
-        collapsed: false,
-        link: '/metrics',
-        items: [
-          { text: 'Steady-State Handling', link: '/metrics#steady-state-handling' },
-          { text: 'Transient Handling', link: '/metrics#transient-handling' },
-          { text: 'Stability & Control', link: '/metrics#stability-and-control' },
-          { text: 'Frequency-Domain', link: '/metrics#frequency-domain-metrics' },
-        ]
-      }
-    ],
+    sidebar: {
+      // BobSim pages - only show solver nav
+      '/bobsim/': [
+        {
+          text: 'BobSim',
+          collapsed: false,
+          items: [
+            { text: 'Overview', link: '/bobsim/' },
+            { text: 'Characterization', link: '/bobsim/characterization' },
+            { text: 'Design of Experiments', link: '/bobsim/doe' },
+          ]
+        },
+      ],
+
+      // Reference pages - only show reference nav
+      '/reference/': [
+        {
+          text: 'Reference',
+          collapsed: false,
+          items: [
+            { text: 'Overview', link: '/reference/' },
+          ]
+        },
+        {
+          text: 'Performance Metrics',
+          collapsed: false,
+          link: '/reference/metrics',
+          items: [
+            { text: 'Steady-State Handling', link: '/reference/metrics#steady-state-handling' },
+            { text: 'Transient Handling', link: '/reference/metrics#transient-handling' },
+            { text: 'Stability & Control', link: '/reference/metrics#stability-and-control' },
+            { text: 'Frequency-Domain', link: '/reference/metrics#frequency-domain-metrics' },
+          ]
+        },
+        {
+          text: 'Control Theory',
+          collapsed: false,
+          link: '/reference/control-theory',
+          items: [
+            { text: 'Open-Loop vs. Closed-Loop', link: '/reference/control-theory#open-loop-vs-closed-loop' },
+            { text: 'Bang-Bang Control', link: '/reference/control-theory#bang-bang-control' },
+            { text: 'PID Control', link: '/reference/control-theory#pid-control' },
+            { text: 'Feedforward Control', link: '/reference/control-theory#feedforward-control' },
+          ]
+        },
+      ],
+    },
 
     outline: { level: [2, 3], label: 'On this page' },
     socialLinks: [

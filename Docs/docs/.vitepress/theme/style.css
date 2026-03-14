@@ -1,4 +1,4 @@
-/* Gnome Nautilus dark palette — everything else is stock VitePress */
+/* Gnome Nautilus dark palette - everything else is stock VitePress */
 
 :root {
   --vp-c-bg: #0e1116;
@@ -38,10 +38,6 @@ h4:hover .header-anchor { opacity: 1; }
 /* Custom classes */
 .vp-doc .section-intro { color: var(--vp-c-text-3); margin-bottom: 1rem; }
 .vp-doc .closing-note { margin-top: 3rem; color: var(--vp-c-text-3); }
-
-/* Math */
-.vp-doc .math, .vp-doc .katex-display { margin: 1rem 0; overflow-x: auto; }
-.vp-doc .katex { font-family: serif; }
 
 /* Hide appearance toggle (dark-only site) */
 .VPSwitch,
