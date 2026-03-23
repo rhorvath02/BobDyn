@@ -11,7 +11,7 @@ model BaseTire
   import BobLib.Utilities.Math.Vector.cross;
   import BobLib.Utilities.Math.Vector.dot;
   // Parameters - Tire defn
-  final parameter BobLib.Resources.Records.TIRES.Fr_tire tire "MF52 tire parameter record" annotation();
+  parameter BobLib.Resources.Records.TIRES.Fr_tire tire "MF52 tire parameter record" annotation();
   // Parameters - Dimensions
   parameter SIunits.Length rim_width = tire.RIM_WIDTH "Rim width" annotation(
     Dialog(group = "Dimensions"));
@@ -36,20 +36,16 @@ model BaseTire
   Real Fz "Normal load in global frame";
   // General States
   Real gamma;
-  Modelica.Mechanics.MultiBody.Parts.Mounting1D rotation_lock(n = {0, 1, 0})  annotation(
+  Modelica.Mechanics.MultiBody.Parts.Mounting1D rotation_lock(n = {0, 1, 0}) annotation(
     Placement(transformation(origin = {-30, 20}, extent = {{-10, -10}, {10, 10}})));
-
   // Common interface
   Real Fx = 0;
   Real Fy = 0;
   Real Mx = 0;
   Real My = 0;
   Real Mz = 0;
-  
   Real alpha = 0;
   Real kappa = 0;
-  
-
 protected
   // World / ground unit vectors
   Real[3] e_z = {0, 0, 1};
@@ -83,9 +79,5 @@ equation
   connect(hub_input, tire2DOF.hub_frame) annotation(
     Line(points = {{0, 100}, {0, 10}}));
   annotation(
-    Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}), graphics = {Text(extent = {{-120, -160}, {120, -120}}, textString = "%name", fontSize = 14, horizontalAlignment = TextAlignment.Center), Text(extent = {{-200, -60}, {-100, -20}}, textString = "Frame", fontSize = 12, textColor = {0, 0, 0}, horizontalAlignment = TextAlignment.Center), Text(extent = {{-100, 110}, {0, 140}}, textString = "T_in", fontSize = 12, textColor = {0, 0, 255}, horizontalAlignment = TextAlignment.Center), Text(extent = {{30, -120}, {70, -80}}, textString = "CP", fontSize = 12, textColor = {0, 0, 0}, horizontalAlignment = TextAlignment.Center), // Outer tire
-    Ellipse(extent = {{-90, -90}, {90, 90}}, fillPattern = FillPattern.Solid, fillColor = {40, 40, 40}, lineThickness = 3), // Inner rim
-    Ellipse(extent = {{-45, -45}, {45, 45}}, fillPattern = FillPattern.Solid, fillColor = {200, 200, 200}, lineThickness = 2), // Hub
-    Ellipse(extent = {{-15, -15}, {15, 15}}, fillPattern = FillPattern.Solid, fillColor = {160, 160, 160}, lineThickness = 2), // Spokes (default black)
-    Line(points = {{0, 0}, {0, 45}}, thickness = 2), Line(points = {{0, 0}, {0, -45}}, thickness = 2), Line(points = {{0, 0}, {45, 0}}, thickness = 2), Line(points = {{0, 0}, {-45, 0}}, thickness = 2), Line(points = {{0, 0}, {32, 32}}, thickness = 2), Line(points = {{0, 0}, {-32, -32}}, thickness = 2), Line(points = {{0, 0}, {32, -32}}, thickness = 2), Line(points = {{0, 0}, {-32, 32}}, thickness = 2), Text(extent = {{-100, -66}, {100, 66}}, textString = "BASE", fontSize = 225, lineColor = {255, 0, 0}, horizontalAlignment = TextAlignment.Center)}));
+    Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}), graphics = {Text(extent = {{-120, -160}, {120, -120}}, textString = "%name", fontSize = 14), Text(extent = {{-200, -60}, {-100, -20}}, textString = "Frame", fontSize = 12), Text(textColor = {0, 0, 255}, extent = {{-100, 110}, {0, 140}}, textString = "T_in", fontSize = 12), Text(extent = {{30, -120}, {70, -80}}, textString = "CP", fontSize = 12), Ellipse(fillColor = {40, 40, 40}, fillPattern = FillPattern.Solid, lineThickness = 3, extent = {{-90, -90}, {90, 90}}), Ellipse(fillColor = {200, 200, 200}, fillPattern = FillPattern.Solid, lineThickness = 2, extent = {{-45, -45}, {45, 45}}), Ellipse(fillColor = {160, 160, 160}, fillPattern = FillPattern.Solid, lineThickness = 2, extent = {{-15, -15}, {15, 15}}), Line(points = {{0, 0}, {0, 45}}, thickness = 2), Line(points = {{0, 0}, {0, -45}}, thickness = 2), Line(points = {{0, 0}, {45, 0}}, thickness = 2), Line(points = {{0, 0}, {-45, 0}}, thickness = 2), Line(points = {{0, 0}, {32, 32}}, thickness = 2), Line(points = {{0, 0}, {-32, -32}}, thickness = 2), Line(points = {{0, 0}, {32, -32}}, thickness = 2), Line(points = {{0, 0}, {-32, 32}}, thickness = 2), Text( textColor = {255, 0, 0}, extent = {{-100, -66}, {100, 66}}, textString = "BASE", fontSize = 225)}));
 end BaseTire;

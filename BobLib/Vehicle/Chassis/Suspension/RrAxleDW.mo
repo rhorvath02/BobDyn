@@ -1,11 +1,11 @@
 within BobLib.Vehicle.Chassis.Suspension;
 
-model RrAxleDWPullBCARB
+model RrAxleDW
   import Modelica.Math.Vectors.norm;
   import Modelica.SIunits;
   
   parameter BobLib.Resources.Records.SUS.RrAxleDW RrAxle;
-  parameter BobLib.Resources.Records.SUS.RrAxleDWPullBCARB RrAxleBC;
+  parameter BobLib.Resources.Records.SUS.RrAxleDefault RrAxleBC;
   
   parameter BobLib.Resources.Records.MASSPROPS.RrUnsprung unsprung_mass;
   parameter BobLib.Resources.Records.MASSPROPS.RrUCA uca_mass;
@@ -249,4 +249,4 @@ equation
     Line(points = {{-100, -8}, {-92, -8}}, color = {0, 127, 0}));
   annotation(
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002));
-end RrAxleDWPullBCARB;
+end RrAxleDW;

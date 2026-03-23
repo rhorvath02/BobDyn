@@ -1,5 +1,4 @@
 TestTemplates
 TestLinkages
 TestJoints
-TestFrRigidAxleBellcrank
-TestRrRigidAxleBellcrank
+TestFrAxleDW

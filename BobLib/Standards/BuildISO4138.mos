@@ -1,5 +1,5 @@
-setCommandLineOptions(
-  "--simCodeTarget=C "
+OpenModelica.Scripting.setCommandLineOptions(
+  "--simCodeTarget=C --maxSizeLinearTearing=5000"
 );
 
 clear();

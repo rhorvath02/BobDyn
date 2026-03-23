@@ -1,10 +1,10 @@
+within BobLib.Resources.Records.TIRES;
+
 // ============================================================================
 // AUTO-GENERATED FILE — DO NOT EDIT
 // Source: /home/rober/shared/BobLib/BobLib/Resources/JSONs/TIRES/Fr_tire.tir
 // Tool: Tools/tires/convert_tir_to_mf52_record.py
 // ============================================================================
-
-within BobLib.Resources.Records.TIRES;
 
 record Fr_tire
   "Auto-generated MF5p2 tire record (PAC2002)"

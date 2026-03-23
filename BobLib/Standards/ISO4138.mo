@@ -23,11 +23,11 @@ model ISO4138
   parameter Real Ti = 0.8;
   parameter Real Td = 0;
   parameter Real yMax = 732.6;
-  Modelica.Blocks.Sources.Ramp ramp(height = 0.45*0.0254, duration = 20, offset = 0, startTime = 10)  annotation(
+  Modelica.Blocks.Sources.Ramp ramp(height = 0.45*0.0254, duration = 20, offset = 0, startTime = 10) annotation(
     Placement(transformation(origin = {-30, 50}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.Rotational.Sources.Speed speed(exact = true)  annotation(
+  Modelica.Mechanics.Rotational.Sources.Speed speed(exact = true) annotation(
     Placement(transformation(origin = {-50, -30}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.Constant const(k = 15 / chassisBase.FrAxle.left_tire.R0)  annotation(
+  Modelica.Blocks.Sources.Constant const(k = 15/chassisBase.FrAxle.left_tire.R0) annotation(
     Placement(transformation(origin = {-90, -30}, extent = {{-10, -10}, {10, 10}})));
 equation
   a_body = Modelica.Mechanics.MultiBody.Frames.resolve2(chassisBase.R_IMF, chassisBase.sprung_mass.a_0);
@@ -171,7 +171,7 @@ equation
   connect(speed.flange, chassisBase.FR_torque) annotation(
     Line(points = {{-40, -30}, {20, -30}, {20, 14}}));
   annotation(
-    experiment(StartTime = 0, StopTime = 32.5, Tolerance = 1e-05, Interval = 0.02),
-    __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian --maxSizeLinearTearing=5000",
-    __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "cvode", variableFilter = ".*", noEventEmit = "()"));
+    experiment(StartTime = 0, StopTime = 32.5, Tolerance = 1e-06, Interval = 0.02),
+    __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian --maxSizeLinearTearing=5000 --daeMode",
+    __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "dassl", variableFilter = ".*", noEventEmit = "()", daeMode = "()", noEquidistantTimeGrid = "()"));
 end ISO4138;

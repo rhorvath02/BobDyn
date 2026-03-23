@@ -18,7 +18,7 @@ model MF5p2Tire
   import BobLib.Vehicle.Chassis.Tires.MF52.My_eval;
   import BobLib.Vehicle.Chassis.Tires.MF52.Mz_eval;
   // Parameters - Tire defn
-  final parameter BobLib.Resources.Records.TIRES.Fr_tire tire "MF52 tire parameter record" annotation();
+  parameter BobLib.Resources.Records.TIRES.Fr_tire tire "MF52 tire parameter record" annotation();
   // Parameters - Dimensions
   parameter SIunits.Length rim_width = tire.RIM_WIDTH "Rim width" annotation(
     Dialog(group = "Dimensions"));
