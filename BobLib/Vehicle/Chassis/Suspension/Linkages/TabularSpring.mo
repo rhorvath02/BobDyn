@@ -1,22 +1,23 @@
 within BobLib.Vehicle.Chassis.Suspension.Linkages;
 
 model TabularSpring "Tabular translational spring with optional mass"
-  extends BobLib.Vehicle.Chassis.Suspension.Linkages.Templates.TabularCompliant;
-  
+  // Modelica units
+  import Modelica.SIunits;
+
+  // Modelica linalg
   import Modelica.Math.Vectors.normalize;
   import Modelica.Math.Vectors.norm;
-  import Modelica.SIunits;
+    
+  extends BobLib.Vehicle.Chassis.Suspension.Linkages.Templates.TabularCompliant;
   
   // Parameters
   parameter SIunits.TranslationalSpringConstant spring_table[:, 2] "Table of Force vs Compression (change in length)" annotation(
     Evaluate = false,
     Dialog(group = "Spring Parameters"));
-  parameter SIunits.Length free_length "Free length of spring" annotation(
+  parameter SIunits.Length s_0 "Free length of spring" annotation(
     Evaluate = false,
     Dialog(group = "Spring Parameters"));
-  parameter SIunits.Length spring_diameter "Diameter of smallest possible cylinder enclosing spring" annotation(
-    Dialog(group = "Animation"));
-  
+
   // State vars
   Real defl;
   Real defl_abs;
@@ -33,7 +34,7 @@ model TabularSpring "Tabular translational spring with optional mass"
     Placement(transformation(origin = {-20, 30}, extent = {{-10, -10}, {10, 10}})));
 
 equation
-  defl = free_length - s_rel;
+  defl = s_0 - s_rel;
   defl_abs = sqrt(defl*defl + eps*eps);
   sgn = defl/defl_abs;
   

@@ -12,14 +12,14 @@ partial model TabularCompliant "Tabular translational spring with optional mass"
     Placement(transformation(extent = {{-10, -10}, {10, 10}})));
   
   Modelica.Mechanics.Translational.Interfaces.Flange_a flange_a annotation(
-    Placement(transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-92, -2}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.Translational.Interfaces.Flange_b flange_b annotation(
-    Placement(transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {98, 0}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}})));
 
   Real s_rel;
 
 equation
-  // Deflection calc
+// Deflection calc
   s_rel = flange_b.s - flange_a.s;
   
   connect(force.flange_a, flange_a) annotation(

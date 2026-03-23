@@ -3,7 +3,6 @@ within BobLib.Vehicle.Chassis.Suspension.Linkages;
 model Bellcrank3
   import Modelica.Math.Vectors.normalize;
   import Modelica.Math.Vectors.norm;
-  
   import Modelica.SIunits;
   parameter SIunits.Position pivot[3] "Pivot coordinates" annotation(
     Dialog(group = "Geometry"));
@@ -29,13 +28,13 @@ model Bellcrank3
     Placement(transformation(origin = {0, 100}, extent = {{-16, -16}, {16, 16}}, rotation = 90), iconTransformation(origin = {0, 100}, extent = {{-16, -16}, {16, 16}}, rotation = 90)));
   Modelica.Mechanics.MultiBody.Joints.Revolute revolute(n = normalize(pivot_axis), animation = true, cylinderLength = joint_diameter, cylinderDiameter = joint_diameter) annotation(
     Placement(transformation(origin = {-70, 0}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape side_1(lengthDirection = normalize(pickup_1 - pivot), length = norm(pickup_1 - pivot), width = link_diameter*0.75, height = link_diameter*0.75, widthDirection = normalize(pivot_axis), shapeType = "cylinder")  annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape side_1(lengthDirection = normalize(pickup_1 - pivot), length = norm(pickup_1 - pivot), width = link_diameter*0.75, height = link_diameter*0.75, widthDirection = normalize(pivot_axis), shapeType = "cylinder") annotation(
     Placement(transformation(origin = {-30, -20}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape side_2(lengthDirection = normalize(pickup_2 - pickup_1), widthDirection = normalize(pivot_axis), length = norm(pickup_2 - pickup_1), width = link_diameter*0.75, height = link_diameter*0.75, shapeType = "cylinder")  annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape side_2(lengthDirection = normalize(pickup_2 - pickup_1), widthDirection = normalize(pivot_axis), length = norm(pickup_2 - pickup_1), width = link_diameter*0.75, height = link_diameter*0.75, shapeType = "cylinder") annotation(
     Placement(transformation(origin = {10, -20}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape side_3(lengthDirection = normalize(pickup_3 - pickup_2), length = norm(pickup_3 - pickup_2), width = link_diameter*0.75, height = link_diameter*0.75, widthDirection = normalize(pivot_axis), shapeType = "cylinder")  annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape side_3(lengthDirection = normalize(pickup_3 - pickup_2), length = norm(pickup_3 - pickup_2), width = link_diameter*0.75, height = link_diameter*0.75, widthDirection = normalize(pivot_axis), shapeType = "cylinder") annotation(
     Placement(transformation(origin = {50, -20}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape side_4(lengthDirection = normalize(pivot - pickup_3), widthDirection = normalize(pivot_axis), length = norm(pivot - pickup_3), width = link_diameter*0.75, height = link_diameter*0.75, shapeType = "cylinder")  annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape side_4(lengthDirection = normalize(pivot - pickup_3), widthDirection = normalize(pivot_axis), length = norm(pivot - pickup_3), width = link_diameter*0.75, height = link_diameter*0.75, shapeType = "cylinder") annotation(
     Placement(transformation(origin = {40, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
 protected
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation first_pickup(final r = pickup_1 - pivot, final extra = 0.0) annotation(
@@ -44,6 +43,7 @@ protected
     Placement(transformation(extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation third_pickup(final r = pickup_3 - pickup_2, final extra = 0.0) annotation(
     Placement(transformation(origin = {40, 0}, extent = {{-10, -10}, {10, 10}})));
+public
 equation
   connect(mount_frame, revolute.frame_a) annotation(
     Line(points = {{-100, 0}, {-80, 0}}));
@@ -67,4 +67,7 @@ equation
     Line(points = {{40, -20}, {30, -20}, {30, 0}}, color = {95, 95, 95}));
   connect(side_4.frame_a, third_pickup.frame_b) annotation(
     Line(points = {{50, 60}, {60, 60}, {60, 0}, {50, 0}}, color = {95, 95, 95}));
+  annotation(
+    Diagram(graphics),
+    Icon(graphics = {Line(points = {{-80, 0}, {0, -80}, {80, 0}, {0, 80}, {-80, 0}}, thickness = 3), Line(origin = {-90, 0}, points = {{10, 0}, {-10, 0}}), Ellipse(origin = {-80, 0}, fillColor = {255, 0, 0}, fillPattern = FillPattern.Solid, lineThickness = 2, extent = {{-10, 10}, {10, -10}}), Line(origin = {0, -90}, points = {{0, 10}, {0, -10}}), Line(origin = {90, 0}, points = {{-10, 0}, {10, 0}}), Line(origin = {0, 90}, points = {{0, -10}, {0, 10}}), Text(origin = {-40, -80}, extent = {{-20, -20}, {20, 20}}, textString = "P1"), Text(origin = {80, -40}, extent = {{-20, -20}, {20, 20}}, textString = "P2"), Text(origin = {40, 80}, extent = {{-20, -20}, {20, 20}}, textString = "P3")}));
 end Bellcrank3;
