@@ -28,7 +28,7 @@ model TestAxleDW
                                                     left_tie_mass=tie_mass,
                                                     link_diameter = link_diameter,
                                                     joint_diameter = joint_diameter)  annotation(
-    Placement(transformation(origin = {-1.45161e-05, 11}, extent = {{-40, -40}, {40, 40}})));
+    Placement(transformation(origin = {2.72478e-07, 6.44444}, extent = {{-34, -26.4444}, {34, 26.4444}})));
   
   Modelica.Mechanics.MultiBody.Parts.Fixed fixed(r = {FrAxle.wheel_center[1], 0, FrAxle.wheel_center[3]})  annotation(
     Placement(transformation(origin = {0, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
@@ -68,7 +68,7 @@ model TestAxleDW
     Placement(transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}})));
 equation
   connect(fixed.frame_b, AxleDW.axle_frame) annotation(
-    Line(points = {{0, -40}, {0, 25}}, color = {95, 95, 95}));
+    Line(points = {{0, -40}, {0, 16}}, color = {95, 95, 95}));
   connect(left_jounce_ramp.y, left_position.s_ref) annotation(
     Line(points = {{-41, 60}, {-49, 60}, {-49, 30}, {-58, 30}}, color = {0, 0, 127}));
   connect(right_jounce_ramp.y, right_position.s_ref) annotation(
@@ -84,9 +84,9 @@ equation
   connect(left_prismatic.frame_b, left_spherical.frame_a) annotation(
     Line(points = {{-70, -20}, {-40, -20}}, color = {95, 95, 95}));
   connect(left_spherical.frame_b, AxleDW.left_cp) annotation(
-    Line(points = {{-40, 0}, {-40, 11}}, color = {95, 95, 95}));
+    Line(points = {{-40, 0}, {-40, 5.5}, {-34, 5.5}, {-34, 6}}, color = {95, 95, 95}));
   connect(right_spherical.frame_b, AxleDW.right_cp) annotation(
-    Line(points = {{40, 0}, {40, 11}}, color = {95, 95, 95}));
+    Line(points = {{40, 0}, {40, 5.5}, {34, 5.5}, {34, 6}}, color = {95, 95, 95}));
   connect(right_spherical.frame_a, right_prismatic.frame_b) annotation(
     Line(points = {{40, -20}, {70, -20}}, color = {95, 95, 95}));
   connect(left_prismatic.frame_a, left_free_y.frame_b) annotation(
@@ -104,7 +104,7 @@ equation
   connect(steer_ramp.y, handwheel_angle.phi_ref) annotation(
     Line(points = {{-88, 80}, {-82, 80}}, color = {0, 0, 127}));
   connect(handwheel_angle.flange, AxleDW.pinion_flange) annotation(
-    Line(points = {{-60, 80}, {0, 80}, {0, 40}}));  
+    Line(points = {{-60, 80}, {0, 80}, {0, 25}}));  
 annotation(
     experiment(StartTime = 0, StopTime = 3, Tolerance = 1e-06, Interval = 0.002),
     __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian",
