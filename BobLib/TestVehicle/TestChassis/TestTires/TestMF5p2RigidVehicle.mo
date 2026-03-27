@@ -10,14 +10,15 @@ model TestMF5p2RigidVehicle
   Real long_LT;
   Real lat_LT;
   Real calc_RL;
+  
   // Tires
-  BobLib.Vehicle.Chassis.Tires.MF5p2Tire FL_tire  annotation(
+  BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF5p2Tire FL_tire  annotation(
     Placement(transformation(origin = {-70, 80}, extent = {{10, -10}, {-10, 10}})));
-  BobLib.Vehicle.Chassis.Tires.MF5p2Tire FR_tire  annotation(
+  BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF5p2Tire FR_tire  annotation(
     Placement(transformation(origin = {70, 80}, extent = {{-10, -10}, {10, 10}})));
-  BobLib.Vehicle.Chassis.Tires.MF5p2Tire RL_tire  annotation(
+  BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF5p2Tire RL_tire  annotation(
     Placement(transformation(origin = {-50, -20}, extent = {{10, -10}, {-10, 10}})));
-  BobLib.Vehicle.Chassis.Tires.MF5p2Tire RR_tire  annotation(
+  BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF5p2Tire RR_tire  annotation(
     Placement(transformation(origin = {50, -20}, extent = {{-10, -10}, {10, 10}})));
   Utilities.Mechanics.Multibody.GroundPhysics FL_ground annotation(
     Placement(transformation(origin = {-70, 40}, extent = {{-10, -10}, {10, 10}})));
@@ -39,9 +40,11 @@ model TestMF5p2RigidVehicle
     Placement(transformation(origin = {-46, 80}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
   Modelica.Mechanics.MultiBody.Joints.Revolute right_revolute(useAxisFlange = true)  annotation(
     Placement(transformation(origin = {46, 80}, extent = {{-10, -10}, {10, 10}})));
+
 protected
 
-// System inputs
+  // System inputs
+  
   // Ground interfaces
   Modelica.Mechanics.MultiBody.Parts.Fixed FL_fixed(r = {1, 1, 0}, animation = false)  annotation(
     Placement(transformation(origin = {-130, 40}, extent = {{-10, -10}, {10, 10}})));

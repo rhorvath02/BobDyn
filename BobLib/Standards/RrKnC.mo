@@ -12,14 +12,14 @@ parameter BobLib.Resources.Records.MASSPROPS.RrTie tie_mass;
 
 parameter BobLib.Resources.Records.TIRES.Rr_tire Rr_tire;
 
-extends BobLib.Standards.Templates.KnC(redeclare BobLib.Vehicle.Chassis.Suspension.RrAxleDWPullBCARBLocked Axle(RrAxle = RrAxle,
-                                                                                                                RrAxleBC=RrAxleBC,
-                                                                                                                unsprung_mass=unsprung_mass,
-                                                                                                                uca_mass=uca_mass,
-                                                                                                                lca_mass=lca_mass,
-                                                                                                                tie_mass=tie_mass,
-                                                                                                                link_diameter = 0.025,
-                                                                                                                joint_diameter = 0.030));
+extends BobLib.Standards.Templates.KnC(redeclare BobLib.Vehicle.Chassis.Suspension.FrAxleDW Axle(RrAxle = RrAxle,
+                                                                                                      RrAxleBC=RrAxleBC,
+                                                                                                      unsprung_mass=unsprung_mass,
+                                                                                                      uca_mass=uca_mass,
+                                                                                                      lca_mass=lca_mass,
+                                                                                                      tie_mass=tie_mass,
+                                                                                                      link_diameter = 0.025,
+                                                                                                      joint_diameter = 0.030));
 
 equation
 

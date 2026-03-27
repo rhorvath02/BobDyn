@@ -1,6 +1,6 @@
 within BobLib.Vehicle.Chassis.Suspension.Templates.DoubleWishbone;
 
-model WishboneUprightLoop
+model WishboneUprightLoop "Kinematic loop consisting of upright, lower wishbone, and upper wishbone"
   // Modelica units
   import Modelica.SIunits;
   // Modelica linalg
@@ -31,6 +31,7 @@ model WishboneUprightLoop
   parameter SIunits.Length joint_diameter annotation(
     Evaluate = true,
     Dialog(tab = "Animation"));
+  
   // Frames
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a upper_i_frame annotation(
     Placement(transformation(origin = {-100, 60}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-100, 70}, extent = {{-16, -16}, {16, 16}})));

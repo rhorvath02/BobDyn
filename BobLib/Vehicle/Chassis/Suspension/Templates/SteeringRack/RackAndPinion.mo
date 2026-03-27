@@ -1,6 +1,6 @@
 within BobLib.Vehicle.Chassis.Suspension.Templates.SteeringRack;
 
-model RackAndPinion
+model RackAndPinion "Rack and pinion"
   // Modelica units
   import Modelica.SIunits;
   

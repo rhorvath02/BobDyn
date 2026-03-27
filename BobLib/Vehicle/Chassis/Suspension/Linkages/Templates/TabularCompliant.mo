@@ -1,25 +1,26 @@
 within BobLib.Vehicle.Chassis.Suspension.Linkages.Templates;
 
-partial model TabularCompliant "Tabular translational spring with optional mass"
+partial model TabularCompliant "Base compliant element"
   import Modelica.Math.Vectors.normalize;
   import Modelica.Math.Vectors.norm;
   import Modelica.SIunits;
   
   final parameter Real eps = 1e-12 "regularization (m)" annotation(Dialog(group="Numerical"));
-  // Frames
-  // Force generation
-  Modelica.Mechanics.Translational.Sources.Force2 force annotation(
-    Placement(transformation(extent = {{-10, -10}, {10, 10}})));
   
+  // Frames
   Modelica.Mechanics.Translational.Interfaces.Flange_a flange_a annotation(
     Placement(transformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-100, 0}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.Translational.Interfaces.Flange_b flange_b annotation(
     Placement(transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}})));
 
+  // Force generation
+  Modelica.Mechanics.Translational.Sources.Force2 force annotation(
+    Placement(transformation(extent = {{-10, -10}, {10, 10}})));
+  
   Real s_rel;
 
 equation
-// Deflection calc
+  // Deflection calc
   s_rel = flange_b.s - flange_a.s;
   
   connect(force.flange_a, flange_a) annotation(

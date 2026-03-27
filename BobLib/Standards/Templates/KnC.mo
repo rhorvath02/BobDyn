@@ -12,15 +12,16 @@ partial model KnC
   final parameter Real right_Fx_table[:, 2] = [1, 0; 2, 0; 3, 1; 4, 0; 5, 0; 6, 1; 7, 0; 8, 0; 9, 1; 10, 0; 11, 0; 12, 1; 13, 0; 14, 0; 15, 1; 16, 0; 17, 0; 18, 0; 19, 0; 20, 0; 21, 0; 22, 0; 23, 0; 24, 0; 25, 0; 26, 0; 27, 0; 28, 0; 29, 0; 30, 0; 31, 0; 32, 0];
   final parameter Real left_Fy_table[:, 2] = [1, 0; 2, 0; 3, 0; 4, 0; 5, 0; 6, 0; 7, 0; 8, 0; 9, 0; 10, 0; 11, 0; 12, 0; 13, 0; 14, 0; 15, 0; 16, 0; 17, 0; 18, 0; 19, 1; 20, 0; 21, 0; 22, 1; 23, 0; 24, 0; 25, 1; 26, 0; 27, 0; 28, 1; 29, 0; 30, 0; 31, 1; 32, 0];
   final parameter Real right_Fy_table[:, 2] = [1, 0; 2, 0; 3, 0; 4, 0; 5, 0; 6, 0; 7, 0; 8, 0; 9, 0; 10, 0; 11, 0; 12, 0; 13, 0; 14, 0; 15, 0; 16, 0; 17, 0; 18, 0; 19, 1; 20, 0; 21, 0; 22, 1; 23, 0; 24, 0; 25, 1; 26, 0; 27, 0; 28, 1; 29, 0; 30, 0; 31, 1; 32, 0];
-  final parameter SIunits.Position left_cp_init[3] = Axle.left_double_wishbone.wheel_center + Frames.resolve1(Frames.axesRotations({1, 2, 3}, {Axle.left_double_wishbone.static_gamma*Modelica.Constants.pi/180, 0, Axle.left_double_wishbone.static_alpha*Modelica.Constants.pi/180}, {0, 0, 0}), {0, 0, -Axle.left_tire.R0});
-  final parameter SIunits.Position right_cp_init[3] = Axle.right_double_wishbone.wheel_center + Frames.resolve1(Frames.axesRotations({1, 2, 3}, {-Axle.right_double_wishbone.static_gamma*Modelica.Constants.pi/180, 0, Axle.right_double_wishbone.static_alpha*Modelica.Constants.pi/180}, {0, 0, 0}), {0, 0, -Axle.right_tire.R0});
+  final parameter SIunits.Position left_cp_init[3] = Axle.Axle.wheel_center + Frames.resolve1(Frames.axesRotations({1, 2, 3}, {Axle.Axle.static_gamma*Modelica.Constants.pi/180, 0, Axle.Axle.static_alpha*Modelica.Constants.pi/180}, {0, 0, 0}), {0, 0, -Axle.left_tire.R0});
+  final parameter SIunits.Position right_cp_init[3] = {left_cp_init[1], -left_cp_init[2], left_cp_init[3]};
+  
   inner Modelica.Mechanics.MultiBody.World world(n = {0, 0, -1}, g = 0) annotation(
     Placement(transformation(origin = {-150, -110}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.Fixed fixed(r = {0, 0, left_cp_init[3]}) annotation(
     Placement(transformation(origin = {0, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   // Replaceable axle definition
-  replaceable BobLib.Vehicle.Chassis.Suspension.FrAxleDWPushBCARBLocked Axle annotation(
-    Placement(transformation(origin = {0, 40}, extent = {{-10, -10}, {10, 10}})));
+  replaceable BobLib.Vehicle.Chassis.Suspension.FrAxleDW Axle annotation(
+    Placement(transformation(origin = {0, 40}, extent = {{-30, -30}, {30, 30}})));
   // Origin roll frame
   Modelica.Mechanics.MultiBody.Joints.Revolute roll_frame(n = {1, 0, 0}, useAxisFlange = true, phi(start = 0, fixed = true)) annotation(
     Placement(transformation(origin = {0, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
@@ -47,7 +48,7 @@ partial model KnC
     Placement(transformation(origin = {70, -30}, extent = {{10, -10}, {-10, 10}})));
   // Steer input
   Modelica.Blocks.Sources.Ramp steer_input(height = rack_position, duration = 1, offset = 0, startTime = 0) annotation(
-    Placement(transformation(origin = {-30, 70}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-90, 80}, extent = {{-10, -10}, {10, 10}})));
   // Instrumentation
   BobLib.Resources.Records.SENSING.SYSTEMS.WheelKinTelemetry left_wheel_kin_telemetry;
   BobLib.Resources.Records.SENSING.SYSTEMS.WheelKinTelemetry right_wheel_kin_telemetry;
@@ -77,6 +78,8 @@ partial model KnC
     Placement(transformation(origin = {130, -20}, extent = {{10, -10}, {-10, 10}})));
   Modelica.Mechanics.MultiBody.Sensors.CutForce sprung_loads(animation = false) annotation(
     Placement(transformation(origin = {0, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  Modelica.Mechanics.Rotational.Sources.Position handwheel_angle(exact = true) annotation(
+    Placement(transformation(origin = {-50, 80}, extent = {{-10, -10}, {10, 10}})));
 equation
   left_wheel_kin_telemetry.jounce = left_linear_actuator.u_position;
   left_wheel_kin_telemetry.gamma = Axle.left_tire.gamma;
@@ -114,8 +117,6 @@ equation
   right_wheel_kin_telemetry.stabar_angle = 0/*Axle.stabar.stabar_deflection.angle*/;
   connect(fixed.frame_b, roll_frame.frame_a) annotation(
     Line(points = {{0, -80}, {0, -70}}, color = {95, 95, 95}));
-  connect(fixedTranslation.frame_b, Axle.axle_frame) annotation(
-    Line(points = {{0, 20}, {0, 30}}, color = {95, 95, 95}));
   connect(roll_expression.y, roll_position.phi_ref) annotation(
     Line(points = {{-59, -60}, {-42, -60}}, color = {0, 0, 127}));
   connect(roll_position.support, roll_frame.support) annotation(
@@ -146,18 +147,22 @@ equation
     Line(points = {{30, 10}, {30, 0}}, color = {95, 95, 95}));
   connect(left_spherical.frame_a, left_linear_actuator.frame_b) annotation(
     Line(points = {{-30, 10}, {-30, 0}}, color = {95, 95, 95}));
-  connect(Axle.left_cp, left_spherical.frame_b) annotation(
-    Line(points = {{-10, 32}, {-30, 32}, {-30, 30}}, color = {95, 95, 95}));
-  connect(Axle.right_cp, right_spherical.frame_b) annotation(
-    Line(points = {{10, 32}, {30, 32}, {30, 30}}, color = {95, 95, 95}));
-  connect(Axle.left_hub, left_cp_force.frame_b) annotation(
-    Line(points = {{-10, 40}, {-60, 40}, {-60, 10}}, color = {95, 95, 95}));
-  connect(Axle.right_hub, right_cp_force.frame_b) annotation(
-    Line(points = {{10, 40}, {60, 40}, {60, 10}}, color = {95, 95, 95}));
   connect(left_linear_actuator.frame_a, sprung_loads.frame_a) annotation(
     Line(points = {{-30, -20}, {-30, -40}, {0, -40}}, color = {95, 95, 95}));
   connect(right_linear_actuator.frame_a, sprung_loads.frame_a) annotation(
     Line(points = {{30, -20}, {30, -40}, {0, -40}}, color = {95, 95, 95}));
+  connect(left_spherical.frame_b, Axle.left_cp) annotation(
+    Line(points = {{-30, 30}, {-30, 40}}, color = {95, 95, 95}));
+  connect(right_spherical.frame_b, Axle.right_cp) annotation(
+    Line(points = {{30, 30}, {30, 40}}, color = {95, 95, 95}));
+  connect(left_cp_force.frame_b, Axle.left_cp) annotation(
+    Line(points = {{-60, 10}, {-50, 10}, {-50, 40}, {-30, 40}}, color = {95, 95, 95}));
+  connect(right_cp_force.frame_b, Axle.right_cp) annotation(
+    Line(points = {{60, 10}, {50, 10}, {50, 40}, {30, 40}}, color = {95, 95, 95}));
+  connect(steer_input.y, handwheel_angle.phi_ref) annotation(
+    Line(points = {{-78, 80}, {-62, 80}}, color = {0, 0, 127}));
+  connect(handwheel_angle.flange, Axle.pinion_flange) annotation(
+    Line(points = {{-40, 80}, {0, 80}, {0, 62}}));
   annotation(
     experiment(StartTime = 0, StopTime = 32, Tolerance = 1e-05, Interval = 0.05),
     __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_STATS", s = "dassl", variableFilter = ".*", ls = "totalpivot", noEquidistantTimeGrid = "()"),

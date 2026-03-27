@@ -20,8 +20,8 @@ model TestAxleDW
   parameter Real right_cp_init[3] = {left_cp_init[1], -left_cp_init[2], left_cp_init[3]};
   
   BobLib.Vehicle.Chassis.Suspension.FrAxleDW AxleDW(Axle = FrAxle,
-                                                    redeclare BobLib.Vehicle.Chassis.Tires.BaseTire left_tire(tire=Fr_tire),
-                                                    redeclare BobLib.Vehicle.Chassis.Tires.BaseTire right_tire(tire=Fr_tire),
+                                                    redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire left_tire(tire=Fr_tire),
+                                                    redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire right_tire(tire=Fr_tire),
                                                     left_unsprung_mass=unsprung_mass,
                                                     left_uca_mass=uca_mass,
                                                     left_lca_mass=lca_mass,
@@ -42,7 +42,7 @@ model TestAxleDW
     Placement(transformation(origin = {-80, -20}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.Translational.Sources.Position left_position(exact = true, useSupport = true) annotation(
     Placement(transformation(origin = {-70, 30}, extent = {{10, -10}, {-10, 10}})));
-  Modelica.Blocks.Sources.Ramp left_jounce_ramp(duration = 1, height = 2*0.0254, startTime = 1) annotation(
+  Modelica.Blocks.Sources.Ramp left_jounce_ramp(duration = 1, height = 1*0.0254, startTime = 1) annotation(
     Placement(transformation(origin = {-30, 60}, extent = {{10, -10}, {-10, 10}})));
   Modelica.Mechanics.MultiBody.Joints.Prismatic left_free_x(animation = false, n = {1, 0, 0}) annotation(
     Placement(transformation(origin = {-80, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
@@ -60,7 +60,7 @@ model TestAxleDW
     Placement(transformation(origin = {50, -60}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.Translational.Sources.Position right_position(exact = true, useSupport = true) annotation(
     Placement(transformation(origin = {70, 30}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.Ramp right_jounce_ramp(duration = 1, height = 2*0.0254, startTime = 1) annotation(
+  Modelica.Blocks.Sources.Ramp right_jounce_ramp(duration = 1, height = -1*0.0254, startTime = 1) annotation(
     Placement(transformation(origin = {30, 60}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.Rotational.Sources.Position handwheel_angle(exact = true) annotation(
     Placement(transformation(origin = {-70, 80}, extent = {{-10, -10}, {10, 10}})));

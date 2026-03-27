@@ -1,0 +1,30 @@
+within BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics;
+
+model Wheel1DOF_Y
+  // Modelica units
+  import Modelica.SIunits;
+  
+  // Modelica linalg
+  import Modelica.Math.Vectors.normalize;
+  import Modelica.Math.Vectors.norm;
+  
+  extends BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Templates.PartialWheel(inertia(J = wheel_J));
+  
+  // Mass parameters
+  parameter SIunits.Inertia wheel_J "Effective inertia of rotating mass" annotation(Dialog(group = "Mass Properties"));
+  
+  Modelica.Mechanics.Translational.Components.Rod fixed_radius(L = R0)  annotation(
+    Placement(transformation(origin = {-30, -46}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
+  Modelica.Mechanics.Rotational.Interfaces.Flange_b hub_frame annotation(
+    Placement(transformation(origin = {-100, 40}, extent = {{-10, -10}, {10, 10}}), iconTransformation(extent = {{-10, -10}, {10, 10}})));
+equation
+  connect(fixed_radius.flange_a, prismatic_z.support) annotation(
+    Line(points = {{-30, -36}, {-6, -36}}, color = {0, 127, 0}));
+  connect(fixed_radius.flange_b, prismatic_z.axis) annotation(
+    Line(points = {{-30, -56}, {-20, -56}, {-20, -48}, {-6, -48}}, color = {0, 127, 0}));
+  connect(hub_frame, inertia.flange_a) annotation(
+    Line(points = {{-100, 40}, {20, 40}, {20, 30}, {30, 30}}));
+  annotation(
+    experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002),
+  Icon(graphics = {Ellipse(fillPattern = FillPattern.Solid, lineThickness = 2, extent = {{-15, -15}, {15, 15}}), Line(origin = {0, -81}, points = {{0, -19}, {0, 19}}, thickness = 5)}));
+end Wheel1DOF_Y;
