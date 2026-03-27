@@ -8,14 +8,10 @@ partial model PartialWheel
   import Modelica.Math.Vectors.normalize;
   import Modelica.Math.Vectors.norm;
 
-  // Dimensional parameters
-  parameter SIunits.Length R0 "Tire unloaded static radius" annotation(
-    Dialog(group = "Dimensions"));
-  parameter SIunits.Length rim_R0 = R0*0.625 "Rim unloaded static radius" annotation(
-    Dialog(group = "Dimensions"));
-  parameter SIunits.Length rim_width = rim_R0*1.4 "Rim unloaded width" annotation(
-    Dialog(group = "Dimensions"));
-
+  // Load parameters
+  replaceable record PartialWheelParams = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.Templates.PartialWheelRecord;
+  parameter PartialWheelParams dimensions;
+  
   // Frames
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a cp_frame annotation(
     Placement(transformation(origin = {0, -100}, extent = {{-16, -16}, {16, 16}}, rotation = -90), iconTransformation(origin = {0, -100}, extent = {{-16, -16}, {16, 16}}, rotation = 90)));
@@ -51,7 +47,7 @@ partial model PartialWheel
     Placement(transformation(origin = {90, -50}, extent = {{-10, -10}, {10, 10}})));
 
   // Visualizers
-  Modelica.Mechanics.MultiBody.Visualizers.VoluminousWheel voluminous_wheel(rRim = rim_R0, rTire = R0, width = rim_width) annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.VoluminousWheel voluminous_wheel(rRim = dimensions.rim_R0, rTire = dimensions.R0, width = dimensions.rim_width) annotation(
     Placement(transformation(origin = {70, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
 
 equation
