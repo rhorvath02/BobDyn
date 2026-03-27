@@ -21,7 +21,7 @@ model FrAxleDW
     Evaluate = false);
   parameter BobLib.Resources.Records.TIRES.Fr_tire Fr_tire annotation(
     Evaluate = false);
-  extends BobLib.Vehicle.Chassis.Suspension.Templates.AxleDW(Axle = FrAxle, left_unsprung_mass = unsprung_mass, left_uca_mass = uca_mass, left_lca_mass = lca_mass, left_tie_mass = tie_mass, LeftTieClosure(kinematic_constraint = false), RightTieClosure(kinematic_constraint = false));
+  extends BobLib.Vehicle.Chassis.Suspension.Templates.AxleDW(Axle = FrAxle, left_unsprung_mass = unsprung_mass, left_uca_mass = uca_mass, left_lca_mass = lca_mass, left_tie_mass = tie_mass);
   // left bellcrank
   final Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_bellcrank(r = AxleBC.bellcrank_pivot - effective_center, animation = false) annotation(
     Placement(transformation(origin = {-20, -20}, extent = {{10, -10}, {-10, 10}})));
@@ -30,7 +30,7 @@ model FrAxleDW
   final Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_bellcrank(r = {AxleBC.bellcrank_pivot[1], -AxleBC.bellcrank_pivot[2], AxleBC.bellcrank_pivot[3]} - effective_center, animation = false) annotation(
     Placement(transformation(origin = {20, -20}, extent = {{-10, -10}, {10, 10}})));
   // right shock
-  final BobLib.Vehicle.Chassis.Suspension.Linkages.Rod right_pushrod(r_a = Vector.mirrorXZ(AxleBC.bellcrank_pickup_2), r_b = Vector.mirrorXZ(AxleBC.rod_mount), n1_a = normalize(Vector.mirrorXZ(AxleBC.bellcrank_pivot_axis)), link_diameter = link_diameter, joint_diameter = joint_diameter, kinematic_constraint = false) annotation(
+  final BobLib.Vehicle.Chassis.Suspension.Linkages.Rod right_pushrod(r_a = Vector.mirrorXZ(AxleBC.bellcrank_pickup_2), r_b = Vector.mirrorXZ(AxleBC.rod_mount), n1_a = normalize(Vector.mirrorXZ(AxleBC.bellcrank_pivot_axis)), link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
     Placement(transformation(origin = {120, -20}, extent = {{20, -20}, {-20, 20}}, rotation = -180)));
   // Fr Stabar
   Modelica.Mechanics.Rotational.Interfaces.Flange_a pinion_flange annotation(
@@ -58,7 +58,7 @@ model FrAxleDW
     Placement(transformation(origin = {0, -116}, extent = {{20, -20}, {-20, 20}}, rotation = -180)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_stabar(r = {AxleBC.left_bar_end[1], 0, AxleBC.left_bar_end[3]} - effective_center, animation = false)  annotation(
     Placement(transformation(origin = {0, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Mechanics.MultiBody.Joints.SphericalSpherical right_droplink(rodLength = norm({AxleBC.bellcrank_pickup_1[1], -AxleBC.bellcrank_pickup_1[2], AxleBC.bellcrank_pickup_1[3]} - {AxleBC.left_arm_end[1], -AxleBC.left_arm_end[2], AxleBC.left_arm_end[3]}), sphereDiameter = joint_diameter, rodDiameter = link_diameter, kinematicConstraint = false) annotation(
+  Modelica.Mechanics.MultiBody.Joints.SphericalSpherical right_droplink(rodLength = norm({AxleBC.bellcrank_pickup_1[1], -AxleBC.bellcrank_pickup_1[2], AxleBC.bellcrank_pickup_1[3]} - {AxleBC.left_arm_end[1], -AxleBC.left_arm_end[2], AxleBC.left_arm_end[3]}), sphereDiameter = joint_diameter, rodDiameter = link_diameter) annotation(
     Placement(transformation(origin = {70, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   Modelica.Mechanics.MultiBody.Joints.SphericalSpherical left_droplink(rodLength = norm(AxleBC.bellcrank_pickup_1 - AxleBC.left_arm_end), sphereDiameter = joint_diameter, rodDiameter = link_diameter) annotation(
     Placement(transformation(origin = {-70, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));

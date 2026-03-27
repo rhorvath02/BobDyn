@@ -107,5 +107,6 @@ annotation(
     experiment(StartTime = 0, StopTime = 3, Tolerance = 1e-06, Interval = 0.002),
     __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian",
   Diagram(coordinateSystem(extent = {{-120, -100}, {120, 100}})),
-  Icon(coordinateSystem(extent = {{-120, -100}, {120, 100}})));
+  Icon(coordinateSystem(extent = {{-120, -100}, {120, 100}})),
+  __OpenModelica_simulationFlags(lv = "LOG_STDOUT,LOG_ASSERT,LOG_INIT,LOG_STATS", s = "dassl", variableFilter = ".*"));
 end TestAxleDW;

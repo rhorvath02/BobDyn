@@ -42,7 +42,7 @@ model ShockLinkage
     Placement(transformation(origin = {70, 0}, extent = {{-10, -10}, {10, 10}})));
 
   // Shock axis
-  Modelica.Mechanics.MultiBody.Joints.Prismatic left_shock_axis(boxWidth = joint_diameter*0.5, n = normalize(r_b - r_a), useAxisFlange = true) annotation(
+  Modelica.Mechanics.MultiBody.Joints.Prismatic shock_axis(boxWidth = joint_diameter*0.5, n = normalize(r_b - r_a), useAxisFlange = true, s(start = norm(r_b - r_a))) annotation(
     Placement(transformation(extent = {{-10, -10}, {10, 10}})));
   
   // Force elements
@@ -54,19 +54,19 @@ model ShockLinkage
 equation
   connect(frame_a, to_shock_joint.frame_a) annotation(
     Line(points = {{-100, 0}, {-80, 0}}));
-  connect(to_shock_joint.frame_b, left_shock_axis.frame_a) annotation(
+  connect(to_shock_joint.frame_b, shock_axis.frame_a) annotation(
     Line(points = {{-60, 0}, {-10, 0}}, color = {95, 95, 95}));
-  connect(left_shock_axis.frame_b, from_shock_joint.frame_a) annotation(
+  connect(shock_axis.frame_b, from_shock_joint.frame_a) annotation(
     Line(points = {{10, 0}, {60, 0}}, color = {95, 95, 95}));
   connect(from_shock_joint.frame_b, frame_b) annotation(
     Line(points = {{80, 0}, {100, 0}}, color = {95, 95, 95}));
-  connect(TabularSpring.flange_a, left_shock_axis.support) annotation(
+  connect(TabularSpring.flange_a, shock_axis.support) annotation(
     Line(points = {{-10, 30}, {-20, 30}, {-20, 6}, {-4, 6}}, color = {0, 127, 0}));
-  connect(TabularSpring.flange_b, left_shock_axis.axis) annotation(
+  connect(TabularSpring.flange_b, shock_axis.axis) annotation(
     Line(points = {{10, 30}, {20, 30}, {20, 6}, {8, 6}}, color = {0, 127, 0}));
-  connect(TabularDamper.flange_a, left_shock_axis.support) annotation(
+  connect(TabularDamper.flange_a, shock_axis.support) annotation(
     Line(points = {{-10, 50}, {-20, 50}, {-20, 6}, {-4, 6}}, color = {0, 127, 0}));
-  connect(TabularDamper.flange_b, left_shock_axis.axis) annotation(
+  connect(TabularDamper.flange_b, shock_axis.axis) annotation(
     Line(points = {{10, 50}, {20, 50}, {20, 6}, {8, 6}}, color = {0, 127, 0}));
   annotation(
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002),
