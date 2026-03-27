@@ -8,7 +8,11 @@ model Wheel1DOF_Y
   import Modelica.Math.Vectors.normalize;
   import Modelica.Math.Vectors.norm;
   
-  extends BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Templates.PartialWheel(inertia(J = wheel_J));
+  // Load parameters
+  replaceable record Wheel1DOF_YRecord = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.Wheel1DOF_YRecord;
+  parameter Wheel1DOF_YRecord wheel1DOF_YParams;
+  
+  extends BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Templates.PartialWheel(inertia(J = wheel1DOF_YParams.wheel_J));
   
   // Mass parameters
   parameter SIunits.Inertia wheel_J "Effective inertia of rotating mass" annotation(Dialog(group = "Mass Properties"));

@@ -10,7 +10,7 @@ partial model PartialWheel
 
   // Load parameters
   replaceable record PartialWheelRecord = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.Templates.PartialWheelRecord;
-  parameter PartialWheelRecord dimensions;
+  parameter PartialWheelRecord partialWheelParams;
   
   // Frames
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a cp_frame annotation(
@@ -47,7 +47,7 @@ partial model PartialWheel
     Placement(transformation(origin = {90, -50}, extent = {{-10, -10}, {10, 10}})));
 
   // Visualizers
-  Modelica.Mechanics.MultiBody.Visualizers.VoluminousWheel voluminous_wheel(rRim = dimensions.rim_R0, rTire = dimensions.R0, width = dimensions.rim_width) annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.VoluminousWheel voluminous_wheel(rRim = partialWheelParams.rim_R0, rTire = partialWheelParams.R0, width = partialWheelParams.rim_width) annotation(
     Placement(transformation(origin = {70, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
 
 equation
