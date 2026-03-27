@@ -4,10 +4,6 @@ model Wheel1DOF_Z
   // Modelica units
   import Modelica.SIunits;
   
-  // Modelica linalg
-  import Modelica.Math.Vectors.normalize;
-  import Modelica.Math.Vectors.norm;
-  
   // Load parameters
   replaceable record Wheel1DOF_ZRecord = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.Wheel1DOF_ZRecord;
   parameter Wheel1DOF_ZRecord wheel1DOF_ZParams;

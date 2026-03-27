@@ -4,10 +4,6 @@ partial model PartialWheel
   // Modelica units
   import Modelica.SIunits;
 
-  // Modelica linalg
-  import Modelica.Math.Vectors.normalize;
-  import Modelica.Math.Vectors.norm;
-
   // Load parameters
   replaceable record PartialWheelRecord = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.Templates.PartialWheelRecord;
   parameter PartialWheelRecord partialWheelParams;
