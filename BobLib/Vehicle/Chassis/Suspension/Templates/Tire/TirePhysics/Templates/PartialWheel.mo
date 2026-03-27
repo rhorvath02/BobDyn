@@ -9,8 +9,8 @@ partial model PartialWheel
   import Modelica.Math.Vectors.norm;
 
   // Load parameters
-  replaceable record PartialWheelParams = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.Templates.PartialWheelRecord;
-  parameter PartialWheelParams dimensions;
+  replaceable record PartialWheelRecord = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.Templates.PartialWheelRecord;
+  parameter PartialWheelRecord dimensions;
   
   // Frames
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a cp_frame annotation(
