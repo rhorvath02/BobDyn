@@ -36,7 +36,7 @@ model:
 	@mkdir -p $(FS_PATH)
 	@echo "within $(path);" > $(FS_PATH)/$(name).mo
 	@echo "model $(name)" >> $(FS_PATH)/$(name).mo
-	@echo "  // TODO: add contents" >> $(FS_PATH)/$(name).mo
+	@echo "" >> $(FS_PATH)/$(name).mo
 	@echo "end $(name);" >> $(FS_PATH)/$(name).mo
 	@echo "Created model: $(FS_PATH)/$(name).mo"
 	@if [ -f $(FS_PATH)/package.order ]; then \
@@ -62,7 +62,7 @@ package:
 	@mkdir -p $(FS_PATH)/$(name)
 	@echo "within $(path);" > $(FS_PATH)/$(name)/package.mo
 	@echo "package $(name)" >> $(FS_PATH)/$(name)/package.mo
-	@echo "  // TODO: add contents" >> $(FS_PATH)/$(name)/package.mo
+	@echo "" >> $(FS_PATH)/$(name)/package.mo
 	@echo "end $(name);" >> $(FS_PATH)/$(name)/package.mo
 	@touch $(FS_PATH)/$(name)/package.order
 	@echo "Created package: $(FS_PATH)/$(name)"
