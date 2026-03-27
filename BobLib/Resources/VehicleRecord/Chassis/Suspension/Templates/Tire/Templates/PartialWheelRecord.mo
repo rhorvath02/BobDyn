@@ -5,7 +5,7 @@ record PartialWheelRecord
   import Modelica.SIunits;
   
   // Dimensions
-  parameter SIunits.Length R0 "Tire unloaded static radius" annotation(
+  parameter SIunits.Length R0 = 8 * 0.0254 "Tire unloaded static radius" annotation(
     Dialog(group = "Dimensions"));
   parameter SIunits.Length rim_R0 = R0*0.625 "Rim unloaded static radius" annotation(
     Dialog(group = "Dimensions"));

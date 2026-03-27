@@ -6,7 +6,6 @@ model FrAxleDW
   // Modelica linalg
   import Modelica.Math.Vectors.normalize;
   import Modelica.Math.Vectors.norm;
-  
   // Custom linalg
   import BobLib.Utilities.Math.Vector;
   
@@ -22,7 +21,7 @@ model FrAxleDW
     Evaluate = false);
   parameter BobLib.Resources.Records.TIRES.Fr_tire Fr_tire annotation(
     Evaluate = false);
-  extends BobLib.Vehicle.Chassis.Suspension.Templates.AxleDW(Axle = FrAxle, left_unsprung_mass = unsprung_mass, left_uca_mass = uca_mass, left_lca_mass = lca_mass, left_tie_mass = tie_mass, final left_tire(rim_width = Fr_tire.RIM_WIDTH, rim_R0 = Fr_tire.RIM_RADIUS, R0 = Fr_tire.UNLOADED_RADIUS, tire_c = Fr_tire.VERTICAL_STIFFNESS, tire_d = Fr_tire.VERTICAL_DAMPING, FNOMIN = Fr_tire.FNOMIN, tire = Fr_tire), final right_tire(rim_width = Fr_tire.RIM_WIDTH, rim_R0 = Fr_tire.RIM_RADIUS, R0 = Fr_tire.UNLOADED_RADIUS, tire_c = Fr_tire.VERTICAL_STIFFNESS, tire_d = Fr_tire.VERTICAL_DAMPING, FNOMIN = Fr_tire.FNOMIN, tire = Fr_tire), LeftTieClosure(kinematic_constraint = false), RightTieClosure(kinematic_constraint = false));
+  extends BobLib.Vehicle.Chassis.Suspension.Templates.AxleDW(Axle = FrAxle, left_unsprung_mass = unsprung_mass, left_uca_mass = uca_mass, left_lca_mass = lca_mass, left_tie_mass = tie_mass, LeftTieClosure(kinematic_constraint = false), RightTieClosure(kinematic_constraint = false));
   // left bellcrank
   final Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_bellcrank(r = AxleBC.bellcrank_pivot - effective_center, animation = false) annotation(
     Placement(transformation(origin = {-20, -20}, extent = {{10, -10}, {-10, 10}})));
@@ -31,7 +30,7 @@ model FrAxleDW
   final Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_bellcrank(r = {AxleBC.bellcrank_pivot[1], -AxleBC.bellcrank_pivot[2], AxleBC.bellcrank_pivot[3]} - effective_center, animation = false) annotation(
     Placement(transformation(origin = {20, -20}, extent = {{-10, -10}, {10, 10}})));
   // right shock
-  final BobLib.Vehicle.Chassis.Suspension.Linkages.Rod right_pushrod(r_a = Vector.mirrorXZ(AxleBC.bellcrank_pickup_2), r_b = Vector.mirrorXZ(AxleBC.rod_mount), n1_a = Vector.mirrorXZ(AxleBC.bellcrank_pivot_axis), link_diameter = link_diameter, joint_diameter = joint_diameter, kinematic_constraint = false) annotation(
+  final BobLib.Vehicle.Chassis.Suspension.Linkages.Rod right_pushrod(r_a = Vector.mirrorXZ(AxleBC.bellcrank_pickup_2), r_b = Vector.mirrorXZ(AxleBC.rod_mount), n1_a = normalize(Vector.mirrorXZ(AxleBC.bellcrank_pivot_axis)), link_diameter = link_diameter, joint_diameter = joint_diameter, kinematic_constraint = false) annotation(
     Placement(transformation(origin = {120, -20}, extent = {{20, -20}, {-20, 20}}, rotation = -180)));
   // Fr Stabar
   Modelica.Mechanics.Rotational.Interfaces.Flange_a pinion_flange annotation(
@@ -44,7 +43,7 @@ model FrAxleDW
     Placement(transformation(origin = {-20, -70}, extent = {{10, -10}, {-10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_shock(r = {AxleBC.shock_mount[1], -AxleBC.shock_mount[2], AxleBC.shock_mount[3]} - effective_center, animation = false) annotation(
     Placement(transformation(origin = {20, -70}, extent = {{-10, -10}, {10, 10}})));
-  BobLib.Vehicle.Chassis.Suspension.Linkages.Rod left_pushrod(r_a = AxleBC.bellcrank_pickup_2, r_b = AxleBC.rod_mount, n1_a = AxleBC.bellcrank_pivot_axis, link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
+  BobLib.Vehicle.Chassis.Suspension.Linkages.Rod left_pushrod(r_a = AxleBC.bellcrank_pickup_2, r_b = AxleBC.rod_mount, n1_a = normalize(AxleBC.bellcrank_pivot_axis), link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
     Placement(transformation(origin = {-120, -20}, extent = {{20, -20}, {-20, 20}})));
   
   Linkages.Bellcrank3 left_bellcrank(pivot = AxleBC.bellcrank_pivot, pivot_axis = AxleBC.bellcrank_pivot_axis, pickup_1 = AxleBC.bellcrank_pickup_1, pickup_2 = AxleBC.bellcrank_pickup_2, pickup_3 = AxleBC.bellcrank_pickup_3, link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(

@@ -20,8 +20,6 @@ model TestAxleDW
   parameter Real right_cp_init[3] = {left_cp_init[1], -left_cp_init[2], left_cp_init[3]};
   
   BobLib.Vehicle.Chassis.Suspension.FrAxleDW AxleDW(Axle = FrAxle,
-                                                    redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire left_tire(tire=Fr_tire),
-                                                    redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire right_tire(tire=Fr_tire),
                                                     left_unsprung_mass=unsprung_mass,
                                                     left_uca_mass=uca_mass,
                                                     left_lca_mass=lca_mass,

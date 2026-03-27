@@ -58,10 +58,11 @@ model AxleDW
     Placement(transformation(origin = {160, 0}, extent = {{16, -16}, {-16, 16}}, rotation = -90), iconTransformation(origin = {180, 0}, extent = {{-16, -16}, {16, 16}})));
   // Double wishbone assemblies
   // Tires
-  replaceable BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF5p2Tire left_tire annotation(
+  replaceable BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTireV2 left_tire annotation(
     Placement(transformation(origin = {-160, 50}, extent = {{10, -10}, {-10, 10}})));
-  replaceable BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF5p2Tire right_tire annotation(
+  replaceable BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTireV2 right_tire annotation(
     Placement(transformation(origin = {160, 50}, extent = {{-10, -10}, {10, 10}})));
+  
   // Wheel torque inputs
   Modelica.Mechanics.Rotational.Interfaces.Flange_b left_torque annotation(
     Placement(transformation(origin = {-180, 50}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-180, 50}, extent = {{-10, -10}, {10, 10}})));
@@ -116,9 +117,9 @@ equation
     Line(points = {{-160, 0}, {-160, 40}}));
   connect(right_cp, right_tire.cp_frame) annotation(
     Line(points = {{160, 0}, {160, 40}}));
-  connect(left_torque, left_tire.hub_input) annotation(
+  connect(left_torque, left_tire.hub_flange) annotation(
     Line(points = {{-180, 50}, {-170, 50}}));
-  connect(right_torque, right_tire.hub_input) annotation(
+  connect(right_torque, right_tire.hub_flange) annotation(
     Line(points = {{180, 50}, {170, 50}}));
   connect(axle_frame, to_left_lower_i.frame_a) annotation(
     Line(points = {{0, 0}, {0, 30}, {-10, 30}}));
@@ -169,7 +170,7 @@ equation
   connect(right_lca_body.frame_a, RightWishboneUprightLoop.lower_o_frame) annotation(
     Line(points = {{120, 12}, {70, 12}, {70, 22}}, color = {95, 95, 95}));
   connect(left_unsprung_body.frame_a, left_tire.chassis_frame) annotation(
-    Line(points = {{-160, 80}, {-140, 80}, {-140, 50}, {-148, 50}}, color = {95, 95, 95}));
+    Line(points = {{-160, 80}, {-140, 80}, {-140, 50}, {-150, 50}}, color = {95, 95, 95}));
   connect(right_unsprung_body.frame_a, right_tire.chassis_frame) annotation(
     Line(points = {{160, 80}, {140, 80}, {140, 50}, {152, 50}}, color = {95, 95, 95}));
   annotation(
