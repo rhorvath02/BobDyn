@@ -8,18 +8,17 @@ model Wheel1DOF_Z
   import Modelica.Math.Vectors.normalize;
   import Modelica.Math.Vectors.norm;
   
-  extends BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Templates.PartialWheel(inertia(J = wheel_J));
+  // Load parameters
+  replaceable record Wheel1DOF_ZRecord = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.Wheel1DOF_ZRecord;
+  parameter Wheel1DOF_ZRecord wheel1DOF_ZParams;
   
-  // Rate parameters
-  parameter SIunits.TranslationalSpringConstant tire_c "Wheel vertical stiffness" annotation(
-    Dialog(group = "Rate Properties"));
-  parameter SIunits.TranslationalDampingConstant tire_d "Wheel vertical damping" annotation(
-    Dialog(group = "Rate Properties"));
+  extends BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Templates.PartialWheel(inertia(J = 0.01));
   
-  Modelica.Mechanics.Translational.Components.SpringDamper spring_damper(c = tire_c, d = tire_d, s_rel0 = R0)  annotation(
+  Modelica.Mechanics.Translational.Components.SpringDamper spring_damper(c = wheel1DOF_ZParams.tire_c, d = wheel1DOF_ZParams.tire_d, s_rel0 = partialWheelParams.R0)  annotation(
     Placement(transformation(origin = {-30, -46}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Parts.Mounting1D rotational_lock annotation(
     Placement(transformation(origin = {-10, 30}, extent = {{-10, -10}, {10, 10}})));
+
 equation
   connect(spring_damper.flange_a, prismatic_z.support) annotation(
     Line(points = {{-30, -36}, {-6, -36}}, color = {0, 127, 0}));

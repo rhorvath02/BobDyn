@@ -14,13 +14,11 @@ model Wheel1DOF_Y
   
   extends BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Templates.PartialWheel(inertia(J = wheel1DOF_YParams.wheel_J));
   
-  // Mass parameters
-  parameter SIunits.Inertia wheel_J "Effective inertia of rotating mass" annotation(Dialog(group = "Mass Properties"));
-  
-  Modelica.Mechanics.Translational.Components.Rod fixed_radius(L = R0)  annotation(
+  Modelica.Mechanics.Translational.Components.Rod fixed_radius(L = partialWheelParams.R0)  annotation(
     Placement(transformation(origin = {-30, -46}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Mechanics.Rotational.Interfaces.Flange_b hub_frame annotation(
     Placement(transformation(origin = {-100, 40}, extent = {{-10, -10}, {10, 10}}), iconTransformation(extent = {{-10, -10}, {10, 10}})));
+
 equation
   connect(fixed_radius.flange_a, prismatic_z.support) annotation(
     Line(points = {{-30, -36}, {-6, -36}}, color = {0, 127, 0}));
