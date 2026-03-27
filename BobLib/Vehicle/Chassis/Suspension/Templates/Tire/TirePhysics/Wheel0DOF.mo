@@ -4,7 +4,7 @@ model Wheel0DOF
   // Modelica units
   import Modelica.SIunits;
   
-  extends BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Templates.PartialWheel(inertia(J = 0.01));
+  extends BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Templates.PartialWheel(inertia(J = 0.01), prismatic_z(stateSelect = StateSelect.never));
   
   Modelica.Mechanics.MultiBody.Parts.Mounting1D rotational_lock annotation(
     Placement(transformation(origin = {-10, 30}, extent = {{-10, -10}, {10, 10}})));
@@ -23,6 +23,6 @@ equation
     Line(points = {{-30, -56}, {-20, -56}, {-20, -48}, {-6, -48}}, color = {0, 127, 0}));
   annotation(
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002),
-  Icon(graphics = {Ellipse(fillPattern = FillPattern.Solid, lineThickness = 2, extent = {{-15, -15}, {15, 15}}), Line(origin = {0, -81}, points = {{0, -19}, {0, 19}}, thickness = 5)}),
+  Icon(graphics = {Ellipse(fillPattern = FillPattern.Solid, lineThickness = 2, extent = {{-15, -15}, {15, 15}}), Line(origin = {0, -81}, points = {{0, -19}, {0, 19}}, thickness = 5), Text(origin = {1, 4}, textColor = {255, 0, 0}, extent = {{-81, 100}, {81, -100}}, textString = "0DOF")}),
   Diagram(graphics));
 end Wheel0DOF;

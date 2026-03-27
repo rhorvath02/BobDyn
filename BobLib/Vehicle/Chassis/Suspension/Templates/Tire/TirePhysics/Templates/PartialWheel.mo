@@ -45,6 +45,8 @@ partial model PartialWheel
   // Visualizers
   Modelica.Mechanics.MultiBody.Visualizers.VoluminousWheel voluminous_wheel(rRim = partialWheelParams.rim_R0, rTire = partialWheelParams.R0, width = partialWheelParams.rim_width) annotation(
     Placement(transformation(origin = {70, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
+  Modelica.Mechanics.Rotational.Interfaces.Flange_b hub_flange annotation(
+    Placement(transformation(origin = {-100, 40}, extent = {{-10, -10}, {10, 10}}), iconTransformation(extent = {{-10, -10}, {10, 10}})));
 
 equation
   connect(hub_axis.axis, inertia.flange_a) annotation(
@@ -73,6 +75,8 @@ equation
     Line(points = {{40, 60}, {60, 60}, {60, 30}, {50, 30}}));
   connect(wheel_rot_speed_sensor.flange, inertia.flange_b) annotation(
     Line(points = {{80, 50}, {60, 50}, {60, 30}, {50, 30}}));
+  connect(hub_flange, inertia.flange_a) annotation(
+    Line(points = {{-100, 40}, {20, 40}, {20, 30}, {30, 30}}));
   annotation(
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002),
     Diagram(graphics),
