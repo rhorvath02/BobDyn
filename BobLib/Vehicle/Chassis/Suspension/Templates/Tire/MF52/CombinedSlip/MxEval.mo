@@ -1,27 +1,18 @@
-within BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52;
-function My_eval
+within BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.CombinedSlip;
+function MxEval
   import Modelica.SIunits;
   
   // Tire inputs
   input SIunits.Force Fz "Normal force acting on tire";
+  input SIunits.Force Fy "Lateral force acting on tire";
   input SIunits.Angle alpha "Slip angle, in radians";
   input SIunits.DimensionlessRatio kappa "Slip ratio, unitless";
   input SIunits.Angle gamma "Inclination angle, in radians";
   
-  // Pure rolling resistance coeffs
-  input Real QSY1;
-  input Real QSY2;
-  input Real QSY3;
-  input Real QSY4;
-
-  // Pure long coeffs (needed for MF52 My calculation)
-  input Real PKX1;
-  input Real PKX2;
-  input Real PKX3;
-  input Real PHX1;
-  input Real PHX2;
-  input Real PVX1;
-  input Real PVX2;
+  // Pure overturning coeffs
+  input Real QSX1;
+  input Real QSX2;
+  input Real QSX3;
   
   // Scaling coeffs
   input Real LFZO;
@@ -63,31 +54,13 @@ function My_eval
   input Real R0;
 
   // Outputs
-  output SIunits.Force My;
+  output SIunits.Force Mx;
 
-protected
-  Real df_z;
-  Real K_x;
-  Real S_Hx;
-  Real S_Vx;
-  
 algorithm
   if Fz > 1e-3 then
-    df_z := (Fz - FNOMIN * LFZO) / (FNOMIN * LFZO);
-  
-    K_x := Fz * (PKX1 + PKX2 * df_z) * exp(PKX3 * df_z) * LKX;
-  
-    S_Hx := (PHX1 + PHX2 * df_z) * LHX;
-    S_Vx := Fz * (PVX1 + PVX2 * df_z) * LVX * LMUX;
-  
-    My := R0 * (S_Vx + K_x * S_Hx);
+    Mx := R0 * Fz * (QSX1 * LVMX + (-1 * QSX2 * gamma + QSX3 * Fy / FNOMIN) * LMX);
   else
-    df_z := 0;
-    K_x := 0;
-    S_Hx := 0;
-    S_Vx := 0;
-    
-    My := 0;
+    Mx := 0;
   end if;
   
-end My_eval;
+end MxEval;

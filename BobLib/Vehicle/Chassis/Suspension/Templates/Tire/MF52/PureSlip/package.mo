@@ -1,4 +1,4 @@
 within BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52;
-package Records
+package PureSlip
 
-end Records;
+end PureSlip;

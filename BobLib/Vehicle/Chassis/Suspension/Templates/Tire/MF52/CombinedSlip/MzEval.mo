@@ -1,6 +1,6 @@
-within BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52;
+within BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.CombinedSlip;
 
-function Mz_eval
+function MzEval
   import Modelica.SIunits;
   
   // Tire inputs
@@ -242,4 +242,4 @@ algorithm
     Mz_out := 0;
   end if;
   
-end Mz_eval;
+end MzEval;

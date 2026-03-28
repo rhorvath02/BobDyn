@@ -1,6 +1,6 @@
 within BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52;
 
-function Mz_eval_record
+function MzEval_record
   import BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.Records.Mz_record;
   import Modelica.SIunits;
   
@@ -249,4 +249,4 @@ algorithm
     Mz_out.Mz := 0;
   end if;
   
-end Mz_eval_record;
+end MzEval_record;

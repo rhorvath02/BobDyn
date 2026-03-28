@@ -1,5 +1,5 @@
-within BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52;
-function Fy_eval
+within BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.CombinedSlip;
+function FyEval
   import Modelica.SIunits;
   
   // Tire inputs
@@ -177,4 +177,4 @@ algorithm
     Fy := 0;
   end if;
   
-end Fy_eval;
+end FyEval;
