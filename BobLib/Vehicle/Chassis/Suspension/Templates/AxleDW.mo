@@ -47,20 +47,23 @@ model AxleDW
     Dialog(tab = "Animation", group = "Sizing"));
   parameter SIunits.Length joint_diameter annotation(
     Dialog(tab = "Animation", group = "Sizing"));
+
   // Effective center for internal calculations
   final parameter SIunits.Position[3] effective_center = {Axle.wheel_center[1], 0, Axle.wheel_center[3]};
+
   // Interface frames
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a axle_frame annotation(
     Placement(transformation( extent = {{16, -16}, {-16, 16}}, rotation = -90), iconTransformation(origin = {0, 50}, extent = {{-16, -16}, {16, 16}}, rotation = 90)));
+  
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b left_cp annotation(
     Placement(transformation(origin = {-160, 0}, extent = {{16, -16}, {-16, 16}}, rotation = -90), iconTransformation(origin = {-180, 0}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b right_cp annotation(
     Placement(transformation(origin = {160, 0}, extent = {{16, -16}, {-16, 16}}, rotation = -90), iconTransformation(origin = {180, 0}, extent = {{-16, -16}, {16, 16}})));
-  // Double wishbone assemblies
+  
   // Tires
-  replaceable BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTireV2 left_tire annotation(
+  replaceable BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire left_tire annotation(
     Placement(transformation(origin = {-160, 50}, extent = {{10, -10}, {-10, 10}})));
-  replaceable BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTireV2 right_tire annotation(
+  replaceable BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire right_tire annotation(
     Placement(transformation(origin = {160, 50}, extent = {{-10, -10}, {10, 10}})));
   
   // Wheel torque inputs

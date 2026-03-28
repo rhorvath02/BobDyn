@@ -5,79 +5,120 @@ model BaseTire
   import Modelica.SIunits;
   // Modelica linalg
   import Modelica.Math.Vectors.normalize;
-  import Modelica.Math.Vectors.norm;
   // Custom linalg
-  import BobLib.Utilities.Math.Vector.angle_between;
   import BobLib.Utilities.Math.Vector.cross;
-  import BobLib.Utilities.Math.Vector.dot;
-  // Parameters - Tire defn
-  parameter BobLib.Resources.Records.TIRES.Fr_tire tire "MF52 tire parameter record" annotation();
-  // Parameters - Dimensions
-  parameter SIunits.Length rim_width = tire.RIM_WIDTH "Rim width" annotation(
-    Dialog(group = "Dimensions"));
-  parameter SIunits.Length rim_R0 = tire.RIM_RADIUS "Rim unloaded static radius" annotation(
-    Dialog(group = "Dimensions"));
-  // Parameters - Mass properties
-  parameter SIunits.Inertia wheel_J = tire.INERTIA "Wheel + hub inertia tensor (y-axis as spindle)";
-  // General .tir parameters
-  parameter Real R0 = tire.UNLOADED_RADIUS "Unloaded tire radius";
-  parameter Real tire_c = tire.VERTICAL_STIFFNESS "Wheel vertical stiffness";
-  parameter Real tire_d = tire.VERTICAL_DAMPING "Wheel vertical damping";
   // Frames
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a cp_frame annotation(
     Placement(transformation(origin = {0, -100}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b chassis_frame annotation(
-    Placement(transformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}})));
-  // 2DOF Tire physics
-  TirePhysics.Tire2DOF tire2DOF(R0 = R0, rim_width = rim_width, rim_R0 = rim_R0, tire_c = tire_c, tire_d = tire_d, wheel_J = wheel_J) annotation(
-    Placement(transformation(extent = {{-10, -10}, {10, 10}})));
-  // Torque input
-  // Loads / forces
-  Real Fz "Normal load in global frame";
-  // General States
-  Real gamma;
-  Modelica.Mechanics.MultiBody.Parts.Mounting1D rotation_lock(n = {0, 1, 0}) annotation(
-    Placement(transformation(origin = {-30, 20}, extent = {{-10, -10}, {10, 10}})));
-  // Common interface
-  Real Fx = 0;
-  Real Fy = 0;
-  Real Mx = 0;
-  Real My = 0;
-  Real Mz = 0;
-  Real alpha = 0;
-  Real kappa = 0;
+    Placement(transformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}})));
+  
+  Modelica.Mechanics.Rotational.Interfaces.Flange_b hub_flange annotation(
+    Placement(transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}})));
+  
+  // Base states
+  SIunits.Force Fz;
+  SIunits.Angle gamma;
+
+  // Slip states (from SlipModel)
+  SIunits.Angle alpha;
+  Real kappa;
+  
+  replaceable BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Wheel0DOF wheelModel annotation(
+    Placement(transformation(extent = {{-30, -30}, {30, 30}})));
+  replaceable BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.KinematicSlip slipModel annotation(
+    Placement(transformation(origin = {90, -90}, extent = {{-10, -10}, {10, 10}})));
+  
+  // Force expressions
+  Modelica.Blocks.Sources.RealExpression realExpressionFx(y = 0)  annotation(
+    Placement(transformation(origin = {-90, -56}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.RealExpression realExpressionFy(y = 0)  annotation(
+    Placement(transformation(origin = {-90, -70}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.Constant constantZero(k = 0)  annotation(
+    Placement(transformation(origin = {-90, -90}, extent = {{-10, -10}, {10, 10}})));
+  
+  // Torque expressions
+  Modelica.Blocks.Sources.RealExpression realExpressionMx(y = 0)  annotation(
+    Placement(transformation(origin = {-90, 54}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.RealExpression realExpressionMy(y = 0)  annotation(
+    Placement(transformation(origin = {-90, 40}, extent = {{-10, -10}, {10, 10}})));
+  Modelica.Blocks.Sources.RealExpression realExpressionMz(y = 0)  annotation(
+    Placement(transformation(origin = {-90, 26}, extent = {{-10, -10}, {10, 10}})));
+  
+  Modelica.Mechanics.MultiBody.Forces.WorldForceAndTorque forceAndTorque(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = true)  annotation(
+    Placement(transformation(origin = {-30, -50}, extent = {{-10, -10}, {10, 10}})));
+  
 protected
-  // World / ground unit vectors
-  Real[3] e_z = {0, 0, 1};
-  Real[3] ez_w;
-  Real[3] e_xw;
-  Real[3] e_xg;
-  Real[3] e_yg;
-  Real[3] e_spin;
-public
-  Modelica.Mechanics.Rotational.Interfaces.Flange_b hub_input annotation(
-    Placement(transformation(origin = {0, 100}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {110, -12}, extent = {{-10, -10}, {10, 10}})));
+  Real[3] e_xw "Unit vector along wheel x-axis, resolved in world frame";
+  Real[3] e_yw "Unit vector along wheel y-axis, resolved in world frame";
+  Real[3] e_spin "Unit vector along wheel spin axis, resolved in world frame";
+  Real[3] e_zw "Unit vector along wheel z-axis, resolved in world frame";
+  
+  Real[3] e_xg "e_xw projected on the xy-plane (ground) and normalized";
+  Real[3] e_yg "e_yw projected on the xy-plane (ground) and normalized";
+
+  // Velocity quantities (for slip calculation)
+  Real[3] v_cp "Contact patch velocity in world frame";
+  Real[3] v_g "Velocity projected onto ground plane";
+
+  SIunits.Velocity Vx "Longitudinal velocity at contact patch";
+  SIunits.Velocity Vy "Lateral velocity at contact patch";
+
 equation
-// Normal load
+  // Normal load
   Fz = max(0, cp_frame.f[3]);
-// World basis
+  
+  // World basis (from cp_frame)
   e_xw = Modelica.Mechanics.MultiBody.Frames.resolve1(cp_frame.R, {1, 0, 0});
+  e_yw = Modelica.Mechanics.MultiBody.Frames.resolve1(cp_frame.R, {0, 1, 0});
+
+  e_spin = Modelica.Mechanics.MultiBody.Frames.resolve1(wheelModel.hub_axis.frame_b.R, {0, 1, 0});
+  e_zw   = wheelModel.hub_axis.frame_b.R.T[:, 3];
+  
+  // Ground-projected tire basis (CRITICAL FIX)
   e_xg = normalize({e_xw[1], e_xw[2], 0});
-  e_yg = normalize(cross(e_z, e_xg));
-// Inclination angle
-  ez_w = tire2DOF.hub_axis.frame_b.R.T[:, 3];
-  gamma = Modelica.Math.asin(max(-1.0, min(1.0, ez_w[2])));
-  e_spin = Modelica.Mechanics.MultiBody.Frames.resolve1(tire2DOF.hub_axis.frame_b.R, {0, 1, 0});
-  connect(cp_frame, tire2DOF.cp_frame) annotation(
-    Line(points = {{0, -100}, {0, -10}}));
-  connect(chassis_frame, tire2DOF.chassis_frame) annotation(
-    Line(points = {{-100, 0}, {-10, 0}}));
-  connect(rotation_lock.frame_a, tire2DOF.chassis_frame) annotation(
-    Line(points = {{-30, 10}, {-30, 0}, {-10, 0}}, color = {95, 95, 95}));
-  connect(rotation_lock.flange_b, tire2DOF.hub_frame) annotation(
-    Line(points = {{-20, 20}, {0, 20}, {0, 10}}));
-  connect(hub_input, tire2DOF.hub_frame) annotation(
-    Line(points = {{0, 100}, {0, 10}}));
+  e_yg = normalize({e_yw[1], e_yw[2], 0});
+  
+  // Inclination angle
+  gamma = Modelica.Math.asin(max(-1.0, min(1.0, e_zw[2])));
+
+  // Contact patch velocity
+  v_cp = wheelModel.wheel_vel_sensor.v;
+  v_g  = {v_cp[1], v_cp[2], 0};
+
+  Vx = v_g[1]*e_xg[1] + v_g[2]*e_xg[2];
+  Vy = v_g[1]*e_yg[1] + v_g[2]*e_yg[2];
+
+  // Slip model
+  slipModel.Vx    = Vx;
+  slipModel.Vy    = Vy;
+  slipModel.omega = wheelModel.wheel_rot_speed_sensor.w;
+  slipModel.R0    = wheelModel.radius_sensor.s_rel;
+
+  alpha = slipModel.alpha;
+  kappa = slipModel.kappa;
+  
+  connect(chassis_frame, wheelModel.chassis_frame) annotation(
+    Line(points = {{-100, 0}, {-30, 0}}));
+  connect(wheelModel.cp_frame, cp_frame) annotation(
+    Line(points = {{0, -30}, {0, -100}}, color = {95, 95, 95}));
+  connect(realExpressionFx.y, forceAndTorque.force[1]) annotation(
+    Line(points = {{-78, -56}, {-42, -56}}, color = {0, 0, 127}));
+  connect(realExpressionFy.y, forceAndTorque.force[2]) annotation(
+    Line(points = {{-78, -70}, {-60, -70}, {-60, -56}, {-42, -56}}, color = {0, 0, 127}));
+  connect(constantZero.y, forceAndTorque.force[3]) annotation(
+    Line(points = {{-78, -90}, {-50, -90}, {-50, -56}, {-42, -56}}, color = {0, 0, 127}));
+  connect(realExpressionMx.y, forceAndTorque.torque[1]) annotation(
+    Line(points = {{-78, 54}, {-50, 54}, {-50, -44}, {-42, -44}}, color = {0, 0, 127}));
+  connect(realExpressionMy.y, forceAndTorque.torque[2]) annotation(
+    Line(points = {{-78, 40}, {-60, 40}, {-60, -44}, {-42, -44}}, color = {0, 0, 127}));
+  connect(realExpressionMz.y, forceAndTorque.torque[3]) annotation(
+    Line(points = {{-78, 26}, {-70, 26}, {-70, -44}, {-42, -44}}, color = {0, 0, 127}));
+  connect(forceAndTorque.frame_b, wheelModel.cp_frame) annotation(
+    Line(points = {{-20, -50}, {0, -50}, {0, -30}}, color = {95, 95, 95}));
+  connect(wheelModel.hub_flange, hub_flange) annotation(
+    Line(points = {{0, 0}, {100, 0}}));
   annotation(
-    Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}), graphics = {Text(extent = {{-120, -160}, {120, -120}}, textString = "%name", fontSize = 14), Text(extent = {{-200, -60}, {-100, -20}}, textString = "Frame", fontSize = 12), Text(textColor = {0, 0, 255}, extent = {{-100, 110}, {0, 140}}, textString = "T_in", fontSize = 12), Text(extent = {{30, -120}, {70, -80}}, textString = "CP", fontSize = 12), Ellipse(fillColor = {40, 40, 40}, fillPattern = FillPattern.Solid, lineThickness = 3, extent = {{-90, -90}, {90, 90}}), Ellipse(fillColor = {200, 200, 200}, fillPattern = FillPattern.Solid, lineThickness = 2, extent = {{-45, -45}, {45, 45}}), Ellipse(fillColor = {160, 160, 160}, fillPattern = FillPattern.Solid, lineThickness = 2, extent = {{-15, -15}, {15, 15}}), Line(points = {{0, 0}, {0, 45}}, thickness = 2), Line(points = {{0, 0}, {0, -45}}, thickness = 2), Line(points = {{0, 0}, {45, 0}}, thickness = 2), Line(points = {{0, 0}, {-45, 0}}, thickness = 2), Line(points = {{0, 0}, {32, 32}}, thickness = 2), Line(points = {{0, 0}, {-32, -32}}, thickness = 2), Line(points = {{0, 0}, {32, -32}}, thickness = 2), Line(points = {{0, 0}, {-32, 32}}, thickness = 2), Text(origin = {-232, 12}, textColor = {255, 0, 0}, extent = {{-100, -66}, {100, 66}}, textString = "BASE", fontSize = 225)}));
+    Icon(coordinateSystem(extent = {{-100, -100}, {100, 100}}), graphics = {Line(origin = {50, 0}, points = {{-10, 0}, {50, 0}}, pattern = LinePattern.Dash, thickness = 1), Line(origin = {-50, 0}, points = {{-50, 0}, {10, 0}}), Rectangle(fillColor = {71, 71, 71}, fillPattern = FillPattern.Solid, extent = {{-40, 80}, {40, -80}}, radius = 5), Line(origin = {0, -90}, points = {{0, -10}, {0, 10}})}),
+    Diagram(graphics));
 end BaseTire;

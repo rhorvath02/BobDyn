@@ -11,4 +11,3 @@ record SetupRecord
     "Unloaded tire radius (used for kinematics and moment calculations)";
 
 end SetupRecord;
-

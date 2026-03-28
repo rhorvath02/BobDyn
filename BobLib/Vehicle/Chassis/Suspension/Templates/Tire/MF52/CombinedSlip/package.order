@@ -1,6 +1,5 @@
 FxCombinedEval
-FxEval
-FyEval
-MxEval
-MyEval
-MzEval
+FyCombinedEval
+MxCombinedEval
+MyCombinedEval
+MzCombinedEval
