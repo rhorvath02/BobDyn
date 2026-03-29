@@ -8,7 +8,7 @@ record OrionRecord
   import Rack = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.SteeringRack;
   import Stabar = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Stabar;
   import DW = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.DoubleWishbone;
-  import Axle = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates;
+  import Axle = BobLib.Resources.VehicleRecord.Chassis.Suspension;
   
   parameter Rack.RackAndPinionRecord pRack(
     leftPickup = {0.05715, 0.2260092, 0.1137158},
@@ -29,7 +29,7 @@ record OrionRecord
     tie_o = {0.0569976, 0.546989, 0.1522222},
     wheelCenter = {0, 0.606110767456, 0.199898});
     
-  parameter Axle.AxleMassRecord pFrAxleMass(
+  parameter Axle.Templates.AxleMassRecord pFrAxleMass(
     unsprungMass = MassRecord(m = 7.8160579,
                               r_cm = {-0.0061298, 0.60174377, 0.19797979},
                               I = {{0.10580066, 0.00038293, 0.00058877}, {0.00038293, 0.16064008, -0.00075416}, {0.00058877, -0.00075416, 0.10801766}}),
@@ -42,6 +42,15 @@ record OrionRecord
     tieMass = MassRecord(m = 0.13459415,
                          r_cm = {0.05709287, 0.34616483, 0.1281302},
                          I = {{0.00178949, -0.00000083, -0.0000001}, {-0.00000083, 0.00002994, 0.00021109}, {-0.0000001, 0.000211, 0.001764}}));
+  
+  parameter Axle.AxleDWRecord pFrAxleDW(
+    bellcrankPivot = {-0.042144464098, 0.250754351932, 0.370010000136},
+    bellcrankPivotAxis = {0.9583, -0.2662, -0.1115},
+    bellcrankPickup1 = {-0.029010173628, 0.2971411507, 0.37219698865},
+    bellcrankPickup2 = {-0.014493326106, 0.348410770284, 0.374614186762},
+    bellcrankPickup3 = {-0.01102742905, 0.34553503283, 0.411259910778},
+    rodMount = {0.006762552642, 0.525610676234, 0.134465050856},
+    shockMount = {-0.020673469702, 0.247847085458, 0.561456926868});
   
   parameter Tire.MF52Record tireFL(
     // Setup

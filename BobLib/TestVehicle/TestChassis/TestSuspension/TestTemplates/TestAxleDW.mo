@@ -9,8 +9,6 @@ model TestAxleDW
   
   parameter OrionRecord pVehicle;
   
-  parameter BobLib.Resources.Records.SUS.FrAxleDWPushBCARB FrAxleBC;
-  
   parameter Real link_diameter = 0.020;
   parameter Real joint_diameter = 0.030;
   
@@ -19,17 +17,16 @@ model TestAxleDW
   parameter Real right_cp_init[3] = Vector.mirrorXZ(left_cp_init);
   
   BobLib.Vehicle.Chassis.Suspension.FrAxleDW AxleDW(
+//    pAxle = pVehicle.pFrAxleDW,
     pRack = pVehicle.pRack,
     pStabar = pVehicle.pFrStabar,
     pLeftDW = pVehicle.pFrDW,
     pLeftAxleMass = pVehicle.pFrAxleMass,
-
-    link_diameter = link_diameter,
-    joint_diameter = joint_diameter,
-
     // Tire redeclarations
-    redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire left_tire(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.NoSlip slipModel),
-    redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire right_tire(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.NoSlip slipModel)) annotation(
+    redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire leftTire(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.NoSlip slipModel),
+    redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire rightTire(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.NoSlip slipModel),
+    link_diameter = link_diameter,
+    joint_diameter = joint_diameter) annotation(
   Placement(transformation(origin = {2.72478e-07, 6.44444}, extent = {{-34, -26.4444}, {34, 26.4444}})));
   
   Modelica.Mechanics.MultiBody.Parts.Fixed fixed(r = {pVehicle.pFrDW.wheelCenter[1], 0, pVehicle.pFrDW.wheelCenter[3]})  annotation(
@@ -70,7 +67,7 @@ model TestAxleDW
     Placement(transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}})));
 
 equation
-  connect(fixed.frame_b, AxleDW.axle_frame) annotation(
+  connect(fixed.frame_b, AxleDW.axleFrame) annotation(
     Line(points = {{0, -40}, {0, 16}}, color = {95, 95, 95}));
   connect(left_jounce_ramp.y, left_position.s_ref) annotation(
     Line(points = {{-41, 60}, {-49, 60}, {-49, 30}, {-58, 30}}, color = {0, 0, 127}));
@@ -86,9 +83,9 @@ equation
     Line(points = {{70, 20}, {84, 20}, {84, -14}}, color = {0, 127, 0}));
   connect(left_prismatic.frame_b, left_spherical.frame_a) annotation(
     Line(points = {{-70, -20}, {-40, -20}}, color = {95, 95, 95}));
-  connect(left_spherical.frame_b, AxleDW.left_cp) annotation(
+  connect(left_spherical.frame_b, AxleDW.leftCP) annotation(
     Line(points = {{-40, 0}, {-40, 5.5}, {-34, 5.5}, {-34, 6}}, color = {95, 95, 95}));
-  connect(right_spherical.frame_b, AxleDW.right_cp) annotation(
+  connect(right_spherical.frame_b, AxleDW.rightCP) annotation(
     Line(points = {{40, 0}, {40, 5.5}, {34, 5.5}, {34, 6}}, color = {95, 95, 95}));
   connect(right_spherical.frame_a, right_prismatic.frame_b) annotation(
     Line(points = {{40, -20}, {70, -20}}, color = {95, 95, 95}));
@@ -106,7 +103,7 @@ equation
     Line(points = {{70, -60}, {60, -60}}, color = {95, 95, 95}));
   connect(steer_ramp.y, handwheel_angle.phi_ref) annotation(
     Line(points = {{-88, 80}, {-82, 80}}, color = {0, 0, 127}));
-  connect(handwheel_angle.flange, AxleDW.pinion_flange) annotation(
+  connect(handwheel_angle.flange, AxleDW.pinionFlange) annotation(
     Line(points = {{-60, 80}, {0, 80}, {0, 25}}));  
 annotation(
     experiment(StartTime = 0, StopTime = 3, Tolerance = 1e-06, Interval = 0.002),

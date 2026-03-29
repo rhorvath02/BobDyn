@@ -44,7 +44,6 @@ model ShockLinkage
   // Shock axis
   Modelica.Mechanics.MultiBody.Joints.Prismatic shock_axis(boxWidth = joint_diameter*0.5, n = normalize(r_b - r_a), useAxisFlange = true, s(start = norm(r_b - r_a))) annotation(
     Placement(transformation(extent = {{-10, -10}, {10, 10}})));
-  
   // Force elements
   BobLib.Vehicle.Chassis.Suspension.Linkages.TabularSpring TabularSpring(spring_table = spring_table, s_0 = s_0) annotation(
     Placement(transformation(origin = {0, 30}, extent = {{-10, -10}, {10, 10}})));

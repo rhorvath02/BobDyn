@@ -43,42 +43,42 @@ partial model AxleDWBase
     Dialog(tab = "Animation", group = "Sizing"));
   parameter SIunits.Length joint_diameter annotation(
     Dialog(tab = "Animation", group = "Sizing"));
-
+  
   // Effective center for internal calculations
   final parameter SIunits.Position[3] effective_center = {pLeftDW.wheelCenter[1], 0, pLeftDW.wheelCenter[3]};
 
   // Interface frames
-  Modelica.Mechanics.MultiBody.Interfaces.Frame_a axle_frame annotation(
+  Modelica.Mechanics.MultiBody.Interfaces.Frame_a axleFrame annotation(
     Placement(transformation( extent = {{16, -16}, {-16, 16}}, rotation = -90), 
     iconTransformation(origin = {0, 50}, extent = {{-16, -16}, {16, 16}}, rotation = 90)));
   
-  Modelica.Mechanics.MultiBody.Interfaces.Frame_b left_cp annotation(
+  Modelica.Mechanics.MultiBody.Interfaces.Frame_b leftCP annotation(
     Placement(transformation(origin = {-160, 0}, extent = {{16, -16}, {-16, 16}}, rotation = -90), 
     iconTransformation(origin = {-180, 0}, extent = {{-16, -16}, {16, 16}})));
-  Modelica.Mechanics.MultiBody.Interfaces.Frame_b right_cp annotation(
+  Modelica.Mechanics.MultiBody.Interfaces.Frame_b rightCP annotation(
     Placement(transformation(origin = {160, 0}, extent = {{16, -16}, {-16, 16}}, rotation = -90), 
     iconTransformation(origin = {180, 0}, extent = {{-16, -16}, {16, 16}})));
   
   // Tires
-  replaceable BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire left_tire annotation(
+  replaceable BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire leftTire annotation(
     Placement(transformation(origin = {-160, 50}, extent = {{10, -10}, {-10, 10}})));
-  replaceable BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire right_tire annotation(
+  replaceable BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire rightTire annotation(
     Placement(transformation(origin = {160, 50}, extent = {{-10, -10}, {10, 10}})));
   
   // Wheel torque inputs
-  Modelica.Mechanics.Rotational.Interfaces.Flange_b left_torque annotation(
+  Modelica.Mechanics.Rotational.Interfaces.Flange_b leftTorque annotation(
     Placement(transformation(origin = {-180, 50}, extent = {{-10, -10}, {10, 10}}), 
     iconTransformation(origin = {-180, 50}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.Rotational.Interfaces.Flange_b right_torque annotation(
+  Modelica.Mechanics.Rotational.Interfaces.Flange_b rightTorque annotation(
     Placement(transformation(origin = {180, 50}, extent = {{-10, -10}, {10, 10}}), 
     iconTransformation(origin = {180, 50}, extent = {{-10, -10}, {10, 10}})));
   
-  BobLib.Vehicle.Chassis.Suspension.Templates.DoubleWishbone.WishboneUprightLoop LeftWishboneUprightLoop(pDW = pLeftDW, link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
+  BobLib.Vehicle.Chassis.Suspension.Templates.DoubleWishbone.WishboneUprightLoop leftWishboneUprightLoop(pDW = pLeftDW, link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
     Placement(transformation(origin = {-69, 50}, extent = {{29, -29}, {-29, 29}})));
-  BobLib.Vehicle.Chassis.Suspension.Templates.DoubleWishbone.WishboneUprightLoop RightWishboneUprightLoop(pDW = pRightDW, link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
+  BobLib.Vehicle.Chassis.Suspension.Templates.DoubleWishbone.WishboneUprightLoop rightWishboneUprightLoop(pDW = pRightDW, link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
     Placement(transformation(origin = {69, 50}, extent = {{-29, -29}, {29, 29}})));
   
-  BobLib.Vehicle.Chassis.Suspension.Linkages.Rod LeftTieClosure(r_a = pRack.leftPickup,
+  BobLib.Vehicle.Chassis.Suspension.Linkages.Rod leftTieClosure(r_a = pRack.leftPickup,
                                                                 r_b = pLeftDW.tie_o,
                                                                 show_universal_axes = false,
                                                                 kinematic_constraint = true,
@@ -86,7 +86,7 @@ partial model AxleDWBase
                                                                 joint_diameter = joint_diameter)  annotation(
     Placement(transformation(origin = {-60, 100}, extent = {{20, -20}, {-20, 20}})));
   
-  BobLib.Vehicle.Chassis.Suspension.Linkages.Rod RightTieClosure(r_a = Vector.mirrorXZ(pRack.leftPickup),
+  BobLib.Vehicle.Chassis.Suspension.Linkages.Rod rightTieClosure(r_a = Vector.mirrorXZ(pRack.leftPickup),
                                                                  r_b = pRightDW.tie_o,
                                                                  show_universal_axes = false,
                                                                  kinematic_constraint = true,
@@ -94,20 +94,20 @@ partial model AxleDWBase
                                                                  joint_diameter = joint_diameter)  annotation(
     Placement(transformation(origin = {60, 100}, extent = {{-20, -20}, {20, 20}})));
 
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_tie_connection(r = pLeftDW.lower_o - pLeftDW.tie_o) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation leftTieConnection(r = pLeftDW.lower_o - pLeftDW.tie_o) annotation(
     Placement(transformation(origin = {-100, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_tie_connection(r = pRightDW.lower_o - pRightDW.tie_o) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation rightTieConnection(r = pRightDW.lower_o - pRightDW.tie_o) annotation(
     Placement(transformation(origin = {100, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_rack(r = {pRack.leftPickup[1], 0, pRack.leftPickup[3]} - effective_center, animation = false) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toRack(r = {pRack.leftPickup[1], 0, pRack.leftPickup[3]} - effective_center, animation = false) annotation(
     Placement(transformation(origin = {0, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
   BobLib.Vehicle.Chassis.Suspension.Templates.SteeringRack.RackAndPinion RackAndPinion(pRack = pRack, link_diameter = link_diameter) annotation(
     Placement(transformation(origin = {0, 110}, extent = {{-20, -20}, {20, 20}})));
   
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_wheel_center(r = pLeftDW.wheelCenter - pLeftDW.lower_o) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toLeftWheelCenter(r = pLeftDW.wheelCenter - pLeftDW.lower_o) annotation(
     Placement(transformation(origin = {-120, 30}, extent = {{10, -10}, {-10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_wheel_center(r = pRightDW.wheelCenter - pRightDW.lower_o) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toRightWheelCenter(r = pRightDW.wheelCenter - pRightDW.lower_o) annotation(
     Placement(transformation(origin = {120, 30}, extent = {{-10, -10}, {10, 10}})));
   
   // Left-half bodies
@@ -182,76 +182,76 @@ partial model AxleDWBase
 
 protected
   // Fixed geometry from effective center to nodes
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_upper_i(r = (pLeftDW.upperFore_i + pLeftDW.upperAft_i)/2 - effective_center, animation = false) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toLeftUpper_i(r = (pLeftDW.upperFore_i + pLeftDW.upperAft_i)/2 - effective_center, animation = false) annotation(
     Placement(transformation(origin = {-20, 70}, extent = {{10, -10}, {-10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_lower_i(r = (pLeftDW.lowerFore_i + pLeftDW.lowerAft_i)/2 - effective_center, animation = false) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toLeftLower_i(r = (pLeftDW.lowerFore_i + pLeftDW.lowerAft_i)/2 - effective_center, animation = false) annotation(
     Placement(transformation(origin = {-20, 30}, extent = {{10, -10}, {-10, 10}})));
     
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_upper_i(r = (pRightDW.upperFore_i + pRightDW.upperAft_i)/2 - effective_center, animation = false) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toRightUpper_i(r = (pRightDW.upperFore_i + pRightDW.upperAft_i)/2 - effective_center, animation = false) annotation(
     Placement(transformation(origin = {20, 70}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_lower_i(r = (pRightDW.lowerFore_i + pRightDW.lowerAft_i)/2 - effective_center, animation = false) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toRightLower_i(r = (pRightDW.lowerFore_i + pRightDW.lowerAft_i)/2 - effective_center, animation = false) annotation(
     Placement(transformation(origin = {20, 30}, extent = {{-10, -10}, {10, 10}})));
 
 equation
-  connect(left_cp, left_tire.cp_frame) annotation(
+  connect(leftCP, leftTire.cp_frame) annotation(
     Line(points = {{-160, 0}, {-160, 40}}));
-  connect(right_cp, right_tire.cp_frame) annotation(
+  connect(rightCP, rightTire.cp_frame) annotation(
     Line(points = {{160, 0}, {160, 40}}));
-  connect(left_torque, left_tire.hub_flange) annotation(
+  connect(leftTorque, leftTire.hub_flange) annotation(
     Line(points = {{-180, 50}, {-170, 50}}));
-  connect(right_torque, right_tire.hub_flange) annotation(
+  connect(rightTorque, rightTire.hub_flange) annotation(
     Line(points = {{180, 50}, {170, 50}}));
-  connect(axle_frame, to_left_lower_i.frame_a) annotation(
+  connect(axleFrame, toLeftLower_i.frame_a) annotation(
     Line(points = {{0, 0}, {0, 30}, {-10, 30}}));
-  connect(axle_frame, to_right_lower_i.frame_a) annotation(
+  connect(axleFrame, toRightLower_i.frame_a) annotation(
     Line(points = {{0, 0}, {0, 30}, {10, 30}}));
-  connect(axle_frame, to_left_upper_i.frame_a) annotation(
+  connect(axleFrame, toLeftUpper_i.frame_a) annotation(
     Line(points = {{0, 0}, {0, 70}, {-10, 70}}));
-  connect(axle_frame, to_right_upper_i.frame_a) annotation(
+  connect(axleFrame, toRightUpper_i.frame_a) annotation(
     Line(points = {{0, 0}, {0, 70}, {10, 70}}));
-  connect(to_left_lower_i.frame_b, LeftWishboneUprightLoop.lower_i_frame) annotation(
+  connect(toLeftLower_i.frame_b, leftWishboneUprightLoop.lower_i_frame) annotation(
     Line(points = {{-30, 30}, {-40, 30}}, color = {95, 95, 95}));
-  connect(to_left_upper_i.frame_b, LeftWishboneUprightLoop.upper_i_frame) annotation(
+  connect(toLeftUpper_i.frame_b, leftWishboneUprightLoop.upper_i_frame) annotation(
     Line(points = {{-30, 70}, {-40, 70}}, color = {95, 95, 95}));
-  connect(to_right_lower_i.frame_b, RightWishboneUprightLoop.lower_i_frame) annotation(
+  connect(toRightLower_i.frame_b, rightWishboneUprightLoop.lower_i_frame) annotation(
     Line(points = {{30, 30}, {40, 30}}, color = {95, 95, 95}));
-  connect(to_right_upper_i.frame_b, RightWishboneUprightLoop.upper_i_frame) annotation(
+  connect(toRightUpper_i.frame_b, rightWishboneUprightLoop.upper_i_frame) annotation(
     Line(points = {{30, 70}, {40, 70}}, color = {95, 95, 95}));
-  connect(axle_frame, to_rack.frame_a) annotation(
+  connect(axleFrame, toRack.frame_a) annotation(
     Line(points = {{0, 0}, {0, 80}}));
-  connect(to_rack.frame_b, RackAndPinion.mount_frame) annotation(
+  connect(toRack.frame_b, RackAndPinion.mountFrame) annotation(
     Line(points = {{0, 100}, {0, 106}}, color = {95, 95, 95}));
-  connect(RackAndPinion.left_frame, LeftTieClosure.frame_a) annotation(
+  connect(RackAndPinion.leftFrame, leftTieClosure.frame_a) annotation(
     Line(points = {{-20, 110}, {-30, 110}, {-30, 100}, {-40, 100}}, color = {95, 95, 95}));
-  connect(RackAndPinion.right_frame, RightTieClosure.frame_a) annotation(
+  connect(RackAndPinion.rightFrame, rightTieClosure.frame_a) annotation(
     Line(points = {{20, 110}, {30, 110}, {30, 100}, {40, 100}}, color = {95, 95, 95}));
-  connect(LeftTieClosure.frame_b, left_tie_connection.frame_a) annotation(
+  connect(leftTieClosure.frame_b, leftTieConnection.frame_a) annotation(
     Line(points = {{-80, 100}, {-100, 100}, {-100, 80}}, color = {95, 95, 95}));
-  connect(RightTieClosure.frame_b, right_tie_connection.frame_a) annotation(
+  connect(rightTieClosure.frame_b, rightTieConnection.frame_a) annotation(
     Line(points = {{80, 100}, {100, 100}, {100, 80}}, color = {95, 95, 95}));
-  connect(left_tie_connection.frame_b, LeftWishboneUprightLoop.steering_frame) annotation(
+  connect(leftTieConnection.frame_b, leftWishboneUprightLoop.steering_frame) annotation(
     Line(points = {{-100, 60}, {-100, 30}, {-98, 30}}, color = {95, 95, 95}));
-  connect(right_tie_connection.frame_b, RightWishboneUprightLoop.steering_frame) annotation(
+  connect(rightTieConnection.frame_b, rightWishboneUprightLoop.steering_frame) annotation(
     Line(points = {{100, 60}, {100, 30}, {98, 30}}, color = {95, 95, 95}));
-  connect(LeftWishboneUprightLoop.steering_frame, to_left_wheel_center.frame_a) annotation(
+  connect(leftWishboneUprightLoop.steering_frame, toLeftWheelCenter.frame_a) annotation(
     Line(points = {{-98, 29.7}, {-110, 29.7}}, color = {95, 95, 95}));
-  connect(RightWishboneUprightLoop.steering_frame, to_right_wheel_center.frame_a) annotation(
+  connect(rightWishboneUprightLoop.steering_frame, toRightWheelCenter.frame_a) annotation(
     Line(points = {{98, 29.7}, {110, 29.7}}, color = {95, 95, 95}));
-  connect(left_tire.chassis_frame, to_left_wheel_center.frame_b) annotation(
+  connect(leftTire.chassis_frame, toLeftWheelCenter.frame_b) annotation(
     Line(points = {{-150, 50}, {-140, 50}, {-140, 30}, {-130, 30}}, color = {95, 95, 95}));
-  connect(right_tire.chassis_frame, to_right_wheel_center.frame_b) annotation(
+  connect(rightTire.chassis_frame, toRightWheelCenter.frame_b) annotation(
     Line(points = {{150, 50}, {140, 50}, {140, 30}, {130, 30}}, color = {95, 95, 95}));
-  connect(leftUCABody.frame_a, LeftWishboneUprightLoop.upper_o_frame) annotation(
+  connect(leftUCABody.frame_a, leftWishboneUprightLoop.upper_o_frame) annotation(
     Line(points = {{-109, 90}, {-68, 90}, {-68, 78}}, color = {95, 95, 95}));
-  connect(leftLCABody.frame_a, LeftWishboneUprightLoop.lower_o_frame) annotation(
+  connect(leftLCABody.frame_a, leftWishboneUprightLoop.lower_o_frame) annotation(
     Line(points = {{-120, 12}, {-68, 12}, {-68, 22}}, color = {95, 95, 95}));
-  connect(rightUCABody.frame_a, RightWishboneUprightLoop.upper_o_frame) annotation(
+  connect(rightUCABody.frame_a, rightWishboneUprightLoop.upper_o_frame) annotation(
     Line(points = {{110, 90}, {70, 90}, {70, 78}}, color = {95, 95, 95}));
-  connect(rightLCABody.frame_a, RightWishboneUprightLoop.lower_o_frame) annotation(
+  connect(rightLCABody.frame_a, rightWishboneUprightLoop.lower_o_frame) annotation(
     Line(points = {{120, 12}, {70, 12}, {70, 22}}, color = {95, 95, 95}));
-  connect(leftUnsprungBody.frame_a, left_tire.chassis_frame) annotation(
+  connect(leftUnsprungBody.frame_a, leftTire.chassis_frame) annotation(
     Line(points = {{-160, 80}, {-140, 80}, {-140, 50}, {-150, 50}}, color = {95, 95, 95}));
-  connect(rightUnsprungBody.frame_a, right_tire.chassis_frame) annotation(
+  connect(rightUnsprungBody.frame_a, rightTire.chassis_frame) annotation(
     Line(points = {{160, 80}, {140, 80}, {140, 50}, {152, 50}}, color = {95, 95, 95}));
   annotation(
     Diagram(coordinateSystem(extent = {{-180, -20}, {180, 140}}, preserveAspectRatio = true, grid = {4, 2})),
