@@ -25,7 +25,8 @@ record OrionRecord
     lowerFore_i = {0.1016, 0.226314, 0.08001},
     lowerAft_i = {-0.0762, 0.226314, 0.08001},
     upper_o = {-0.0092964, 0.5420106, 0.2679954},
-    lower_o = {0.0029972, 0.562991, 0.1139952}
+    lower_o = {0.0029972, 0.562991, 0.1139952},
+    tie_o = {0.0569976, 0.546989, 0.1522222}
     );
 
   parameter Axle.AxleMassRecord pFrAxleMass(

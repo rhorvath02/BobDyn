@@ -21,7 +21,8 @@ model AxleDW
                                                lowerFore_i = Vector.mirrorXZ(pLeftDW.lowerFore_i),
                                                lowerAft_i = Vector.mirrorXZ(pLeftDW.lowerAft_i),
                                                upper_o = Vector.mirrorXZ(pLeftDW.upper_o),
-                                               lower_o = Vector.mirrorXZ(pLeftDW.lower_o));
+                                               lower_o = Vector.mirrorXZ(pLeftDW.lower_o),
+                                               tie_o = Vector.mirrorXZ(pLeftDW.tie_o));
   parameter AxleMassRecord pLeftAxleMass;
   parameter AxleMassRecord pRightAxleMass(unsprungMass(m = pLeftAxleMass.unsprungMass.m,
                                                        r_cm = Vector.mirrorXZ(pLeftAxleMass.unsprungMass.r_cm),
@@ -76,32 +77,44 @@ model AxleDW
     iconTransformation(origin = {180, 50}, extent = {{-10, -10}, {10, 10}})));
   DoubleWishbone.WishboneUprightLoop LeftWishboneUprightLoop(pDW = pLeftDW, link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
     Placement(transformation(origin = {-69, 50}, extent = {{29, -29}, {-29, 29}})));
-  
-  BobLib.Vehicle.Chassis.Suspension.Linkages.Rod LeftTieClosure(r_a = Axle.tie_inboard, r_b = Axle.tie_outboard, show_universal_axes = false, kinematic_constraint = true, link_diameter = link_diameter, joint_diameter = joint_diameter)  annotation(
-    Placement(transformation(origin = {-60, 100}, extent = {{20, -20}, {-20, 20}})));
   DoubleWishbone.WishboneUprightLoop RightWishboneUprightLoop(pDW = pRightDW, link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
     Placement(transformation(origin = {69, 50}, extent = {{-29, -29}, {29, 29}})));
   
-  BobLib.Vehicle.Chassis.Suspension.Linkages.Rod RightTieClosure(r_a = Vector.mirrorXZ(Axle.tie_inboard), r_b = Vector.mirrorXZ(Axle.tie_outboard), show_universal_axes = false, kinematic_constraint = true, link_diameter = link_diameter, joint_diameter = joint_diameter)  annotation(
+  BobLib.Vehicle.Chassis.Suspension.Linkages.Rod LeftTieClosure(r_a = pRack.leftPickup,
+                                                                r_b = pLeftDW.tie_o,
+                                                                show_universal_axes = false,
+                                                                kinematic_constraint = true,
+                                                                link_diameter = link_diameter,
+                                                                joint_diameter = joint_diameter)  annotation(
+    Placement(transformation(origin = {-60, 100}, extent = {{20, -20}, {-20, 20}})));
+  
+  BobLib.Vehicle.Chassis.Suspension.Linkages.Rod RightTieClosure(r_a = Vector.mirrorXZ(pRack.leftPickup),
+                                                                 r_b = pRightDW.tie_o,
+                                                                 show_universal_axes = false,
+                                                                 kinematic_constraint = true,
+                                                                 link_diameter = link_diameter,
+                                                                 joint_diameter = joint_diameter)  annotation(
     Placement(transformation(origin = {60, 100}, extent = {{-20, -20}, {20, 20}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_tie_connection(r = Axle.lower_outboard - Axle.tie_outboard) annotation(
+
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation left_tie_connection(r = pLeftDW.lower_o - pLeftDW.tie_o) annotation(
     Placement(transformation(origin = {-100, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_tie_connection(r = Vector.mirrorXZ(Axle.lower_outboard - Axle.tie_outboard)) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation right_tie_connection(r = pRightDW.lower_o - pRightDW.tie_o) annotation(
     Placement(transformation(origin = {100, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_rack(r = {Axle.tie_inboard[1], 0, Axle.tie_inboard[3]} - effective_center, animation = false) annotation(
+  
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_rack(r = {pRack.leftPickup[1], 0, pRack.leftPickup[3]} - effective_center, animation = false) annotation(
     Placement(transformation(origin = {0, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
   SteeringRack.RackAndPinion RackAndPinion(pRack = pRack, link_diameter = link_diameter) annotation(
     Placement(transformation(origin = {0, 110}, extent = {{-20, -20}, {20, 20}})));
   
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_wheel_center(r = Axle.wheel_center - Axle.lower_outboard) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_wheel_center(r = Axle.wheel_center - pLeftDW.lower_o) annotation(
     Placement(transformation(origin = {-120, 30}, extent = {{10, -10}, {-10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_wheel_center(r = Vector.mirrorXZ(Axle.wheel_center - Axle.lower_outboard)) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_wheel_center(r = Vector.mirrorXZ(Axle.wheel_center - pLeftDW.lower_o)) annotation(
     Placement(transformation(origin = {120, 30}, extent = {{-10, -10}, {10, 10}})));
   
   // Left-half bodies
   Modelica.Mechanics.MultiBody.Parts.Body leftUCABody(m = pLeftAxleMass.ucaMass.m,
-                                                      r_CM = pLeftAxleMass.ucaMass.r_cm - Axle.upper_outboard,
+                                                      r_CM = pLeftAxleMass.ucaMass.r_cm - pLeftDW.upper_o,
                                                       I_11 = pLeftAxleMass.ucaMass.I[1, 1],
                                                       I_22 = pLeftAxleMass.ucaMass.I[2, 2],
                                                       I_33 = pLeftAxleMass.ucaMass.I[3, 3],
@@ -112,7 +125,7 @@ model AxleDW
                                                       cylinderDiameter = link_diameter) annotation(
     Placement(transformation(origin = {-119, 90}, extent = {{10, -10}, {-10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.Body leftLCABody(m = pLeftAxleMass.lcaMass.m,
-                                                      r_CM = pLeftAxleMass.lcaMass.r_cm - Axle.lower_outboard,
+                                                      r_CM = pLeftAxleMass.lcaMass.r_cm - pLeftDW.lower_o,
                                                       I_11 = pLeftAxleMass.lcaMass.I[1, 1],
                                                       I_22 = pLeftAxleMass.lcaMass.I[2, 2],
                                                       I_33 = pLeftAxleMass.lcaMass.I[3, 3],
@@ -136,7 +149,7 @@ model AxleDW
   
   // Right-half bodies
   Modelica.Mechanics.MultiBody.Parts.Body rightUCABody(m = pRightAxleMass.ucaMass.m,
-                                                       r_CM = pRightAxleMass.ucaMass.r_cm - Vector.mirrorXZ(Axle.upper_outboard),
+                                                       r_CM = pRightAxleMass.ucaMass.r_cm - pRightDW.upper_o,
                                                        I_11 = pRightAxleMass.ucaMass.I[1, 1],
                                                        I_22 = pRightAxleMass.ucaMass.I[2, 2],
                                                        I_33 = pRightAxleMass.ucaMass.I[3, 3],
@@ -147,7 +160,7 @@ model AxleDW
                                                        cylinderDiameter = link_diameter) annotation(
     Placement(transformation(origin = {120, 90}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
   Modelica.Mechanics.MultiBody.Parts.Body rightLCABody(m = pRightAxleMass.lcaMass.m,
-                                                       r_CM = pRightAxleMass.lcaMass.r_cm - Vector.mirrorXZ(Axle.lower_outboard),
+                                                       r_CM = pRightAxleMass.lcaMass.r_cm - pRightDW.lower_o,
                                                        I_11 = pRightAxleMass.lcaMass.I[1, 1],
                                                        I_22 = pRightAxleMass.lcaMass.I[2, 2],
                                                        I_33 = pRightAxleMass.lcaMass.I[3, 3],
@@ -171,14 +184,16 @@ model AxleDW
 
 protected
   // Fixed geometry from effective center to nodes
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_upper_i(r = (Axle.upper_fore_i + Axle.upper_aft_i)/2 - effective_center, animation = false) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_upper_i(r = (pLeftDW.upperFore_i + pLeftDW.upperAft_i)/2 - effective_center, animation = false) annotation(
     Placement(transformation(origin = {-20, 70}, extent = {{10, -10}, {-10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_lower_i(r = (Axle.lower_fore_i + Axle.lower_aft_i)/2 - effective_center, animation = false) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_lower_i(r = (pLeftDW.lowerFore_i + pLeftDW.lowerAft_i)/2 - effective_center, animation = false) annotation(
     Placement(transformation(origin = {-20, 30}, extent = {{10, -10}, {-10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_upper_i(r = ({Axle.upper_fore_i[1], -Axle.upper_fore_i[2], Axle.upper_fore_i[3]} + {Axle.upper_aft_i[1], -Axle.upper_aft_i[2], Axle.upper_aft_i[3]})/2 - effective_center, animation = false) annotation(
+    
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_upper_i(r = (pRightDW.upperFore_i + pRightDW.upperAft_i)/2 - effective_center, animation = false) annotation(
     Placement(transformation(origin = {20, 70}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_lower_i(r = ({Axle.lower_fore_i[1], -Axle.lower_fore_i[2], Axle.lower_fore_i[3]} + {Axle.lower_aft_i[1], -Axle.lower_aft_i[2], Axle.lower_aft_i[3]})/2 - effective_center, animation = false) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_lower_i(r = (pRightDW.lowerFore_i + pRightDW.lowerAft_i)/2 - effective_center, animation = false) annotation(
     Placement(transformation(origin = {20, 30}, extent = {{-10, -10}, {10, 10}})));
+
 equation
   connect(left_cp, left_tire.cp_frame) annotation(
     Line(points = {{-160, 0}, {-160, 40}}));

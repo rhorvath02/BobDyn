@@ -23,5 +23,8 @@ record WishboneUprightLoopRecord
   parameter SIunits.Position lower_o[3] "Lower control arm outboard joint, expressed in chassis frame" annotation(
     Evaluate = false,
     Dialog(group = "Geometry"));
+  parameter SIunits.Position tie_o[3] "Tie rod outboard joint, expressed in chassis frame" annotation(
+    Evaluate = false,
+    Dialog(group = "Geometry"));
   
 end WishboneUprightLoopRecord;
