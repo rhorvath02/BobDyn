@@ -3,27 +3,16 @@ within BobLib.Vehicle.Chassis.Suspension.Templates.DoubleWishbone;
 model WishboneUprightLoop "Kinematic loop consisting of upright, lower wishbone, and upper wishbone"
   // Modelica units
   import Modelica.SIunits;
+  
   // Modelica linalg
   import Modelica.Math.Vectors.normalize;
-  // Parameters
-  parameter SIunits.Position upper_fore_i[3] "Upper control arm fore inboard joint, expressed in chassis frame" annotation(
-    Evaluate = false,
-    Dialog(group = "Geometry"));
-  parameter SIunits.Position upper_aft_i[3] "Upper control arm aft inboard joint, expressed in chassis frame" annotation(
-    Evaluate = false,
-    Dialog(group = "Geometry"));
-  parameter SIunits.Position lower_fore_i[3] "Lower control arm fore inboard joint, expressed in chassis frame" annotation(
-    Evaluate = false,
-    Dialog(group = "Geometry"));
-  parameter SIunits.Position lower_aft_i[3] "Lower control arm aft inboard joint, expressed in chassis frame" annotation(
-    Evaluate = false,
-    Dialog(group = "Geometry"));
-  parameter SIunits.Position upper_o[3] "Upper control arm outboard joint, expressed in chassis frame" annotation(
-    Evaluate = false,
-    Dialog(group = "Geometry"));
-  parameter SIunits.Position lower_o[3] "Lower control arm outboard joint, expressed in chassis frame" annotation(
-    Evaluate = false,
-    Dialog(group = "Geometry"));
+  
+  // Records
+  import BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.DoubleWishbone.WishboneUprightLoopRecord;
+  
+  // Load parameters
+  parameter WishboneUprightLoopRecord pDW;
+  
   // Visual parameters
   parameter SIunits.Length link_diameter annotation(
     Evaluate = true,
@@ -43,17 +32,37 @@ model WishboneUprightLoop "Kinematic loop consisting of upright, lower wishbone,
     Placement(transformation(origin = {0, -100}, extent = {{-16, -16}, {16, 16}}, rotation = -90), iconTransformation(origin = {0, -100}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b steering_frame annotation(
     Placement(transformation(origin = {100, -60}, extent = {{16, -16}, {-16, 16}}), iconTransformation(origin = {100, -70}, extent = {{-16, -16}, {16, 16}})));
+  
   // Upper wishbone + upright
-  Modelica.Mechanics.MultiBody.Joints.Assemblies.JointUSR upper_wishbone_upright(n1_a = {1, 0, 0}, n_b = normalize(upper_fore_i - upper_aft_i), rRod1_ia = upper_o - lower_o, rRod2_ib = upper_o - (upper_fore_i + upper_aft_i)/2, sphereDiameter = joint_diameter, rod1Diameter = link_diameter, rod2Diameter = link_diameter, revoluteDiameter = joint_diameter, revoluteLength = joint_diameter, cylinderLength = joint_diameter*0.125, cylinderDiameter = joint_diameter*0.125) annotation(
+  Modelica.Mechanics.MultiBody.Joints.Assemblies.JointUSR upper_wishbone_upright(n1_a = {1, 0, 0},
+                                                                                 n_b = normalize(pDW.upperFore_i - pDW.upperAft_i),
+                                                                                 rRod1_ia = pDW.upper_o - pDW.lower_o,
+                                                                                 rRod2_ib = pDW.upper_o - (pDW.upperFore_i + pDW.upperAft_i) / 2,
+                                                                                 sphereDiameter = joint_diameter,
+                                                                                 rod1Diameter = link_diameter,
+                                                                                 rod2Diameter = link_diameter,
+                                                                                 revoluteDiameter = joint_diameter,
+                                                                                 revoluteLength = joint_diameter,
+                                                                                 cylinderLength = joint_diameter*0.125,
+                                                                                 cylinderDiameter = joint_diameter*0.125) annotation(
     Placement(transformation(origin = {0, 16}, extent = {{20, -20}, {-20, 20}}, rotation = -90)));
+  
   // Lower wisbone
-  Modelica.Mechanics.MultiBody.Joints.Revolute lower_inboard_joint(n = normalize(lower_fore_i - lower_aft_i), cylinderLength = joint_diameter, cylinderDiameter = joint_diameter) annotation(
+  Modelica.Mechanics.MultiBody.Joints.Revolute lower_inboard_joint(n = normalize(pDW.lowerFore_i - pDW.lowerAft_i),
+                                                                   cylinderLength = joint_diameter,
+                                                                   cylinderDiameter = joint_diameter) annotation(
     Placement(transformation(origin = {-70, -60}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation lower_link(r = lower_o - (lower_fore_i + lower_aft_i)/2, width = link_diameter, height = link_diameter) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation lower_link(r = pDW.lower_o - (pDW.lowerFore_i + pDW.lowerAft_i) / 2,
+                                                                 width = link_diameter,
+                                                                 height = link_diameter) annotation(
     Placement(transformation(origin = {-30, -60}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
+  
   // Steering interface
-  Modelica.Mechanics.MultiBody.Joints.Revolute steering_axis(n = normalize(upper_o - lower_o), cylinderLength = joint_diameter, cylinderDiameter = joint_diameter) annotation(
+  Modelica.Mechanics.MultiBody.Joints.Revolute steering_axis(n = normalize(pDW.upper_o - pDW.lower_o),
+                                                             cylinderLength = joint_diameter,
+                                                             cylinderDiameter = joint_diameter) annotation(
     Placement(transformation(origin = {50, -60}, extent = {{10, -10}, {-10, 10}}, rotation = -180)));
+
 equation
   connect(upper_i_frame, upper_wishbone_upright.frame_b) annotation(
     Line(points = {{-100, 60}, {0, 60}, {0, 36}}));

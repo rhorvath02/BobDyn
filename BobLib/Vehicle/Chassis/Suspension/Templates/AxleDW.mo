@@ -10,9 +10,17 @@ model AxleDW
   
   // Records
   import BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.SteeringRack.RackAndPinionRecord;
+  import BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.DoubleWishbone.WishboneUprightLoopRecord;
   
   // Load parameters
   parameter RackAndPinionRecord pRack;
+  parameter WishboneUprightLoopRecord pLeftDW;
+  parameter WishboneUprightLoopRecord pRightDW(upperFore_i = Vector.mirrorXZ(pLeftDW.upperFore_i),
+                                               upperAft_i = Vector.mirrorXZ(pLeftDW.upperAft_i),
+                                               lowerFore_i = Vector.mirrorXZ(pLeftDW.lowerFore_i),
+                                               lowerAft_i = Vector.mirrorXZ(pLeftDW.lowerAft_i),
+                                               upper_o = Vector.mirrorXZ(pLeftDW.upper_o),
+                                               lower_o = Vector.mirrorXZ(pLeftDW.lower_o));
   
   // Body template
   import BobLib.Resources.Records.TEMPLATES.BodyTemplate;
@@ -78,12 +86,12 @@ model AxleDW
     Placement(transformation(origin = {-180, 50}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {-180, 50}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.Rotational.Interfaces.Flange_b right_torque annotation(
     Placement(transformation(origin = {180, 50}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {180, 50}, extent = {{-10, -10}, {10, 10}})));
-  DoubleWishbone.WishboneUprightLoop LeftWishboneUprightLoop(upper_fore_i = Axle.upper_fore_i, upper_aft_i = Axle.upper_aft_i, lower_fore_i = Axle.lower_fore_i, lower_aft_i = Axle.lower_aft_i, upper_o = Axle.upper_outboard, lower_o = Axle.lower_outboard, link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
+  DoubleWishbone.WishboneUprightLoop LeftWishboneUprightLoop(pDW = pLeftDW, link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
     Placement(transformation(origin = {-69, 50}, extent = {{29, -29}, {-29, 29}})));
   
   BobLib.Vehicle.Chassis.Suspension.Linkages.Rod LeftTieClosure(r_a = Axle.tie_inboard, r_b = Axle.tie_outboard, show_universal_axes = false, kinematic_constraint = true, link_diameter = link_diameter, joint_diameter = joint_diameter)  annotation(
     Placement(transformation(origin = {-60, 100}, extent = {{20, -20}, {-20, 20}})));
-  DoubleWishbone.WishboneUprightLoop RightWishboneUprightLoop(upper_fore_i = Vector.mirrorXZ(Axle.upper_fore_i), upper_aft_i = Vector.mirrorXZ(Axle.upper_aft_i), lower_fore_i = Vector.mirrorXZ(Axle.lower_fore_i), lower_aft_i = Vector.mirrorXZ(Axle.lower_aft_i), upper_o = Vector.mirrorXZ(Axle.upper_outboard), lower_o = Vector.mirrorXZ(Axle.lower_outboard), link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
+  DoubleWishbone.WishboneUprightLoop RightWishboneUprightLoop(pDW = pRightDW, link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
     Placement(transformation(origin = {69, 50}, extent = {{-29, -29}, {29, 29}})));
   
   BobLib.Vehicle.Chassis.Suspension.Linkages.Rod RightTieClosure(r_a = Vector.mirrorXZ(Axle.tie_inboard), r_b = Vector.mirrorXZ(Axle.tie_outboard), show_universal_axes = false, kinematic_constraint = true, link_diameter = link_diameter, joint_diameter = joint_diameter)  annotation(

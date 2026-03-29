@@ -5,6 +5,7 @@ record OrionRecord
   import Tire = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.MF52;
   import Rack = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.SteeringRack;
   import Stabar = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Stabar;
+  import DW = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.DoubleWishbone;
   
   parameter Rack.RackAndPinionRecord pRack(
     leftPickup = {0.05715, 0.2260092, 0.1137158},
@@ -14,6 +15,15 @@ record OrionRecord
     leftArmEnd = {-0.03682914, 0.2667, 0.11597939},
     leftBarEnd = {-0.10664664, 0.2667, 0.11811},
     barRate = 258);
+  
+  parameter DW.WishboneUprightLoopRecord pDW(
+    upperFore_i = {0.1016, 0.237744, 0.2143252},
+    upperAft_i = {-0.0680974, 0.2356358, 0.215138},
+    lowerFore_i = {0.1016, 0.226314, 0.08001},
+    lowerAft_i = {-0.0762, 0.226314, 0.08001},
+    upper_o = {-0.0092964, 0.5420106, 0.2679954},
+    lower_o = {0.0029972, 0.562991, 0.1139952}
+    );
   
   parameter Tire.MF52Record tireFL(
     // Setup

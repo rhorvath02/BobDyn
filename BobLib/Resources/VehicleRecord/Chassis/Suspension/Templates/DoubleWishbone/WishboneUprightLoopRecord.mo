@@ -5,16 +5,16 @@ record WishboneUprightLoopRecord
   import Modelica.SIunits;
   
   // Geometry
-  parameter SIunits.Position upper_fore_i[3] "Upper control arm fore inboard joint, expressed in chassis frame" annotation(
+  parameter SIunits.Position upperFore_i[3] "Upper control arm fore inboard joint, expressed in chassis frame" annotation(
     Evaluate = false,
     Dialog(group = "Geometry"));
-  parameter SIunits.Position upper_aft_i[3] "Upper control arm aft inboard joint, expressed in chassis frame" annotation(
+  parameter SIunits.Position upperAft_i[3] "Upper control arm aft inboard joint, expressed in chassis frame" annotation(
     Evaluate = false,
     Dialog(group = "Geometry"));
-  parameter SIunits.Position lower_fore_i[3] "Lower control arm fore inboard joint, expressed in chassis frame" annotation(
+  parameter SIunits.Position lowerFore_i[3] "Lower control arm fore inboard joint, expressed in chassis frame" annotation(
     Evaluate = false,
     Dialog(group = "Geometry"));
-  parameter SIunits.Position lower_aft_i[3] "Lower control arm aft inboard joint, expressed in chassis frame" annotation(
+  parameter SIunits.Position lowerAft_i[3] "Lower control arm aft inboard joint, expressed in chassis frame" annotation(
     Evaluate = false,
     Dialog(group = "Geometry"));
   parameter SIunits.Position upper_o[3] "Upper control arm outboard joint, expressed in chassis frame" annotation(
@@ -23,13 +23,5 @@ record WishboneUprightLoopRecord
   parameter SIunits.Position lower_o[3] "Lower control arm outboard joint, expressed in chassis frame" annotation(
     Evaluate = false,
     Dialog(group = "Geometry"));
-  
-  // Visual parameters
-  parameter SIunits.Length link_diameter annotation(
-    Evaluate = true,
-    Dialog(tab = "Animation"));
-  parameter SIunits.Length joint_diameter annotation(
-    Evaluate = true,
-    Dialog(tab = "Animation"));
   
 end WishboneUprightLoopRecord;

@@ -26,6 +26,7 @@ model TestAxleDW
     Axle = FrAxle,
     pRack = pVehicle.pRack,
     pStabar = pVehicle.pFrStabar,
+    pLeftDW = pVehicle.pDW,
     left_unsprung_mass = unsprung_mass,
     left_uca_mass = uca_mass,
     left_lca_mass = lca_mass,
