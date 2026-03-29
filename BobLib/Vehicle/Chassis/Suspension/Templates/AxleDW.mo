@@ -8,8 +8,15 @@ model AxleDW
   import BobLib.Utilities.Math.Vector;
   import BobLib.Utilities.Math.Tensor;
   
+  // Records
+  import BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.SteeringRack.RackAndPinionRecord;
+  
+  // Load parameters
+  parameter RackAndPinionRecord pRack;
+  
   // Body template
   import BobLib.Resources.Records.TEMPLATES.BodyTemplate;
+  
   // Geometry Parameters
   parameter BobLib.Resources.Records.TEMPLATES.AxleDWTemplate Axle annotation(
     Evaluate = false);
@@ -87,8 +94,10 @@ model AxleDW
     Placement(transformation(origin = {100, 70}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_rack(r = {Axle.tie_inboard[1], 0, Axle.tie_inboard[3]} - effective_center, animation = false) annotation(
     Placement(transformation(origin = {0, 90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  SteeringRack.RackAndPinion RackAndPinion(tie_i = Axle.tie_inboard, c_factor = 0.088646, link_diameter = link_diameter) annotation(
+  
+  SteeringRack.RackAndPinion RackAndPinion(pRack = pRack, link_diameter = link_diameter) annotation(
     Placement(transformation(origin = {0, 110}, extent = {{-20, -20}, {20, 20}})));
+  
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_wheel_center(r = Axle.wheel_center - Axle.lower_outboard) annotation(
     Placement(transformation(origin = {-120, 30}, extent = {{10, -10}, {-10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_wheel_center(r = Vector.mirrorXZ(Axle.wheel_center - Axle.lower_outboard)) annotation(

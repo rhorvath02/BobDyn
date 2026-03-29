@@ -4,29 +4,32 @@ model RackAndPinion "Rack and pinion"
   // Modelica units
   import Modelica.SIunits;
   
-  // Parameters
-  parameter SIunits.Position tie_i[3] "Tie rod inboard joint, expressed in chassis frame" annotation(
-    Evaluate = false,
-    Dialog(group = "Geometry"));
-  parameter Real c_factor "Rack C-factor, defined as meters of rack travel per pinion revolution" annotation(
-    Evaluate = false, Dialog(group = "Geometry"));
+  import BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.SteeringRack.RackAndPinionRecord;
   
+  // Load parameters
+  parameter RackAndPinionRecord pRack;
+
   // Visual parameters
   parameter SIunits.Length link_diameter annotation(
     Evaluate = true, Dialog(tab="Animation"));
   
+  // Frames
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a mount_frame annotation(
     Placement(transformation(origin = {0, -100}, extent = {{-16, -16}, {16, 16}}, rotation = -90), iconTransformation(origin = {0, -20}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b left_frame annotation(
     Placement(transformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b right_frame annotation(
     Placement(transformation(origin = {100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {100, 0}, extent = {{-16, -16}, {16, 16}})));
+  
+  // Rack axis
   Modelica.Mechanics.MultiBody.Joints.Prismatic prismatic(n = {0, 1, 0}, useAxisFlange = true, animation = false)  annotation(
     Placement(transformation(origin = {0, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation from_left(r = {0, -tie_i[2], 0}, width = link_diameter, height = link_diameter)  annotation(
+  
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation from_left(r = {0, -pRack.leftPickup[2], 0}, width = link_diameter, height = link_diameter)  annotation(
     Placement(transformation(origin = {-30, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right(r = {0, -tie_i[2], 0}, width = link_diameter, height = link_diameter)  annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right(r = {0, -pRack.leftPickup[2], 0}, width = link_diameter, height = link_diameter)  annotation(
     Placement(transformation(origin = {30, 0}, extent = {{-10, -10}, {10, 10}})));
+  
   Modelica.Mechanics.Rotational.Interfaces.Flange_a pinion_flange annotation(
     Placement(transformation(origin = {0, 100}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {0, 20}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Sensors.CutForce cutForce(animation = false)  annotation(
@@ -37,13 +40,13 @@ model RackAndPinion "Rack and pinion"
     Placement(transformation(origin = {50, 50}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
   Modelica.Mechanics.Rotational.Sensors.RelAngleSensor relAngleSensor annotation(
     Placement(transformation(origin = {70, 30}, extent = {{10, -10}, {-10, 10}}, rotation = -90)));
-  Modelica.Blocks.Math.Gain rack_conversion(k = c_factor/(2*Modelica.Constants.pi))  annotation(
+  Modelica.Blocks.Math.Gain rack_conversion(k = pRack.cFactor/(2*Modelica.Constants.pi))  annotation(
     Placement(transformation(origin = {13, 30}, extent = {{7, -7}, {-7, 7}}, rotation = -0)));
   Modelica.Mechanics.Translational.Sources.Position rack_travel(useSupport = true, exact = true)  annotation(
     Placement(transformation(origin = {-30, -42}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Math.Gain torque_conversion(k = 1*c_factor/(2*Modelica.Constants.pi))  annotation(
+  Modelica.Blocks.Math.Gain torque_conversion(k = 1*pRack.cFactor/(2*Modelica.Constants.pi))  annotation(
     Placement(transformation(origin = {-31, 50}, extent = {{-7, -7}, {7, 7}})));
-  Modelica.Mechanics.MultiBody.Visualizers.FixedShape pinion_visualizer(length = 2*c_factor/(2*Modelica.Constants.pi), width = 1.25*c_factor/(2*Modelica.Constants.pi), shapeType = "cylinder", lengthDirection = {0, 0, 1}, height = 1.25*c_factor/(2*Modelica.Constants.pi), color = {255, 255, 255})  annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.FixedShape pinion_visualizer(length = 2*pRack.cFactor/(2*Modelica.Constants.pi), width = 1.25*pRack.cFactor/(2*Modelica.Constants.pi), shapeType = "cylinder", lengthDirection = {0, 0, 1}, height = 1.25*pRack.cFactor/(2*Modelica.Constants.pi), color = {255, 255, 255})  annotation(
     Placement(transformation(origin = {-30, -70}, extent = {{10, -10}, {-10, 10}})));
   Modelica.Mechanics.MultiBody.Visualizers.FixedShape travel_visualizer(shapeType = "cylinder", lengthDirection = {0, 1, 0}, widthDirection = {0, 0, 1}, length = link_diameter, width = link_diameter*1.1, height = link_diameter*1.1, color = {0, 0, 0}, r_shape = {0, -link_diameter/2, 0})  annotation(
     Placement(transformation(origin = {30, -30}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));

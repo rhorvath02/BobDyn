@@ -4,6 +4,8 @@ model TestAxleDW
   import Modelica.Mechanics.MultiBody.Frames;
   import BobLib.Resources.VehicleDefn.OrionRecord;
   
+  parameter OrionRecord pVehicle;
+  
   parameter BobLib.Resources.Records.SUS.FrAxleDW FrAxle;
   parameter BobLib.Resources.Records.SUS.FrAxleDWPushBCARB FrAxleBC;
   
@@ -22,7 +24,7 @@ model TestAxleDW
   
   BobLib.Vehicle.Chassis.Suspension.FrAxleDW AxleDW(
     Axle = FrAxle,
-
+    pRack = pVehicle.rack,
     left_unsprung_mass = unsprung_mass,
     left_uca_mass = uca_mass,
     left_lca_mass = lca_mass,
