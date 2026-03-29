@@ -19,7 +19,7 @@ model FrAxleDW
   parameter BobLib.Resources.Records.SUS.FrAxleDWPushBCARB AxleBC annotation(
     Evaluate = false);
   
-  extends BobLib.Vehicle.Chassis.Suspension.Templates.AxleDW;
+  extends BobLib.Vehicle.Chassis.Suspension.AxleDWBase;
   
   // left bellcrank
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_bellcrank(r = AxleBC.bellcrank_pivot - effective_center, animation = false) annotation(
