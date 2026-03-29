@@ -11,108 +11,149 @@ model FrAxleDW
   import BobLib.Utilities.Math.Vector;
   
   // Records
+  import BobLib.Resources.VehicleRecord.Chassis.Suspension.AxleDWRecord;
   import BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Stabar.StabarRecord;
   
   // Load parameters
+  parameter AxleDWRecord pAxle;
   parameter StabarRecord pStabar;
-  
-  parameter BobLib.Resources.Records.SUS.FrAxleDWPushBCARB AxleBC annotation(
-    Evaluate = false);
   
   extends BobLib.Vehicle.Chassis.Suspension.AxleDWBase;
   
-  // left bellcrank
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_bellcrank(r = AxleBC.bellcrank_pivot - effective_center, animation = false) annotation(
-    Placement(transformation(origin = {-20, -20}, extent = {{10, -10}, {-10, 10}})));
-  // left shock
-  
-  // right bellcrank
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_bellcrank(r = {AxleBC.bellcrank_pivot[1], -AxleBC.bellcrank_pivot[2], AxleBC.bellcrank_pivot[3]} - effective_center, animation = false) annotation(
-    Placement(transformation(origin = {20, -20}, extent = {{-10, -10}, {10, 10}})));
-  
-  // right shock
-  BobLib.Vehicle.Chassis.Suspension.Linkages.Rod right_pushrod(r_a = Vector.mirrorXZ(AxleBC.bellcrank_pickup_2), r_b = Vector.mirrorXZ(AxleBC.rod_mount), n1_a = normalize(Vector.mirrorXZ(AxleBC.bellcrank_pivot_axis)), link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
-    Placement(transformation(origin = {120, -20}, extent = {{20, -20}, {-20, 20}}, rotation = -180)));
-  
-  // Fr Stabar
   Modelica.Mechanics.Rotational.Interfaces.Flange_a pinionFlange annotation(
     Placement(transformation(origin = {0, 140}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {0, 100}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_apex(r = AxleBC.rod_mount - pLeftDW.lower_o, width = link_diameter, height = link_diameter) annotation(
-    Placement(transformation(origin = {-90, 0}, extent = {{10 -10}, {-10, 10}}, rotation = -0)));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_apex(r = {AxleBC.rod_mount[1], -AxleBC.rod_mount[2], AxleBC.rod_mount[3]} - {pLeftDW.lower_o[1], -pLeftDW.lower_o[2], pLeftDW.lower_o[3]}, width = link_diameter, height = link_diameter) annotation(
-    Placement(transformation(origin = {90, 0}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_shock(r = AxleBC.shock_mount - effective_center, animation = false) annotation(
-    Placement(transformation(origin = {-20, -70}, extent = {{10, -10}, {-10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_shock(r = {AxleBC.shock_mount[1], -AxleBC.shock_mount[2], AxleBC.shock_mount[3]} - effective_center, animation = false) annotation(
-    Placement(transformation(origin = {20, -70}, extent = {{-10, -10}, {10, 10}})));
-  BobLib.Vehicle.Chassis.Suspension.Linkages.Rod left_pushrod(r_a = AxleBC.bellcrank_pickup_2, r_b = AxleBC.rod_mount, n1_a = normalize(AxleBC.bellcrank_pivot_axis), link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
+  
+  // Left pushrod  
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toLeftApex(r = pAxle.rodMount - pLeftDW.lower_o, width = link_diameter, height = link_diameter) annotation(
+    Placement(transformation(origin = {-80, -10}, extent = {{0, 0}, {-20, 20}})));
+  BobLib.Vehicle.Chassis.Suspension.Linkages.Rod leftPushrod(r_a = pAxle.bellcrankPickup2,
+                                                              r_b = pAxle.rodMount,
+                                                              n1_a = normalize(pAxle.bellcrankPivotAxis),
+                                                              link_diameter = link_diameter,
+                                                              joint_diameter = joint_diameter) annotation(
     Placement(transformation(origin = {-120, -20}, extent = {{20, -20}, {-20, 20}})));
   
-  Linkages.Bellcrank3 left_bellcrank(pivot = AxleBC.bellcrank_pivot, pivot_axis = AxleBC.bellcrank_pivot_axis, pickup_1 = AxleBC.bellcrank_pickup_1, pickup_2 = AxleBC.bellcrank_pickup_2, pickup_3 = AxleBC.bellcrank_pickup_3, link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
+  // Left bellcrank
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toLeftBellcrank(r = pAxle.bellcrankPivot - effective_center, animation = false) annotation(
+    Placement(transformation(origin = {-20, -20}, extent = {{10, -10}, {-10, 10}})));
+  Linkages.Bellcrank3 left_bellcrank(pivot = pAxle.bellcrankPivot,
+                                     pivot_axis = pAxle.bellcrankPivotAxis,
+                                     pickup_1 = pAxle.bellcrankPickup1,
+                                     pickup_2 = pAxle.bellcrankPickup2,
+                                     pickup_3 = pAxle.bellcrankPickup3,
+                                     link_diameter = link_diameter,
+                                     joint_diameter = joint_diameter) annotation(
     Placement(transformation(origin = {-50, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
-  Linkages.ShockLinkage LeftShockLinkage(r_a = AxleBC.bellcrank_pickup_3, r_b = AxleBC.shock_mount, s_0 = norm(AxleBC.bellcrank_pickup_3 - AxleBC.shock_mount), spring_table = [0, 0; 1, 0], damper_table = [0, 0; 1, 0], link_diameter = link_diameter, joint_diameter = joint_diameter, n_a = AxleBC.bellcrank_pivot_axis, n_b = normalize(AxleBC.bellcrank_pivot - AxleBC.bellcrank_pickup_3)) annotation(
+  
+  // Left shock
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toLeftShock(r = pAxle.shockMount - effective_center, animation = false) annotation(
+    Placement(transformation(origin = {-20, -70}, extent = {{10, -10}, {-10, 10}})));
+  Linkages.ShockLinkage leftShockLinkage(r_a = pAxle.bellcrankPickup3,
+                                         r_b = pAxle.shockMount,
+                                         s_0 = norm(pAxle.bellcrankPickup3 - pAxle.shockMount),
+                                         spring_table = [0, 0; 1, 0],
+                                         damper_table = [0, 0; 1, 0],
+                                         n_a = pAxle.bellcrankPivotAxis,
+                                         n_b = normalize(pAxle.bellcrankPivot - pAxle.bellcrankPickup3),
+                                         link_diameter = link_diameter,
+                                         joint_diameter = joint_diameter) annotation(
     Placement(transformation(origin = {-50, -55}, extent = {{-15, -15}, {15, 15}}, rotation = -90)));
-  Linkages.Bellcrank3 right_bellcrank(pivot_axis = {AxleBC.bellcrank_pivot_axis[1], -AxleBC.bellcrank_pivot_axis[2], AxleBC.bellcrank_pivot_axis[3]}, pivot = {AxleBC.bellcrank_pivot[1], -AxleBC.bellcrank_pivot[2], AxleBC.bellcrank_pivot[3]}, pickup_1 = {AxleBC.bellcrank_pickup_1[1], -AxleBC.bellcrank_pickup_1[2], AxleBC.bellcrank_pickup_1[3]}, pickup_2 = {AxleBC.bellcrank_pickup_2[1], -AxleBC.bellcrank_pickup_2[2], AxleBC.bellcrank_pickup_2[3]}, pickup_3 = {AxleBC.bellcrank_pickup_3[1], -AxleBC.bellcrank_pickup_3[2], AxleBC.bellcrank_pickup_3[3]}, link_diameter = link_diameter, joint_diameter = joint_diameter)  annotation(
+  
+  // Right pushrod
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toRightApex(r = Vector.mirrorXZ(pAxle.rodMount - pLeftDW.lower_o), width = link_diameter, height = link_diameter) annotation(
+    Placement(transformation(origin = {90, 0}, extent = {{-10, -10}, {10, 10}})));
+  BobLib.Vehicle.Chassis.Suspension.Linkages.Rod rightPushrod(r_a = Vector.mirrorXZ(pAxle.bellcrankPickup2),
+                                                               r_b = Vector.mirrorXZ(pAxle.rodMount),
+                                                               n1_a = normalize(Vector.mirrorXZ(pAxle.bellcrankPivotAxis)),
+                                                               link_diameter = link_diameter,
+                                                               joint_diameter = joint_diameter) annotation(
+    Placement(transformation(origin = {120, -20}, extent = {{20, -20}, {-20, 20}}, rotation = -180)));
+  
+  // Right bellcrank
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toRightBellcrank(r = Vector.mirrorXZ(pAxle.bellcrankPivot) - effective_center, animation = false) annotation(
+    Placement(transformation(origin = {20, -20}, extent = {{-10, -10}, {10, 10}})));
+  Linkages.Bellcrank3 rightBellcrank(pivot_axis = Vector.mirrorXZ(pAxle.bellcrankPivotAxis),
+                                      pivot = Vector.mirrorXZ(pAxle.bellcrankPivot),
+                                      pickup_1 = Vector.mirrorXZ(pAxle.bellcrankPickup1),
+                                      pickup_2 = Vector.mirrorXZ(pAxle.bellcrankPickup2),
+                                      pickup_3 = Vector.mirrorXZ(pAxle.bellcrankPickup3),
+                                      link_diameter = link_diameter,
+                                      joint_diameter = joint_diameter) annotation(
     Placement(transformation(origin = {50, -20}, extent = {{10, -10}, {-10, 10}}, rotation = -180)));
-  Linkages.ShockLinkage RightShockLinkage(r_a = {AxleBC.bellcrank_pickup_3[1], -AxleBC.bellcrank_pickup_3[2], AxleBC.bellcrank_pickup_3[3]}, r_b = {AxleBC.shock_mount[1], -AxleBC.shock_mount[2], AxleBC.shock_mount[3]}, n_a = {AxleBC.bellcrank_pivot_axis[1], -AxleBC.bellcrank_pivot_axis[2], AxleBC.bellcrank_pivot_axis[3]}, n_b = normalize({AxleBC.bellcrank_pivot[1], -AxleBC.bellcrank_pivot[2], AxleBC.bellcrank_pivot[3]} - {AxleBC.bellcrank_pickup_3[1], -AxleBC.bellcrank_pickup_3[2], AxleBC.bellcrank_pickup_3[3]}), s_0 = norm(AxleBC.bellcrank_pickup_3 - AxleBC.shock_mount), spring_table = [0, 0; 1, 0], damper_table = [0, 0; 1, 0], link_diameter = link_diameter, joint_diameter = joint_diameter)  annotation(
+    
+  // Right shock
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toRightShock(r = Vector.mirrorXZ(pAxle.shockMount) - effective_center, animation = false) annotation(
+    Placement(transformation(origin = {20, -70}, extent = {{-10, -10}, {10, 10}})));
+  Linkages.ShockLinkage rightShockLinkage(r_a = Vector.mirrorXZ(pAxle.bellcrankPickup3),
+                                          r_b = Vector.mirrorXZ(pAxle.shockMount),
+                                          n_a = Vector.mirrorXZ(pAxle.bellcrankPivotAxis),
+                                          n_b = normalize(Vector.mirrorXZ(pAxle.bellcrankPivot - pAxle.bellcrankPickup3)),
+                                          s_0 = norm(pAxle.bellcrankPickup3 - pAxle.shockMount),
+                                          spring_table = [0, 0; 1, 0],
+                                          damper_table = [0, 0; 1, 0],
+                                          link_diameter = link_diameter,
+                                          joint_diameter = joint_diameter)  annotation(
     Placement(transformation(origin = {50, -55}, extent = {{-15, -15}, {15, 15}}, rotation = -90)));
+  
+  // Stabar
   Templates.Stabar.Stabar stabar(pStabar = pStabar, joint_diameter = joint_diameter, link_diameter = link_diameter) annotation(
     Placement(transformation(origin = {0, -116}, extent = {{20, -20}, {-20, 20}}, rotation = -180)));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_stabar(r = {AxleBC.left_bar_end[1], 0, AxleBC.left_bar_end[3]} - effective_center, animation = false)  annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toStabar(r = {pStabar.leftBarEnd[1], 0, pStabar.leftBarEnd[3]} - effective_center, animation = false)  annotation(
     Placement(transformation(origin = {0, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Mechanics.MultiBody.Joints.SphericalSpherical right_droplink(rodLength = norm({AxleBC.bellcrank_pickup_1[1], -AxleBC.bellcrank_pickup_1[2], AxleBC.bellcrank_pickup_1[3]} - {AxleBC.left_arm_end[1], -AxleBC.left_arm_end[2], AxleBC.left_arm_end[3]}), sphereDiameter = joint_diameter, rodDiameter = link_diameter) annotation(
+  Modelica.Mechanics.MultiBody.Joints.SphericalSpherical rightDroplink(rodLength = norm(Vector.mirrorXZ(pAxle.bellcrankPickup1 - pStabar.leftArmEnd)), sphereDiameter = joint_diameter, rodDiameter = link_diameter) annotation(
     Placement(transformation(origin = {70, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Mechanics.MultiBody.Joints.SphericalSpherical left_droplink(rodLength = norm(AxleBC.bellcrank_pickup_1 - AxleBC.left_arm_end), sphereDiameter = joint_diameter, rodDiameter = link_diameter) annotation(
-    Placement(transformation(origin = {-70, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
+  Modelica.Mechanics.MultiBody.Joints.SphericalSpherical leftDroplink(rodLength = norm(pAxle.bellcrankPickup1 - pStabar.leftArmEnd), sphereDiameter = joint_diameter, rodDiameter = link_diameter) annotation(
+    Placement(transformation(origin = {-70, -90}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));    
+
 equation
   connect(RackAndPinion.pinionFlange, pinionFlange) annotation(
     Line(points = {{0, 114}, {0, 140}}));
-  connect(leftWishboneUprightLoop.lower_o_frame, to_left_apex.frame_a) annotation(
+  connect(leftWishboneUprightLoop.lower_o_frame, toLeftApex.frame_a) annotation(
     Line(points = {{-68, 22}, {-68, 0}, {-80, 0}}, color = {95, 95, 95}));
-  connect(rightWishboneUprightLoop.lower_o_frame, to_right_apex.frame_a) annotation(
+  connect(rightWishboneUprightLoop.lower_o_frame, toRightApex.frame_a) annotation(
     Line(points = {{70, 22}, {70, 0}, {80, 0}}, color = {95, 95, 95}));
-  connect(left_pushrod.frame_b, to_left_apex.frame_b) annotation(
+  connect(leftPushrod.frame_b, toLeftApex.frame_b) annotation(
     Line(points = {{-140, -20}, {-144, -20}, {-144, 0}, {-100, 0}}, color = {95, 95, 95}));
-  connect(right_pushrod.frame_b, to_right_apex.frame_b) annotation(
+  connect(rightPushrod.frame_b, toRightApex.frame_b) annotation(
     Line(points = {{140, -20}, {144, -20}, {144, 0}, {100, 0}}, color = {95, 95, 95}));
-  connect(left_bellcrank.pickup_2_frame, left_pushrod.frame_a) annotation(
+  connect(left_bellcrank.pickup_2_frame, leftPushrod.frame_a) annotation(
     Line(points = {{-60, -20}, {-100, -20}}, color = {95, 95, 95}));
-  connect(left_bellcrank.mount_frame, to_left_bellcrank.frame_b) annotation(
+  connect(left_bellcrank.mount_frame, toLeftBellcrank.frame_b) annotation(
     Line(points = {{-40, -20}, {-30, -20}}, color = {95, 95, 95}));
-  connect(left_bellcrank.pickup_3_frame, LeftShockLinkage.frame_a) annotation(
+  connect(left_bellcrank.pickup_3_frame, leftShockLinkage.frame_a) annotation(
     Line(points = {{-50, -30}, {-50, -40}}, color = {95, 95, 95}));
-  connect(LeftShockLinkage.frame_b, to_left_shock.frame_b) annotation(
+  connect(leftShockLinkage.frame_b, toLeftShock.frame_b) annotation(
     Line(points = {{-50, -70}, {-30, -70}}, color = {95, 95, 95}));
-  connect(to_right_bellcrank.frame_b, right_bellcrank.mount_frame) annotation(
+  connect(toRightBellcrank.frame_b, rightBellcrank.mount_frame) annotation(
     Line(points = {{30, -20}, {40, -20}}, color = {95, 95, 95}));
-  connect(right_bellcrank.pickup_2_frame, right_pushrod.frame_a) annotation(
+  connect(rightBellcrank.pickup_2_frame, rightPushrod.frame_a) annotation(
     Line(points = {{60, -20}, {100, -20}}, color = {95, 95, 95}));
-  connect(right_bellcrank.pickup_3_frame, RightShockLinkage.frame_a) annotation(
+  connect(rightBellcrank.pickup_3_frame, rightShockLinkage.frame_a) annotation(
     Line(points = {{50, -30}, {50, -40}}, color = {95, 95, 95}));
-  connect(RightShockLinkage.frame_b, to_right_shock.frame_b) annotation(
+  connect(rightShockLinkage.frame_b, toRightShock.frame_b) annotation(
     Line(points = {{50, -70}, {30, -70}}, color = {95, 95, 95}));
-  connect(axleFrame, to_left_bellcrank.frame_a) annotation(
+  connect(axleFrame, toLeftBellcrank.frame_a) annotation(
     Line(points = {{0, 0}, {0, -20}, {-10, -20}}));
-  connect(axleFrame, to_right_bellcrank.frame_a) annotation(
+  connect(axleFrame, toRightBellcrank.frame_a) annotation(
     Line(points = {{0, 0}, {0, -20}, {10, -20}}));
-  connect(axleFrame, to_left_shock.frame_a) annotation(
+  connect(axleFrame, toLeftShock.frame_a) annotation(
     Line(points = {{0, 0}, {0, -70}, {-10, -70}}));
-  connect(to_right_bellcrank.frame_a, to_right_shock.frame_a) annotation(
+  connect(toRightBellcrank.frame_a, toRightShock.frame_a) annotation(
     Line(points = {{10, -20}, {0, -20}, {0, -70}, {10, -70}}, color = {95, 95, 95}));
-  connect(axleFrame, to_stabar.frame_a) annotation(
+  connect(axleFrame, toStabar.frame_a) annotation(
     Line(points = {{0, 0}, {0, -80}}));
-  connect(to_stabar.frame_b, stabar.support_frame) annotation(
+  connect(toStabar.frame_b, stabar.support_frame) annotation(
     Line(points = {{0, -100}, {0, -110}}, color = {95, 95, 95}));
-  connect(stabar.right_arm_frame, right_droplink.frame_a) annotation(
+  connect(stabar.right_arm_frame, rightDroplink.frame_a) annotation(
     Line(points = {{20, -120}, {70, -120}, {70, -100}}, color = {95, 95, 95}));
-  connect(right_droplink.frame_b, right_bellcrank.pickup_1_frame) annotation(
+  connect(rightDroplink.frame_b, rightBellcrank.pickup_1_frame) annotation(
     Line(points = {{70, -80}, {70, -10}, {50, -10}}, color = {95, 95, 95}));
-  connect(stabar.left_arm_frame, left_droplink.frame_a) annotation(
+  connect(stabar.left_arm_frame, leftDroplink.frame_a) annotation(
     Line(points = {{-20, -120}, {-70, -120}, {-70, -100}}, color = {95, 95, 95}));
-  connect(left_droplink.frame_b, left_bellcrank.pickup_1_frame) annotation(
+  connect(leftDroplink.frame_b, left_bellcrank.pickup_1_frame) annotation(
     Line(points = {{-70, -80}, {-70, -10}, {-50, -10}}, color = {95, 95, 95}));
   annotation(
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002),
-    Diagram(coordinateSystem(extent = {{-180, -140}, {180, 140}}, preserveAspectRatio = true)),
-    Icon(coordinateSystem(extent = {{-180, -140}, {180, 140}}, preserveAspectRatio = true)));
+    Diagram(coordinateSystem(extent = {{-180, -140}, {180, 140}}, preserveAspectRatio = true), graphics),
+    Icon(coordinateSystem(extent = {{-180, -140}, {180, 140}}, preserveAspectRatio = true), graphics = {Line(origin = {0, 67}, points = {{0, -33}, {0, 33}}, thickness = 5), Ellipse(origin = {0, 100}, lineThickness = 5, extent = {{-26, 26}, {26, -26}}), Line(origin = {-10, 110}, points = {{10, -10}, {-14, -2}}, thickness = 5), Line(origin = {10, 110}, points = {{-10, -10}, {14, -2}}, thickness = 5), Ellipse(origin = {0, 100}, lineColor = {255, 255, 255}, lineThickness = 1, extent = {{-28, 28}, {28, -28}})}));
 end FrAxleDW;

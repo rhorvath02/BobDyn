@@ -17,17 +17,17 @@ model TestAxleDW
   parameter Real right_cp_init[3] = Vector.mirrorXZ(left_cp_init);
   
   BobLib.Vehicle.Chassis.Suspension.FrAxleDW AxleDW(
-//    pAxle = pVehicle.pFrAxleDW,
+    pLeftDW = pVehicle.pFrDW,
     pRack = pVehicle.pRack,
     pStabar = pVehicle.pFrStabar,
-    pLeftDW = pVehicle.pFrDW,
     pLeftAxleMass = pVehicle.pFrAxleMass,
-    // Tire redeclarations
+    pAxle = pVehicle.pFrAxleDW,
+    
     redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire leftTire(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.NoSlip slipModel),
     redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire rightTire(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.NoSlip slipModel),
     link_diameter = link_diameter,
     joint_diameter = joint_diameter) annotation(
-  Placement(transformation(origin = {2.72478e-07, 6.44444}, extent = {{-34, -26.4444}, {34, 26.4444}})));
+    Placement(transformation(origin = {2.72478e-07, 6.44444}, extent = {{-34, -26.4444}, {34, 26.4444}})));
   
   Modelica.Mechanics.MultiBody.Parts.Fixed fixed(r = {pVehicle.pFrDW.wheelCenter[1], 0, pVehicle.pFrDW.wheelCenter[3]})  annotation(
     Placement(transformation(origin = {0, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
@@ -61,9 +61,9 @@ model TestAxleDW
     Placement(transformation(origin = {70, 30}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Sources.Ramp right_jounce_ramp(duration = 1, height = -1*0.0254, startTime = 1) annotation(
     Placement(transformation(origin = {30, 60}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.Rotational.Sources.Position handwheel_angle(exact = true) annotation(
+  Modelica.Mechanics.Rotational.Sources.Position handwheel_angle(exact = true)  annotation(
     Placement(transformation(origin = {-70, 80}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.Ramp steer_ramp(duration = 1, height = 100*Modelica.Constants.pi/180, startTime = 1) annotation(
+  Modelica.Blocks.Sources.Ramp steer_ramp(duration = 1, height = 90*Modelica.Constants.pi/180, startTime = 1) annotation(
     Placement(transformation(origin = {-100, 80}, extent = {{-10, -10}, {10, 10}})));
 
 equation

@@ -3,16 +3,12 @@ within BobLib.Vehicle.Chassis.Suspension.Templates.DoubleWishbone;
 model WishboneUprightLoop "Kinematic loop consisting of upright, lower wishbone, and upper wishbone"
   // Modelica units
   import Modelica.SIunits;
-  
   // Modelica linalg
   import Modelica.Math.Vectors.normalize;
-  
   // Records
   import BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.DoubleWishbone.WishboneUprightLoopRecord;
-  
   // Load parameters
   parameter WishboneUprightLoopRecord pDW;
-  
   // Visual parameters
   parameter SIunits.Length link_diameter annotation(
     Evaluate = true,
@@ -20,7 +16,6 @@ model WishboneUprightLoop "Kinematic loop consisting of upright, lower wishbone,
   parameter SIunits.Length joint_diameter annotation(
     Evaluate = true,
     Dialog(tab = "Animation"));
-  
   // Frames
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a upper_i_frame annotation(
     Placement(transformation(origin = {-100, 60}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-100, 70}, extent = {{-16, -16}, {16, 16}})));
@@ -32,7 +27,6 @@ model WishboneUprightLoop "Kinematic loop consisting of upright, lower wishbone,
     Placement(transformation(origin = {0, -100}, extent = {{-16, -16}, {16, 16}}, rotation = -90), iconTransformation(origin = {0, -100}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b steering_frame annotation(
     Placement(transformation(origin = {100, -60}, extent = {{16, -16}, {-16, 16}}), iconTransformation(origin = {100, -70}, extent = {{-16, -16}, {16, 16}})));
-  
   // Upper wishbone + upright
   Modelica.Mechanics.MultiBody.Joints.Assemblies.JointUSR upper_wishbone_upright(n1_a = {1, 0, 0},
                                                                                  n_b = normalize(pDW.upperFore_i - pDW.upperAft_i),
@@ -46,7 +40,6 @@ model WishboneUprightLoop "Kinematic loop consisting of upright, lower wishbone,
                                                                                  cylinderLength = joint_diameter*0.125,
                                                                                  cylinderDiameter = joint_diameter*0.125) annotation(
     Placement(transformation(origin = {0, 16}, extent = {{20, -20}, {-20, 20}}, rotation = -90)));
-  
   // Lower wisbone
   Modelica.Mechanics.MultiBody.Joints.Revolute lower_inboard_joint(n = normalize(pDW.lowerFore_i - pDW.lowerAft_i),
                                                                    cylinderLength = joint_diameter,
@@ -56,7 +49,6 @@ model WishboneUprightLoop "Kinematic loop consisting of upright, lower wishbone,
                                                                  width = link_diameter,
                                                                  height = link_diameter) annotation(
     Placement(transformation(origin = {-30, -60}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
-  
   // Steering interface
   Modelica.Mechanics.MultiBody.Joints.Revolute steering_axis(n = normalize(pDW.upper_o - pDW.lower_o),
                                                              cylinderLength = joint_diameter,

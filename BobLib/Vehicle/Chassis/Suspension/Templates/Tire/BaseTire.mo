@@ -12,92 +12,72 @@ model BaseTire
     Placement(transformation(origin = {0, -100}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b chassis_frame annotation(
     Placement(transformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}})));
-  
   Modelica.Mechanics.Rotational.Interfaces.Flange_b hub_flange annotation(
     Placement(transformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {100, 0}, extent = {{-10, -10}, {10, 10}})));
-  
   // Base states
   SIunits.Force Fz;
   SIunits.Angle gamma;
-
   // Slip states (from SlipModel)
   SIunits.Angle alpha;
   Real kappa;
-  
   replaceable BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Wheel0DOF wheelModel annotation(
     Placement(transformation(extent = {{-30, -30}, {30, 30}})));
   replaceable BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.KinematicSlip slipModel annotation(
     Placement(transformation(origin = {90, -90}, extent = {{-10, -10}, {10, 10}})));
-  
   // Force expressions
-  Modelica.Blocks.Sources.RealExpression realExpressionFx(y = 0)  annotation(
+  Modelica.Blocks.Sources.RealExpression realExpressionFx(y = 0) annotation(
     Placement(transformation(origin = {-90, -56}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.RealExpression realExpressionFy(y = 0)  annotation(
+  Modelica.Blocks.Sources.RealExpression realExpressionFy(y = 0) annotation(
     Placement(transformation(origin = {-90, -70}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.Constant constantZero(k = 0)  annotation(
+  Modelica.Blocks.Sources.Constant constantZero(k = 0) annotation(
     Placement(transformation(origin = {-90, -90}, extent = {{-10, -10}, {10, 10}})));
-  
   // Torque expressions
-  Modelica.Blocks.Sources.RealExpression realExpressionMx(y = 0)  annotation(
+  Modelica.Blocks.Sources.RealExpression realExpressionMx(y = 0) annotation(
     Placement(transformation(origin = {-90, 54}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.RealExpression realExpressionMy(y = 0)  annotation(
+  Modelica.Blocks.Sources.RealExpression realExpressionMy(y = 0) annotation(
     Placement(transformation(origin = {-90, 40}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.RealExpression realExpressionMz(y = 0)  annotation(
+  Modelica.Blocks.Sources.RealExpression realExpressionMz(y = 0) annotation(
     Placement(transformation(origin = {-90, 26}, extent = {{-10, -10}, {10, 10}})));
-  
-  Modelica.Mechanics.MultiBody.Forces.WorldForceAndTorque forceAndTorque(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = true)  annotation(
+  Modelica.Mechanics.MultiBody.Forces.WorldForceAndTorque forceAndTorque(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameB.frame_b, animation = true) annotation(
     Placement(transformation(origin = {-30, -50}, extent = {{-10, -10}, {10, 10}})));
-  
 protected
   Real[3] e_xw "Unit vector along wheel x-axis, resolved in world frame";
   Real[3] e_yw "Unit vector along wheel y-axis, resolved in world frame";
   Real[3] e_spin "Unit vector along wheel spin axis, resolved in world frame";
   Real[3] e_zw "Unit vector along wheel z-axis, resolved in world frame";
-  
   Real[3] e_xg "e_xw projected on the xy-plane (ground) and normalized";
   Real[3] e_yg "e_yw projected on the xy-plane (ground) and normalized";
-
   // Velocity quantities (for slip calculation)
   Real[3] v_cp "Contact patch velocity in world frame";
   Real[3] v_g "Velocity projected onto ground plane";
-
   SIunits.Velocity Vx "Longitudinal velocity at contact patch";
   SIunits.Velocity Vy "Lateral velocity at contact patch";
-
+public
 equation
-  // Normal load
+// Normal load
   Fz = max(0, cp_frame.f[3]);
-  
-  // World basis (from cp_frame)
+// World basis (from cp_frame)
   e_xw = Modelica.Mechanics.MultiBody.Frames.resolve1(cp_frame.R, {1, 0, 0});
   e_yw = Modelica.Mechanics.MultiBody.Frames.resolve1(cp_frame.R, {0, 1, 0});
-
   e_spin = Modelica.Mechanics.MultiBody.Frames.resolve1(wheelModel.hub_axis.frame_b.R, {0, 1, 0});
-  e_zw   = wheelModel.hub_axis.frame_b.R.T[:, 3];
-  
-  // Ground-projected tire basis (CRITICAL FIX)
+  e_zw = wheelModel.hub_axis.frame_b.R.T[:, 3];
+// Ground-projected tire basis (CRITICAL FIX)
   e_xg = normalize({e_xw[1], e_xw[2], 0});
   e_yg = normalize({e_yw[1], e_yw[2], 0});
-  
-  // Inclination angle
+// Inclination angle
   gamma = Modelica.Math.asin(max(-1.0, min(1.0, e_zw[2])));
-
-  // Contact patch velocity
+// Contact patch velocity
   v_cp = wheelModel.wheel_vel_sensor.v;
-  v_g  = {v_cp[1], v_cp[2], 0};
-
+  v_g = {v_cp[1], v_cp[2], 0};
   Vx = v_g[1]*e_xg[1] + v_g[2]*e_xg[2];
   Vy = v_g[1]*e_yg[1] + v_g[2]*e_yg[2];
-
-  // Slip model
-  slipModel.Vx    = Vx;
-  slipModel.Vy    = Vy;
+// Slip model
+  slipModel.Vx = Vx;
+  slipModel.Vy = Vy;
   slipModel.omega = wheelModel.wheel_rot_speed_sensor.w;
-  slipModel.R0    = wheelModel.radius_sensor.s_rel;
-
+  slipModel.R0 = wheelModel.radius_sensor.s_rel;
   alpha = slipModel.alpha;
   kappa = slipModel.kappa;
-  
   connect(chassis_frame, wheelModel.chassis_frame) annotation(
     Line(points = {{-100, 0}, {-30, 0}}));
   connect(wheelModel.cp_frame, cp_frame) annotation(

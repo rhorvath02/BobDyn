@@ -3,7 +3,7 @@ within BobLib.Resources.VehicleDefn;
 record OrionRecord
 
   import BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.MassRecord;
-
+  
   import Tire = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.MF52;
   import Rack = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.SteeringRack;
   import Stabar = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Stabar;
@@ -45,7 +45,7 @@ record OrionRecord
   
   parameter Axle.AxleDWRecord pFrAxleDW(
     bellcrankPivot = {-0.042144464098, 0.250754351932, 0.370010000136},
-    bellcrankPivotAxis = {0.9583, -0.2662, -0.1115},
+    bellcrankPivotAxis = {0.95754655, -0.26587315, -0.11142744},
     bellcrankPickup1 = {-0.029010173628, 0.2971411507, 0.37219698865},
     bellcrankPickup2 = {-0.014493326106, 0.348410770284, 0.374614186762},
     bellcrankPickup3 = {-0.01102742905, 0.34553503283, 0.411259910778},
