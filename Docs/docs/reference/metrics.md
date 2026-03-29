@@ -35,7 +35,11 @@ $$
 a_y = \frac{v^2}{R}
 $$
 
-where the achievable value of $a_y$ is limited by the available tire lateral force.
+| Variable | Meaning |
+| :--- | :--- |
+| $a_y$ | lateral acceleration |
+| $v$ | velocity |
+| $R$ | turn radius |
 
 ### Linear Understeer Gradient
 
@@ -53,7 +57,11 @@ $$
 K = \frac{\partial \delta}{\partial a_y}
 $$
 
-where $\delta$ is steering angle and $a_y$ is lateral acceleration.
+| Variable | Meaning |
+| :--- | :--- |
+| $K$ | understeer gradient |
+| $\delta$ | steering angle |
+| $a_y$ | lateral acceleration |
 
 ### Limit Understeer Behavior
 
@@ -80,6 +88,11 @@ during normal cornering.
 $$
 \beta = f(a_y)
 $$
+
+| Variable | Meaning |
+| :--- | :--- |
+| $\beta$ | sideslip angle |
+| $a_y$ | lateral acceleration |
 
 ### Limit Sideslip Behavior
 
@@ -109,6 +122,12 @@ $$
 G_r = \frac{r}{\delta}
 $$
 
+| Variable | Meaning |
+| :--- | :--- |
+| $G_r$ | yaw rate gain |
+| $r$ | yaw rate (rotation speed) |
+| $\delta$ | steering angle |
+
 **Why it matters.** Yaw rate gain defines how strongly the vehicle responds rotationally to driver
 input and forms the basis for interpreting many other dynamic metrics.
 
@@ -119,6 +138,13 @@ input and forms the basis for interpreting many other dynamic metrics.
 $$
 \phi_r(\omega) = \angle \frac{R(\omega)}{\Delta(\omega)}
 $$
+
+| Variable | Meaning |
+| :--- | :--- |
+| $\phi_r(\omega)$ | phase angle at frequency $\omega$ |
+| $R(\omega)$ | yaw rate response |
+| $\Delta(\omega)$ | steering input |
+| $\omega$ | frequency |
 
 **Why it matters.** Yaw delay strongly affects perceived responsiveness and driver confidence during
 rapid maneuvers.
@@ -138,6 +164,12 @@ steering input.
 $$
 A_r = \frac{r_{peak}}{r_{ss}}
 $$
+
+| Variable | Meaning |
+| :--- | :--- |
+| $A_r$ | amplification ratio |
+| $r_{peak}$ | peak yaw rate |
+| $r_{ss}$ | steady-state yaw rate |
 
 **Why it matters.** Yaw amplification indicates whether the vehicle exhibits aggressive transient
 overshoot or a controlled, well-damped response.
@@ -165,6 +197,13 @@ yaw rate response.
 $$
 G_r(j\omega) = \frac{R(j\omega)}{\Delta(j\omega)}
 $$
+
+| Variable | Meaning |
+| :--- | :--- |
+| $G_r(j\omega)$ | frequency response |
+| $R(j\omega)$ | yaw rate response |
+| $\Delta(j\omega)$ | steering input |
+| $j\omega$ | frequency (imaginary form) |
 
 **Why it matters.** Frequency-domain metrics provide a compact representation of vehicle dynamics
 across a wide range of time scales.
