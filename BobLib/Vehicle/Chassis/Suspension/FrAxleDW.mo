@@ -18,17 +18,8 @@ model FrAxleDW
   
   parameter BobLib.Resources.Records.SUS.FrAxleDWPushBCARB AxleBC annotation(
     Evaluate = false);
-  parameter BobLib.Resources.Records.MASSPROPS.FrUnsprung unsprung_mass annotation(
-    Evaluate = false);
-  parameter BobLib.Resources.Records.MASSPROPS.FrUCA uca_mass annotation(
-    Evaluate = false);
-  parameter BobLib.Resources.Records.MASSPROPS.FrLCA lca_mass annotation(
-    Evaluate = false);
-  parameter BobLib.Resources.Records.MASSPROPS.FrTie tie_mass annotation(
-    Evaluate = false);
-  parameter BobLib.Resources.Records.TIRES.Fr_tire Fr_tire annotation(
-    Evaluate = false);
-  extends BobLib.Vehicle.Chassis.Suspension.Templates.AxleDW(Axle = FrAxle, left_unsprung_mass = unsprung_mass, left_uca_mass = uca_mass, left_lca_mass = lca_mass, left_tie_mass = tie_mass);
+  
+  extends BobLib.Vehicle.Chassis.Suspension.Templates.AxleDW;
   // left bellcrank
   final Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_bellcrank(r = AxleBC.bellcrank_pivot - effective_center, animation = false) annotation(
     Placement(transformation(origin = {-20, -20}, extent = {{10, -10}, {-10, 10}})));

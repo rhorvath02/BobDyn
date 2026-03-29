@@ -9,28 +9,18 @@ model TestAxleDW
   parameter BobLib.Resources.Records.SUS.FrAxleDW FrAxle;
   parameter BobLib.Resources.Records.SUS.FrAxleDWPushBCARB FrAxleBC;
   
-  parameter BobLib.Resources.Records.MASSPROPS.FrUnsprung unsprung_mass;
-  parameter BobLib.Resources.Records.MASSPROPS.FrUCA uca_mass;
-  parameter BobLib.Resources.Records.MASSPROPS.FrLCA lca_mass;
-  parameter BobLib.Resources.Records.MASSPROPS.FrTie tie_mass;
-  
-  parameter BobLib.Resources.Records.TIRES.Fr_tire Fr_tire;
-  
   parameter Real link_diameter = 0.020;
   parameter Real joint_diameter = 0.030;
   
-  parameter Real left_cp_init[3] = FrAxle.wheel_center + Frames.resolve1(Frames.axesRotations({1, 2, 3}, {FrAxle.static_gamma*Modelica.Constants.pi/180, 0, FrAxle.static_alpha*Modelica.Constants.pi/180}, {0, 0, 0}), {0, 0, -Fr_tire.UNLOADED_RADIUS});
+  parameter Real left_cp_init[3] = FrAxle.wheel_center + Frames.resolve1(Frames.axesRotations({1, 2, 3}, {FrAxle.static_gamma*Modelica.Constants.pi/180, 0, FrAxle.static_alpha*Modelica.Constants.pi/180}, {0, 0, 0}), {0, 0, -pVehicle.tireFL.setup.R0});
   parameter Real right_cp_init[3] = {left_cp_init[1], -left_cp_init[2], left_cp_init[3]};
   
   BobLib.Vehicle.Chassis.Suspension.FrAxleDW AxleDW(
     Axle = FrAxle,
     pRack = pVehicle.pRack,
     pStabar = pVehicle.pFrStabar,
-    pLeftDW = pVehicle.pDW,
-    left_unsprung_mass = unsprung_mass,
-    left_uca_mass = uca_mass,
-    left_lca_mass = lca_mass,
-    left_tie_mass = tie_mass,
+    pLeftDW = pVehicle.pFrDW,
+    pLeftAxleMass = pVehicle.pFrAxleMass,
 
     link_diameter = link_diameter,
     joint_diameter = joint_diameter,

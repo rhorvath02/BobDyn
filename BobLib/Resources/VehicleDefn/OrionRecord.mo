@@ -2,10 +2,13 @@ within BobLib.Resources.VehicleDefn;
 
 record OrionRecord
 
+  import BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.MassRecord;
+
   import Tire = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.MF52;
   import Rack = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.SteeringRack;
   import Stabar = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Stabar;
   import DW = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.DoubleWishbone;
+  import Axle = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates;
   
   parameter Rack.RackAndPinionRecord pRack(
     leftPickup = {0.05715, 0.2260092, 0.1137158},
@@ -16,7 +19,7 @@ record OrionRecord
     leftBarEnd = {-0.10664664, 0.2667, 0.11811},
     barRate = 258);
   
-  parameter DW.WishboneUprightLoopRecord pDW(
+  parameter DW.WishboneUprightLoopRecord pFrDW(
     upperFore_i = {0.1016, 0.237744, 0.2143252},
     upperAft_i = {-0.0680974, 0.2356358, 0.215138},
     lowerFore_i = {0.1016, 0.226314, 0.08001},
@@ -24,6 +27,20 @@ record OrionRecord
     upper_o = {-0.0092964, 0.5420106, 0.2679954},
     lower_o = {0.0029972, 0.562991, 0.1139952}
     );
+
+  parameter Axle.AxleMassRecord pFrAxleMass(
+    unsprungMass = MassRecord(m = 7.8160579,
+                              r_cm = {-0.0061298, 0.60174377, 0.19797979},
+                              I = {{0.10580066, 0.00038293, 0.00058877}, {0.00038293, 0.16064008, -0.00075416}, {0.00058877, -0.00075416, 0.10801766}}),
+    ucaMass = MassRecord(m = 0.55776965,
+                         r_cm = {-0.00187916, 0.45854113, 0.25343195},
+                         I = {{0.00700626, -0.00058434, -0.0001073}, {-0.00058434, 0.0011635, 0.00116272}, {-0.0001073, 0.00116272, 0.00762498}}),
+    lcaMass = MassRecord(m = 0.5182905,
+                         r_cm = {0.00803455, 0.40581792, 0.09882118},
+                         I = {{0.00649759, -0.00017572, -0.00001824}, {-0.00017572, 0.00145437, 0.00068888}, {-0.00001824, 0.00068888, 0.00776251}}),
+    tieMass = MassRecord(m = 0.13459415,
+                         r_cm = {0.05709287, 0.34616483, 0.1281302},
+                         I = {{0.00178949, -0.00000083, -0.0000001}, {-0.00000083, 0.00002994, 0.00021109}, {-0.0000001, 0.000211, 0.001764}}));
   
   parameter Tire.MF52Record tireFL(
     // Setup
