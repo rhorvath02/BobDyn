@@ -20,22 +20,26 @@ model FrAxleDW
     Evaluate = false);
   
   extends BobLib.Vehicle.Chassis.Suspension.Templates.AxleDW;
+  
   // left bellcrank
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_bellcrank(r = AxleBC.bellcrank_pivot - effective_center, animation = false) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_bellcrank(r = AxleBC.bellcrank_pivot - effective_center, animation = false) annotation(
     Placement(transformation(origin = {-20, -20}, extent = {{10, -10}, {-10, 10}})));
   // left shock
+  
   // right bellcrank
-  final Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_bellcrank(r = {AxleBC.bellcrank_pivot[1], -AxleBC.bellcrank_pivot[2], AxleBC.bellcrank_pivot[3]} - effective_center, animation = false) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_bellcrank(r = {AxleBC.bellcrank_pivot[1], -AxleBC.bellcrank_pivot[2], AxleBC.bellcrank_pivot[3]} - effective_center, animation = false) annotation(
     Placement(transformation(origin = {20, -20}, extent = {{-10, -10}, {10, 10}})));
+  
   // right shock
-  final BobLib.Vehicle.Chassis.Suspension.Linkages.Rod right_pushrod(r_a = Vector.mirrorXZ(AxleBC.bellcrank_pickup_2), r_b = Vector.mirrorXZ(AxleBC.rod_mount), n1_a = normalize(Vector.mirrorXZ(AxleBC.bellcrank_pivot_axis)), link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
+  BobLib.Vehicle.Chassis.Suspension.Linkages.Rod right_pushrod(r_a = Vector.mirrorXZ(AxleBC.bellcrank_pickup_2), r_b = Vector.mirrorXZ(AxleBC.rod_mount), n1_a = normalize(Vector.mirrorXZ(AxleBC.bellcrank_pivot_axis)), link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
     Placement(transformation(origin = {120, -20}, extent = {{20, -20}, {-20, 20}}, rotation = -180)));
+  
   // Fr Stabar
   Modelica.Mechanics.Rotational.Interfaces.Flange_a pinion_flange annotation(
     Placement(transformation(origin = {0, 140}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {0, 100}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_apex(r = AxleBC.rod_mount - Axle.lower_outboard, width = link_diameter, height = link_diameter) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_apex(r = AxleBC.rod_mount - pLeftDW.lower_o, width = link_diameter, height = link_diameter) annotation(
     Placement(transformation(origin = {-90, 0}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_apex(r = {AxleBC.rod_mount[1], -AxleBC.rod_mount[2], AxleBC.rod_mount[3]} - {Axle.lower_outboard[1], -Axle.lower_outboard[2], Axle.lower_outboard[3]}, width = link_diameter, height = link_diameter) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_apex(r = {AxleBC.rod_mount[1], -AxleBC.rod_mount[2], AxleBC.rod_mount[3]} - {pLeftDW.lower_o[1], -pLeftDW.lower_o[2], pLeftDW.lower_o[3]}, width = link_diameter, height = link_diameter) annotation(
     Placement(transformation(origin = {90, 0}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_shock(r = AxleBC.shock_mount - effective_center, animation = false) annotation(
     Placement(transformation(origin = {-20, -70}, extent = {{10, -10}, {-10, 10}})));

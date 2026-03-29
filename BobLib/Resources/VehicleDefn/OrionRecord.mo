@@ -26,9 +26,9 @@ record OrionRecord
     lowerAft_i = {-0.0762, 0.226314, 0.08001},
     upper_o = {-0.0092964, 0.5420106, 0.2679954},
     lower_o = {0.0029972, 0.562991, 0.1139952},
-    tie_o = {0.0569976, 0.546989, 0.1522222}
-    );
-
+    tie_o = {0.0569976, 0.546989, 0.1522222},
+    wheelCenter = {0, 0.606110767456, 0.199898});
+    
   parameter Axle.AxleMassRecord pFrAxleMass(
     unsprungMass = MassRecord(m = 7.8160579,
                               r_cm = {-0.0061298, 0.60174377, 0.19797979},

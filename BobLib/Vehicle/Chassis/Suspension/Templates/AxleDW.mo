@@ -22,7 +22,8 @@ model AxleDW
                                                lowerAft_i = Vector.mirrorXZ(pLeftDW.lowerAft_i),
                                                upper_o = Vector.mirrorXZ(pLeftDW.upper_o),
                                                lower_o = Vector.mirrorXZ(pLeftDW.lower_o),
-                                               tie_o = Vector.mirrorXZ(pLeftDW.tie_o));
+                                               tie_o = Vector.mirrorXZ(pLeftDW.tie_o),
+                                               wheelCenter = Vector.mirrorXZ(pLeftDW.wheelCenter));
   parameter AxleMassRecord pLeftAxleMass;
   parameter AxleMassRecord pRightAxleMass(unsprungMass(m = pLeftAxleMass.unsprungMass.m,
                                                        r_cm = Vector.mirrorXZ(pLeftAxleMass.unsprungMass.r_cm),
@@ -37,10 +38,6 @@ model AxleDW
                                                   r_cm = Vector.mirrorXZ(pLeftAxleMass.tieMass.r_cm),
                                                   I = Tensor.mirrorXZ(pLeftAxleMass.tieMass.I)));
   
-  // Geometry Parameters
-  parameter BobLib.Resources.Records.TEMPLATES.AxleDWTemplate Axle annotation(
-    Evaluate = false);
-  
   // Visual parameters
   parameter SIunits.Length link_diameter annotation(
     Dialog(tab = "Animation", group = "Sizing"));
@@ -48,7 +45,7 @@ model AxleDW
     Dialog(tab = "Animation", group = "Sizing"));
 
   // Effective center for internal calculations
-  final parameter SIunits.Position[3] effective_center = {Axle.wheel_center[1], 0, Axle.wheel_center[3]};
+  final parameter SIunits.Position[3] effective_center = {pLeftDW.wheelCenter[1], 0, pLeftDW.wheelCenter[3]};
 
   // Interface frames
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a axle_frame annotation(
@@ -75,6 +72,7 @@ model AxleDW
   Modelica.Mechanics.Rotational.Interfaces.Flange_b right_torque annotation(
     Placement(transformation(origin = {180, 50}, extent = {{-10, -10}, {10, 10}}), 
     iconTransformation(origin = {180, 50}, extent = {{-10, -10}, {10, 10}})));
+  
   DoubleWishbone.WishboneUprightLoop LeftWishboneUprightLoop(pDW = pLeftDW, link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
     Placement(transformation(origin = {-69, 50}, extent = {{29, -29}, {-29, 29}})));
   DoubleWishbone.WishboneUprightLoop RightWishboneUprightLoop(pDW = pRightDW, link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
@@ -107,9 +105,9 @@ model AxleDW
   SteeringRack.RackAndPinion RackAndPinion(pRack = pRack, link_diameter = link_diameter) annotation(
     Placement(transformation(origin = {0, 110}, extent = {{-20, -20}, {20, 20}})));
   
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_wheel_center(r = Axle.wheel_center - pLeftDW.lower_o) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_wheel_center(r = pLeftDW.wheelCenter - pLeftDW.lower_o) annotation(
     Placement(transformation(origin = {-120, 30}, extent = {{10, -10}, {-10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_wheel_center(r = Vector.mirrorXZ(Axle.wheel_center - pLeftDW.lower_o)) annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_wheel_center(r = pRightDW.wheelCenter - pRightDW.lower_o) annotation(
     Placement(transformation(origin = {120, 30}, extent = {{-10, -10}, {10, 10}})));
   
   // Left-half bodies
@@ -136,7 +134,7 @@ model AxleDW
                                                       cylinderDiameter = link_diameter) annotation(
     Placement(transformation(origin = {-130, 12}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
   Modelica.Mechanics.MultiBody.Parts.Body leftUnsprungBody(m = pLeftAxleMass.unsprungMass.m,
-                                                           r_CM = pLeftAxleMass.unsprungMass.r_cm - Axle.wheel_center,
+                                                           r_CM = pLeftAxleMass.unsprungMass.r_cm - pLeftDW.wheelCenter,
                                                            I_11 = pLeftAxleMass.unsprungMass.I[1, 1],
                                                            I_22 = pLeftAxleMass.unsprungMass.I[2, 2],
                                                            I_33 = pLeftAxleMass.unsprungMass.I[3, 3],
@@ -171,7 +169,7 @@ model AxleDW
                                                        cylinderDiameter = link_diameter) annotation(
     Placement(transformation(origin = {130, 12}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.Body rightUnsprungBody(m = pRightAxleMass.unsprungMass.m,
-                                                            r_CM = pRightAxleMass.unsprungMass.r_cm - Vector.mirrorXZ(Axle.wheel_center),
+                                                            r_CM = pRightAxleMass.unsprungMass.r_cm - pRightDW.wheelCenter,
                                                             I_11 = pRightAxleMass.unsprungMass.I[1, 1],
                                                             I_22 = pRightAxleMass.unsprungMass.I[2, 2],
                                                             I_33 = pRightAxleMass.unsprungMass.I[3, 3],

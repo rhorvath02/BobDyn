@@ -4,19 +4,21 @@ model TestAxleDW
   import Modelica.Mechanics.MultiBody.Frames;
   import BobLib.Resources.VehicleDefn.OrionRecord;
   
+  // Custom linalg
+  import BobLib.Utilities.Math.Vector;
+  
   parameter OrionRecord pVehicle;
   
-  parameter BobLib.Resources.Records.SUS.FrAxleDW FrAxle;
   parameter BobLib.Resources.Records.SUS.FrAxleDWPushBCARB FrAxleBC;
   
   parameter Real link_diameter = 0.020;
   parameter Real joint_diameter = 0.030;
   
-  parameter Real left_cp_init[3] = FrAxle.wheel_center + Frames.resolve1(Frames.axesRotations({1, 2, 3}, {FrAxle.static_gamma*Modelica.Constants.pi/180, 0, FrAxle.static_alpha*Modelica.Constants.pi/180}, {0, 0, 0}), {0, 0, -pVehicle.tireFL.setup.R0});
-  parameter Real right_cp_init[3] = {left_cp_init[1], -left_cp_init[2], left_cp_init[3]};
+  // {gamma, 0, alpha}
+  parameter Real left_cp_init[3] = pVehicle.pFrDW.wheelCenter + Frames.resolve1(Frames.axesRotations({1, 2, 3}, {0*Modelica.Constants.pi/180, 0, 0*Modelica.Constants.pi/180}, {0, 0, 0}), {0, 0, -pVehicle.tireFL.setup.R0});
+  parameter Real right_cp_init[3] = Vector.mirrorXZ(left_cp_init);
   
   BobLib.Vehicle.Chassis.Suspension.FrAxleDW AxleDW(
-    Axle = FrAxle,
     pRack = pVehicle.pRack,
     pStabar = pVehicle.pFrStabar,
     pLeftDW = pVehicle.pFrDW,
@@ -30,7 +32,7 @@ model TestAxleDW
     redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire right_tire(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.NoSlip slipModel)) annotation(
   Placement(transformation(origin = {2.72478e-07, 6.44444}, extent = {{-34, -26.4444}, {34, 26.4444}})));
   
-  Modelica.Mechanics.MultiBody.Parts.Fixed fixed(r = {FrAxle.wheel_center[1], 0, FrAxle.wheel_center[3]})  annotation(
+  Modelica.Mechanics.MultiBody.Parts.Fixed fixed(r = {pVehicle.pFrDW.wheelCenter[1], 0, pVehicle.pFrDW.wheelCenter[3]})  annotation(
     Placement(transformation(origin = {0, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   inner Modelica.Mechanics.MultiBody.World world(n = {0, 0, -1})  annotation(
     Placement(transformation(origin = {-110, -90}, extent = {{-10, -10}, {10, 10}})));

@@ -26,5 +26,8 @@ record WishboneUprightLoopRecord
   parameter SIunits.Position tie_o[3] "Tie rod outboard joint, expressed in chassis frame" annotation(
     Evaluate = false,
     Dialog(group = "Geometry"));
+  parameter SIunits.Position wheelCenter[3] "Centroid of volume enclosing wheel, expressed in chassis frame" annotation(
+    Evaluate = false,
+    Dialog(group = "Geometry"));
   
 end WishboneUprightLoopRecord;
