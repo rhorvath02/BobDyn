@@ -39,7 +39,6 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'Overview', link: '/bobsim/' },
-            { text: 'Characterization', link: '/bobsim/characterization' },
             { text: 'Design of Experiments', link: '/bobsim/doe' },
           ]
         },
