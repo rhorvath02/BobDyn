@@ -6,6 +6,7 @@ export default defineConfig({
     base: '/',
     appearance: 'dark',
 
+<<<<<<< HEAD
     head: [
         ['link', {rel: 'icon', type: 'image/png', href: '/bob.png'}],
     ],
@@ -13,6 +14,45 @@ export default defineConfig({
     themeConfig: {
         logo: '/bob.png',
         siteTitle: 'BobDyn',
+=======
+  head: [
+    ['link', { rel: 'icon', type: 'image/png', href: '/bob.png' }],
+  ],
+
+  themeConfig: {
+    logo: '/bob.png',
+    siteTitle: 'BobDyn',
+
+    nav: [
+      {text: 'BobLib', link: '/boblib/' },
+      { text: 'BobSim', link: '/bobsim/' },
+      { text: 'Reference', link: '/reference/' },
+      // Add new top-nav entries here
+    ],
+
+    sidebar: {
+      // BobLib pages - only show boblib
+      '/boblib/': [
+        {
+          text: 'BobLib',
+          collapsed: false,
+          items: [
+            { text: 'Overview', link: '/boblib/' },
+          ]
+        }
+      ],
+      // BobSim pages - only show solver nav
+      '/bobsim/': [
+        {
+          text: 'BobSim',
+          collapsed: false,
+          items: [
+            { text: 'Overview', link: '/bobsim/' },
+            { text: 'Design of Experiments', link: '/bobsim/doe' },
+          ]
+        },
+      ],
+>>>>>>> 1c9aaf626c603f1b8b20bdd48a1a654abf63df1f
 
         nav: [
             {text: 'BobLib', link: '/boblib/'},
