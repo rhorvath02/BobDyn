@@ -8,21 +8,17 @@ hero:
   image:
     src: /bob.png
     alt: BobDyn
-  actions:
-    - theme: brand
-      text: Characterization
-      link: /bobsim/characterization
-    - theme: alt
-      text: Design of Experiments
-      link: /bobsim/doe
 
 features:
-  - title: Characterization Workflow
-    details: Provide a fixed vehicle configuration. The solver computes steady-state and transient performance metrics from first principles. No empirical lookup tables.
+  - icon: "📦"
+    title: Multibody Dynamics Core
+    details: Build vehicles using multibody dynamics in Modelica. This layer captures geometry, constraints, and force generation directly from physical equations. It replaces simplified kinematic abstractions with transparent, acausal models that maintain integrity across all maneuvers.
 
-  - title: DOE Workflow
-    details: Define parameters to sweep. The solver runs batch simulations and returns sensitivities and partial derivatives across the design space.
+  - icon: "🖥️"
+    title: Orchestration Layer
+    details: Manage the execution and analysis of BobLib models. This layer wraps the physics to run batch simulations, perform design studies, and generate reports. It provides the framework needed to explore vehicle behavior and sensitivities across the design space.
 
-  - title: First-Principles Foundation
-    details: Every metric traces directly to physical equations of motion. The same framework applies to simulation, physical testing, and vehicle design in parallel.
+  - icon: "🔀"
+    title: End-to-End Pipeline
+    details: Bridge deep vehicle dynamics with practical engineering tasks. Define the physics once and deploy the model across the entire lifecycle, scaling from basic K&C testing and standard maneuvers to large-scale optimization and DOE studies within a single, reproducible ecosystem.
 ---
