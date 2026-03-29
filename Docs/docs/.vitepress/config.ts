@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: 'Bob Dynamics',
+  title: 'BobDyn',
   description: 'First-principles vehicle dynamics analysis for Formula SAE',
   base: '/',
   appearance: 'dark',
@@ -12,7 +12,7 @@ export default defineConfig({
 
   themeConfig: {
     logo: '/bob.png',
-    siteTitle: 'Bob Dynamics',
+    siteTitle: 'BobDyn',
 
     nav: [
       { text: 'BobSim', link: '/bobsim/' },
