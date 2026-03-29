@@ -35,11 +35,11 @@ $$
 a_y = \frac{v^2}{R}
 $$
 
-| Variable | Meaning |
-| :--- | :--- |
-| $a_y$ | lateral acceleration |
-| $v$ | velocity |
-| $R$ | turn radius |
+| Variable | Meaning              |
+|:---------|:---------------------|
+| $a_y$    | lateral acceleration |
+| $v$      | velocity             |
+| $R$      | turn radius          |
 
 ### Linear Understeer Gradient
 
@@ -57,11 +57,11 @@ $$
 K = \frac{\partial \delta}{\partial a_y}
 $$
 
-| Variable | Meaning |
-| :--- | :--- |
-| $K$ | understeer gradient |
-| $\delta$ | steering angle |
-| $a_y$ | lateral acceleration |
+| Variable | Meaning              |
+|:---------|:---------------------|
+| $K$      | understeer gradient  |
+| $\delta$ | steering angle       |
+| $a_y$    | lateral acceleration |
 
 ### Limit Understeer Behavior
 
@@ -89,10 +89,10 @@ $$
 \beta = f(a_y)
 $$
 
-| Variable | Meaning |
-| :--- | :--- |
-| $\beta$ | sideslip angle |
-| $a_y$ | lateral acceleration |
+| Variable | Meaning              |
+|:---------|:---------------------|
+| $\beta$  | sideslip angle       |
+| $a_y$    | lateral acceleration |
 
 ### Limit Sideslip Behavior
 
@@ -111,7 +111,11 @@ the edge of grip or transitions abruptly into loss of control.
 Metrics describing time-domain response to steering inputs.
 </p>
 
-Natural frequency and roll stiffness are interdependent physical requirements for transient response. Higher natural frequency reduces settling time after steering input; higher roll stiffness eliminates body lean lag and allows tires to reach peak grip immediately. These values must be optimized together, they are not independent tuning goals but necessary outcomes of optimizing for faster, more stable transient response.
+Natural frequency and roll stiffness are interdependent physical requirements for transient
+response. Higher natural frequency reduces settling time after steering input; higher roll stiffness
+eliminates body lean lag and allows tires to reach peak grip immediately. These values must be
+optimized together, they are not independent tuning goals but necessary outcomes of optimizing for
+faster, more stable transient response.
 
 ### Yaw Rate Gain
 
@@ -122,11 +126,11 @@ $$
 G_r = \frac{r}{\delta}
 $$
 
-| Variable | Meaning |
-| :--- | :--- |
-| $G_r$ | yaw rate gain |
-| $r$ | yaw rate (rotation speed) |
-| $\delta$ | steering angle |
+| Variable | Meaning                   |
+|:---------|:--------------------------|
+| $G_r$    | yaw rate gain             |
+| $r$      | yaw rate (rotation speed) |
+| $\delta$ | steering angle            |
 
 **Why it matters.** Yaw rate gain defines how strongly the vehicle responds rotationally to driver
 input and forms the basis for interpreting many other dynamic metrics.
@@ -139,12 +143,12 @@ $$
 \phi_r(\omega) = \angle \frac{R(\omega)}{\Delta(\omega)}
 $$
 
-| Variable | Meaning |
-| :--- | :--- |
+| Variable         | Meaning                           |
+|:-----------------|:----------------------------------|
 | $\phi_r(\omega)$ | phase angle at frequency $\omega$ |
-| $R(\omega)$ | yaw rate response |
-| $\Delta(\omega)$ | steering input |
-| $\omega$ | frequency |
+| $R(\omega)$      | yaw rate response                 |
+| $\Delta(\omega)$ | steering input                    |
+| $\omega$         | frequency                         |
 
 **Why it matters.** Yaw delay strongly affects perceived responsiveness and driver confidence during
 rapid maneuvers.
@@ -165,11 +169,11 @@ $$
 A_r = \frac{r_{peak}}{r_{ss}}
 $$
 
-| Variable | Meaning |
-| :--- | :--- |
-| $A_r$ | amplification ratio |
-| $r_{peak}$ | peak yaw rate |
-| $r_{ss}$ | steady-state yaw rate |
+| Variable   | Meaning               |
+|:-----------|:----------------------|
+| $A_r$      | amplification ratio   |
+| $r_{peak}$ | peak yaw rate         |
+| $r_{ss}$   | steady-state yaw rate |
 
 **Why it matters.** Yaw amplification indicates whether the vehicle exhibits aggressive transient
 overshoot or a controlled, well-damped response.
@@ -198,12 +202,12 @@ $$
 G_r(j\omega) = \frac{R(j\omega)}{\Delta(j\omega)}
 $$
 
-| Variable | Meaning |
-| :--- | :--- |
-| $G_r(j\omega)$ | frequency response |
-| $R(j\omega)$ | yaw rate response |
-| $\Delta(j\omega)$ | steering input |
-| $j\omega$ | frequency (imaginary form) |
+| Variable          | Meaning                    |
+|:------------------|:---------------------------|
+| $G_r(j\omega)$    | frequency response         |
+| $R(j\omega)$      | yaw rate response          |
+| $\Delta(j\omega)$ | steering input             |
+| $j\omega$         | frequency (imaginary form) |
 
 **Why it matters.** Frequency-domain metrics provide a compact representation of vehicle dynamics
 across a wide range of time scales.

@@ -1,10 +1,10 @@
-import { defineConfig } from 'vitepress'
+import {defineConfig} from 'vitepress'
 
 export default defineConfig({
-  title: 'BobDyn',
-  description: 'First-principles vehicle dynamics analysis for Formula SAE',
-  base: '/',
-  appearance: 'dark',
+    title: 'BobDyn',
+    description: 'First-principles vehicle dynamics analysis for Formula SAE',
+    base: '/',
+    appearance: 'dark',
 
   head: [
     ['link', { rel: 'icon', type: 'image/png', href: '/bob.png' }],
@@ -93,10 +93,10 @@ export default defineConfig({
     },
   },
 
-  markdown: {
-    math: true,
-    theme: 'github-dark'
-  },
+    markdown: {
+        math: true,
+        theme: 'github-dark'
+    },
 
-  cleanUrls: true
+    cleanUrls: true
 })

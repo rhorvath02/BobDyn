@@ -9,7 +9,9 @@ BobSim currently exposes the Design of Experiments workflow for simulation sweep
 
 ## Design of Experiments
 
-A set of parameters is provided along with defined ranges and step sizes. The solver runs across the full parameter space and returns sensitivity data: how much each input parameter influences each output metric, and in what direction.
+A set of parameters is provided along with defined ranges and step sizes. The solver runs across the
+full parameter space and returns sensitivity data: how much each input parameter influences each
+output metric, and in what direction.
 
 Use this workflow to:
 

@@ -4,9 +4,9 @@ import BangBangPlot from './components/BangBangPlot.vue'
 import PIDPlot from './components/PIDPlot.vue'
 
 export default {
-  extends: DefaultTheme,
-  enhanceApp({ app }: { app: import('vue').App }) {
-    app.component('BangBangPlot', BangBangPlot)
-    app.component('PIDPlot', PIDPlot)
-  },
+    extends: DefaultTheme,
+    enhanceApp({app}: { app: import('vue').App }) {
+        app.component('BangBangPlot', BangBangPlot)
+        app.component('PIDPlot', PIDPlot)
+    },
 }
