@@ -24,7 +24,8 @@ model TestAxleDW
   
   BobLib.Vehicle.Chassis.Suspension.FrAxleDW AxleDW(
     Axle = FrAxle,
-    pRack = pVehicle.rack,
+    pRack = pVehicle.pRack,
+    pStabar = pVehicle.pFrStabar,
     left_unsprung_mass = unsprung_mass,
     left_uca_mass = uca_mass,
     left_lca_mass = lca_mass,

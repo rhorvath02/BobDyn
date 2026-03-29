@@ -6,8 +6,15 @@ model FrAxleDW
   // Modelica linalg
   import Modelica.Math.Vectors.normalize;
   import Modelica.Math.Vectors.norm;
+  
   // Custom linalg
   import BobLib.Utilities.Math.Vector;
+  
+  // Records
+  import BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Stabar.StabarRecord;
+  
+  // Load parameters
+  parameter StabarRecord pStabar;
   
   parameter BobLib.Resources.Records.SUS.FrAxleDWPushBCARB AxleBC annotation(
     Evaluate = false);
@@ -54,7 +61,7 @@ model FrAxleDW
     Placement(transformation(origin = {50, -20}, extent = {{10, -10}, {-10, 10}}, rotation = -180)));
   Linkages.ShockLinkage RightShockLinkage(r_a = {AxleBC.bellcrank_pickup_3[1], -AxleBC.bellcrank_pickup_3[2], AxleBC.bellcrank_pickup_3[3]}, r_b = {AxleBC.shock_mount[1], -AxleBC.shock_mount[2], AxleBC.shock_mount[3]}, n_a = {AxleBC.bellcrank_pivot_axis[1], -AxleBC.bellcrank_pivot_axis[2], AxleBC.bellcrank_pivot_axis[3]}, n_b = normalize({AxleBC.bellcrank_pivot[1], -AxleBC.bellcrank_pivot[2], AxleBC.bellcrank_pivot[3]} - {AxleBC.bellcrank_pickup_3[1], -AxleBC.bellcrank_pickup_3[2], AxleBC.bellcrank_pickup_3[3]}), s_0 = norm(AxleBC.bellcrank_pickup_3 - AxleBC.shock_mount), spring_table = [0, 0; 1, 0], damper_table = [0, 0; 1, 0], link_diameter = link_diameter, joint_diameter = joint_diameter)  annotation(
     Placement(transformation(origin = {50, -55}, extent = {{-15, -15}, {15, 15}}, rotation = -90)));
-  Templates.Stabar.Stabar stabar(left_bar_end = AxleBC.left_bar_end, left_arm_end = AxleBC.left_arm_end, joint_diameter = joint_diameter, link_diameter = link_diameter) annotation(
+  Templates.Stabar.Stabar stabar(pStabar = pStabar, joint_diameter = joint_diameter, link_diameter = link_diameter) annotation(
     Placement(transformation(origin = {0, -116}, extent = {{20, -20}, {-20, 20}}, rotation = -180)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_stabar(r = {AxleBC.left_bar_end[1], 0, AxleBC.left_bar_end[3]} - effective_center, animation = false)  annotation(
     Placement(transformation(origin = {0, -90}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));

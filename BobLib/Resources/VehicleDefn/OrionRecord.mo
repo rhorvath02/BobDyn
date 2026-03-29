@@ -4,11 +4,17 @@ record OrionRecord
 
   import Tire = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.MF52;
   import Rack = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.SteeringRack;
+  import Stabar = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Stabar;
   
-  parameter Rack.RackAndPinionRecord rack(
+  parameter Rack.RackAndPinionRecord pRack(
     leftPickup = {0.05715, 0.2260092, 0.1137158},
     cFactor = 0.0889);
-
+  
+  parameter Stabar.StabarRecord pFrStabar(
+    leftArmEnd = {-0.03682914, 0.2667, 0.11597939},
+    leftBarEnd = {-0.10664664, 0.2667, 0.11811},
+    barRate = 258);
+  
   parameter Tire.MF52Record tireFL(
     // Setup
     setup = Tire.SetupRecord(Fnomin = 654.0, R0 = 0.2045),
