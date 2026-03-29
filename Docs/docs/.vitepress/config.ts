@@ -15,12 +15,23 @@ export default defineConfig({
     siteTitle: 'BobDyn',
 
     nav: [
+      {text: 'BobLib', link: '/boblib/' },
       { text: 'BobSim', link: '/bobsim/' },
       { text: 'Reference', link: '/reference/' },
       // Add new top-nav entries here
     ],
 
     sidebar: {
+      // BobLib pages - only show boblib
+      '/boblib/': [
+        {
+          text: 'BobLib',
+          collapsed: false,
+          items: [
+            { text: 'Overview', link: '/boblib/' },
+          ]
+        }
+      ],
       // BobSim pages - only show solver nav
       '/bobsim/': [
         {
@@ -28,7 +39,6 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: 'Overview', link: '/bobsim/' },
-            { text: 'Characterization', link: '/bobsim/characterization' },
             { text: 'Design of Experiments', link: '/bobsim/doe' },
           ]
         },
