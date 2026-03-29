@@ -5,12 +5,7 @@ title: BobSim
 
 # BobSim
 
-<<<<<<< HEAD
-BobSim currently exposes the Design of Experiments workflow for simulation sweeps and sensitivity
-analysis.
-=======
 BobSim currently exposes the Design of Experiments workflow for simulation sweeps and sensitivity analysis.
->>>>>>> 1c9aaf626c603f1b8b20bdd48a1a654abf63df1f
 
 ## Design of Experiments
 
