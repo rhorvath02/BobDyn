@@ -38,7 +38,7 @@ model FrAxleDW
   Modelica.Mechanics.Rotational.Interfaces.Flange_a pinion_flange annotation(
     Placement(transformation(origin = {0, 140}, extent = {{-10, -10}, {10, 10}}), iconTransformation(origin = {0, 100}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_apex(r = AxleBC.rod_mount - pLeftDW.lower_o, width = link_diameter, height = link_diameter) annotation(
-    Placement(transformation(origin = {-90, 0}, extent = {{10, -10}, {-10, 10}}, rotation = -0)));
+    Placement(transformation(origin = {-90, 0}, extent = {{10 -10}, {-10, 10}}, rotation = -0)));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_apex(r = {AxleBC.rod_mount[1], -AxleBC.rod_mount[2], AxleBC.rod_mount[3]} - {pLeftDW.lower_o[1], -pLeftDW.lower_o[2], pLeftDW.lower_o[3]}, width = link_diameter, height = link_diameter) annotation(
     Placement(transformation(origin = {90, 0}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_shock(r = AxleBC.shock_mount - effective_center, animation = false) annotation(
@@ -50,7 +50,7 @@ model FrAxleDW
   
   Linkages.Bellcrank3 left_bellcrank(pivot = AxleBC.bellcrank_pivot, pivot_axis = AxleBC.bellcrank_pivot_axis, pickup_1 = AxleBC.bellcrank_pickup_1, pickup_2 = AxleBC.bellcrank_pickup_2, pickup_3 = AxleBC.bellcrank_pickup_3, link_diameter = link_diameter, joint_diameter = joint_diameter) annotation(
     Placement(transformation(origin = {-50, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
-  Linkages.ShockLinkage LeftShockLinkage(r_a = AxleBC.bellcrank_pickup_3, r_b = AxleBC.shock_mount, s_0 = norm(AxleBC.bellcrank_pickup_3 - AxleBC.shock_mount), spring_table = [0, 0; 1, 0], damper_table = [0, 0; 1, 0], link_diameter = link_diameter, joint_diameter = joint_diameter, n_a = AxleBC.bellcrank_pivot_axis, n_b = normalize(AxleBC.bellcrank_pivot - AxleBC.bellcrank_pickup_3)) annotation(
+  Linkages.ShockLinkage LeftShockLinkage(r_a = AxleBC.bellcrank_pickup_3, r_b = AxleBC.shock_mount, s_0 = norm(AxleBC.bellcrank_pickup_3 - AxleBC.shock_mount), spring_table = [0, 0; 1, 0], damper_table = [0, 0; 1, 0], link_diameter = link_diameter, joint_dRodeter = joint_diameter, n_a = AxleBC.bellcrank_pivot_axis, n_b = normalize(AxleBC.bellcrank_pivot - AxleBC.bellcrank_pickup_3)) annotation(
     Placement(transformation(origin = {-50, -55}, extent = {{-15, -15}, {15, 15}}, rotation = -90)));
   Linkages.Bellcrank3 right_bellcrank(pivot_axis = {AxleBC.bellcrank_pivot_axis[1], -AxleBC.bellcrank_pivot_axis[2], AxleBC.bellcrank_pivot_axis[3]}, pivot = {AxleBC.bellcrank_pivot[1], -AxleBC.bellcrank_pivot[2], AxleBC.bellcrank_pivot[3]}, pickup_1 = {AxleBC.bellcrank_pickup_1[1], -AxleBC.bellcrank_pickup_1[2], AxleBC.bellcrank_pickup_1[3]}, pickup_2 = {AxleBC.bellcrank_pickup_2[1], -AxleBC.bellcrank_pickup_2[2], AxleBC.bellcrank_pickup_2[3]}, pickup_3 = {AxleBC.bellcrank_pickup_3[1], -AxleBC.bellcrank_pickup_3[2], AxleBC.bellcrank_pickup_3[3]}, link_diameter = link_diameter, joint_diameter = joint_diameter)  annotation(
     Placement(transformation(origin = {50, -20}, extent = {{10, -10}, {-10, 10}}, rotation = -180)));
