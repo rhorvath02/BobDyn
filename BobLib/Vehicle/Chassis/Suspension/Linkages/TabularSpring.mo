@@ -1,36 +1,30 @@
 within BobLib.Vehicle.Chassis.Suspension.Linkages;
 
 model TabularSpring "Tabular translational spring with optional mass"
-  // Modelica units
   import Modelica.SIunits;
-
-  // Modelica linalg
-  import Modelica.Math.Vectors.normalize;
-  import Modelica.Math.Vectors.norm;
     
   extends BobLib.Vehicle.Chassis.Suspension.Linkages.Templates.TabularCompliant;
   
-  // Parameters
-  parameter SIunits.TranslationalSpringConstant spring_table[:, 2] "Table of Force vs Compression (change in length)" annotation(
-    Evaluate = false,
-    Dialog(group = "Spring Parameters"));
+  // Spring parameters
+  parameter SIunits.TranslationalSpringConstant springTable[:, 2] "Table of Force vs Compression (dx, F)" annotation(
+    Evaluate = false, Dialog(group = "Spring Parameters"));
   parameter SIunits.Length s_0 "Free length of spring" annotation(
-    Evaluate = false,
-    Dialog(group = "Spring Parameters"));
+    Evaluate = false, Dialog(group = "Spring Parameters"));
 
-  // State vars
   Real defl;
   Real defl_abs;
   Real sgn;
   
-  // Force generation
-  Modelica.Blocks.Sources.RealExpression defl_expression(y = defl_abs) annotation(
+  // Deflection processing blocks
+  Modelica.Blocks.Sources.RealExpression deflExpression(y = defl_abs) annotation(
     Placement(transformation(origin = {-90, 36}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.RealExpression sgn_expression(y = sgn) annotation(
+  Modelica.Blocks.Sources.RealExpression sgnExpression(y = sgn) annotation(
     Placement(transformation(origin = {-90, 24}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Math.Product product annotation(
     Placement(transformation(origin = {-60, 30}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Tables.CombiTable1D combiTable1D(columns = {2}, extrapolation = Modelica.Blocks.Types.Extrapolation.LastTwoPoints, smoothness = Modelica.Blocks.Types.Smoothness.LinearSegments, table = spring_table) annotation(
+  
+  // Force output block
+  Modelica.Blocks.Tables.CombiTable1D combiTable1D(columns = {2}, extrapolation = Modelica.Blocks.Types.Extrapolation.LastTwoPoints, smoothness = Modelica.Blocks.Types.Smoothness.LinearSegments, table = springTable) annotation(
     Placement(transformation(origin = {-20, 30}, extent = {{-10, -10}, {10, 10}})));
 
 equation
@@ -38,9 +32,9 @@ equation
   defl_abs = sqrt(defl*defl + eps*eps);
   sgn = defl/defl_abs;
   
-  connect(defl_expression.y, product.u1) annotation(
+  connect(deflExpression.y, product.u1) annotation(
     Line(points = {{-79, 36}, {-73, 36}}, color = {0, 0, 127}));
-  connect(sgn_expression.y, product.u2) annotation(
+  connect(sgnExpression.y, product.u2) annotation(
     Line(points = {{-79, 24}, {-73, 24}}, color = {0, 0, 127}));
   connect(product.y, combiTable1D.u[1]) annotation(
     Line(points = {{-49, 30}, {-33, 30}}, color = {0, 0, 127}));

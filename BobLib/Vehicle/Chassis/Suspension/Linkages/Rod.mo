@@ -1,43 +1,42 @@
 within BobLib.Vehicle.Chassis.Suspension.Linkages;
 
 model Rod
-  // Modelica units
   import Modelica.SIunits;
   
-  // Geometry
+  // Geometry parameters
   parameter SIunits.Position r_a[3] "Vector from origin to frame_a, expressed in world frame" annotation(
-    Evaluate = false,
-    Dialog(group = "Geometry"));
+    Evaluate = false, Dialog(group = "Geometry"));
   parameter SIunits.Position r_b[3] "Vector from origin to frame_b, expressed in world frame" annotation(
-    Evaluate = false,
-    Dialog(group = "Geometry"));
+    Evaluate = false, Dialog(group = "Geometry"));
   parameter Modelica.Mechanics.MultiBody.Types.Axis n1_a = {1, 0, 0} "Axis 1 of universal joint resolved in frame_a (axis 2 is orthogonal to axis 1 and to rod)" annotation(
-    Evaluate = false,
-    Dialog(group = "Geometry"));
-  parameter Boolean kinematic_constraint = true annotation(
-    Evaluate = false,
-    Dialog(group = "Geometry"));
+    Evaluate = false, Dialog(group = "Geometry"));
+  parameter Boolean kinematicConstraint = true annotation(
+    Evaluate = false, Dialog(group = "Geometry"));
   
-  // Visual
-  parameter SIunits.Length link_diameter annotation(
+  // Visual parameters
+  parameter SIunits.Length linkDiameter annotation(
     Evaluate = true, Dialog(tab="Animation"));
-  parameter SIunits.Length joint_diameter annotation(
+  parameter SIunits.Length jointDiameter annotation(
     Evaluate = true, Dialog(tab="Animation"));
   parameter Boolean show_universal_axes = true annotation(
     Evaluate = true, Dialog(tab="Animation"));
   
+  // Frames
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a annotation(
     Placement(transformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation(
     Placement(transformation(origin = {100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {100, 0}, extent = {{-16, -16}, {16, 16}})));
+
+protected
+  // Kinematics
   Modelica.Mechanics.MultiBody.Joints.UniversalSpherical rod(n1_a = n1_a,
                                                              rRod_ia = r_b - r_a,
-                                                             sphereDiameter = joint_diameter,
-                                                             rodWidth = link_diameter,
-                                                             rodHeight = link_diameter,
-                                                             cylinderLength = joint_diameter,
-                                                             cylinderDiameter = joint_diameter,
-                                                             kinematicConstraint = kinematic_constraint,
+                                                             sphereDiameter = jointDiameter,
+                                                             rodWidth = linkDiameter,
+                                                             rodHeight = linkDiameter,
+                                                             cylinderLength = jointDiameter,
+                                                             cylinderDiameter = jointDiameter,
+                                                             kinematicConstraint = kinematicConstraint,
                                                              showUniversalAxes = show_universal_axes)  annotation(
     Placement(transformation(extent = {{-20, -20}, {20, 20}})));
 

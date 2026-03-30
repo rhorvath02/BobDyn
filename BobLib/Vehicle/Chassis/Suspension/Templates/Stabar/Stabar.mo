@@ -1,70 +1,66 @@
 within BobLib.Vehicle.Chassis.Suspension.Templates.Stabar;
 
 model Stabar "Stabar with rigid arms and compliant torsion bar"
-  // Modelica units
   import Modelica.SIunits;
   
-  // Custom linalg
   import BobLib.Utilities.Math.Vector;
   
-  // Records
   import BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Stabar.StabarRecord;
   
-  // Load parameters
+  // Record parameters
   parameter StabarRecord pStabar;
   
   // Visual parameters
-  parameter SIunits.Length joint_diameter annotation(
-    Evaluate = true,
-    Dialog(tab = "Animation"));
-  parameter SIunits.Length link_diameter annotation(
+  parameter SIunits.Length jointDiameter annotation(
+    Evaluate = true, Dialog(tab = "Animation"));
+  parameter SIunits.Length linkDiameter annotation(
     Placement(visible = false, transformation(origin = {nan, nan}, extent = {{nan, nan}, {nan, nan}})));
   
   // Frames
-  Modelica.Mechanics.MultiBody.Interfaces.Frame_b left_arm_frame annotation(
+  Modelica.Mechanics.MultiBody.Interfaces.Frame_b leftArmFrame annotation(
     Placement(transformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-100, 20}, extent = {{-16, -16}, {16, 16}})));
-  Modelica.Mechanics.MultiBody.Interfaces.Frame_b right_arm_frame annotation(
+  Modelica.Mechanics.MultiBody.Interfaces.Frame_b rightArmFrame annotation(
     Placement(transformation(origin = {100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {100, 20}, extent = {{-16, -16}, {16, 16}})));
-  Modelica.Mechanics.MultiBody.Interfaces.Frame_a support_frame annotation(
+  Modelica.Mechanics.MultiBody.Interfaces.Frame_a supportFrame annotation(
     Placement(transformation(origin = {0, -100}, extent = {{-16, -16}, {16, 16}}, rotation = -90), iconTransformation(origin = {0, -30}, extent = {{-16, -16}, {16, 16}}, rotation = -90)));
   
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_arm_end(r = pStabar.leftArmEnd - pStabar.leftBarEnd, width = link_diameter, height = link_diameter)  annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toLeftArmEnd(r = pStabar.leftArmEnd - pStabar.leftBarEnd, width = linkDiameter, height = linkDiameter)  annotation(
     Placement(transformation(origin = {-70, 30}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_arm_end(r = Vector.mirrorXZ(pStabar.leftArmEnd - pStabar.leftBarEnd), width = link_diameter, height = link_diameter)  annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toRightArmEnd(r = Vector.mirrorXZ(pStabar.leftArmEnd - pStabar.leftBarEnd), width = linkDiameter, height = linkDiameter)  annotation(
     Placement(transformation(origin = {70, 30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   
-  Modelica.Mechanics.MultiBody.Joints.Revolute stabar_axis(useAxisFlange = true, cylinderLength = joint_diameter, cylinderDiameter = joint_diameter, n = {0, 1, 0})  annotation(
+  Modelica.Mechanics.MultiBody.Joints.Revolute stabarAxis(useAxisFlange = true, cylinderLength = jointDiameter, cylinderDiameter = jointDiameter, n = {0, 1, 0})  annotation(
     Placement(transformation(origin = {-30, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -180)));
-  Modelica.Mechanics.MultiBody.Joints.Revolute mount_axis(n = {0, 1, 0}, animation = false, useAxisFlange = false)  annotation(
+  Modelica.Mechanics.MultiBody.Joints.Revolute mountAxis(n = {0, 1, 0}, animation = false, useAxisFlange = false)  annotation(
     Placement(transformation(origin = {0, -70}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
   
   Modelica.Mechanics.Rotational.Components.Spring spring(c = pStabar.barRate)  annotation(
     Placement(transformation(origin = {-34, -20}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_left_bar_end(r = pStabar.leftBarEnd - {pStabar.leftBarEnd[1], 0, pStabar.leftBarEnd[3]}, width = link_diameter, height = link_diameter)  annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toLeftBarEnd(r = pStabar.leftBarEnd - {pStabar.leftBarEnd[1], 0, pStabar.leftBarEnd[3]}, width = linkDiameter, height = linkDiameter)  annotation(
     Placement(transformation(origin = {-50, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation to_right_bar_end(r = Vector.mirrorXZ(pStabar.leftBarEnd) - {pStabar.leftBarEnd[1], 0, pStabar.leftBarEnd[3]}, width = link_diameter, height = link_diameter)  annotation(
+  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toRightBarEnd(r = Vector.mirrorXZ(pStabar.leftBarEnd) - {pStabar.leftBarEnd[1], 0, pStabar.leftBarEnd[3]}, width = linkDiameter, height = linkDiameter)  annotation(
     Placement(transformation(origin = {50, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
 
 equation
-  connect(support_frame, mount_axis.frame_b) annotation(
+  connect(supportFrame, mountAxis.frame_b) annotation(
     Line(points = {{0, -100}, {0, -80}}));
-  connect(stabar_axis.frame_a, mount_axis.frame_a) annotation(
+  connect(stabarAxis.frame_a, mountAxis.frame_a) annotation(
     Line(points = {{-20, 0}, {0, 0}, {0, -60}}, color = {95, 95, 95}));
-  connect(stabar_axis.frame_b, to_left_bar_end.frame_a) annotation(
+  connect(stabarAxis.frame_b, toLeftBarEnd.frame_a) annotation(
     Line(points = {{-40, 0}, {-50, 0}, {-50, 20}}, color = {95, 95, 95}));
-  connect(to_left_bar_end.frame_b, to_left_arm_end.frame_a) annotation(
+  connect(toLeftBarEnd.frame_b, toLeftArmEnd.frame_a) annotation(
     Line(points = {{-50, 40}, {-50, 60}, {-70, 60}, {-70, 40}}, color = {95, 95, 95}));
-  connect(to_left_arm_end.frame_b, left_arm_frame) annotation(
+  connect(toLeftArmEnd.frame_b, leftArmFrame) annotation(
     Line(points = {{-70, 20}, {-70, 0}, {-100, 0}}, color = {95, 95, 95}));
-  connect(stabar_axis.support, spring.flange_b) annotation(
+  connect(stabarAxis.support, spring.flange_b) annotation(
     Line(points = {{-24, -10}, {-24, -20}}));
-  connect(stabar_axis.frame_a, to_right_bar_end.frame_a) annotation(
+  connect(stabarAxis.frame_a, toRightBarEnd.frame_a) annotation(
     Line(points = {{-20, 0}, {50, 0}, {50, 20}}, color = {95, 95, 95}));
-  connect(to_right_bar_end.frame_b, to_right_arm_end.frame_a) annotation(
+  connect(toRightBarEnd.frame_b, toRightArmEnd.frame_a) annotation(
     Line(points = {{50, 40}, {50, 60}, {70, 60}, {70, 40}}, color = {95, 95, 95}));
-  connect(to_right_arm_end.frame_b, right_arm_frame) annotation(
+  connect(toRightArmEnd.frame_b, rightArmFrame) annotation(
     Line(points = {{70, 20}, {70, 0}, {100, 0}}, color = {95, 95, 95}));
-  connect(spring.flange_a, stabar_axis.axis) annotation(
+  connect(spring.flange_a, stabarAxis.axis) annotation(
     Line(points = {{-44, -20}, {-44, -10}, {-30, -10}}));
   annotation(
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002),

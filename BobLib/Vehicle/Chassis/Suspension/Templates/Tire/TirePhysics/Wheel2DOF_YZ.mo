@@ -1,27 +1,22 @@
 within BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics;
 
 model Wheel2DOF_YZ
-  // Modelica units
-  import Modelica.SIunits;
+  import BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.Wheel1DOF_YRecord;
+  import BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.Wheel1DOF_ZRecord;
   
-  // Load parameters
-  replaceable record Wheel1DOF_YRecord = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.Wheel1DOF_YRecord;
+  // Record parameters
   parameter Wheel1DOF_YRecord wheel1DOF_YParams;
-  
-  replaceable record Wheel1DOF_ZRecord = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.Wheel1DOF_ZRecord;
   parameter Wheel1DOF_ZRecord wheel1DOF_ZParams;
   
-  extends BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Templates.PartialWheel(inertia(J = wheel1DOF_YParams.wheel_J));
+  extends BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Templates.PartialWheel(inertia(J = wheel1DOF_YParams.wheelJ));
   
-  Modelica.Mechanics.Translational.Components.SpringDamper spring_damper(c = wheel1DOF_ZParams.tire_c, d = wheel1DOF_ZParams.tire_d, s_rel0 = partialWheelParams.R0) annotation(
+  Modelica.Mechanics.Translational.Components.SpringDamper springDamper(c = wheel1DOF_ZParams.wheelC, d = wheel1DOF_ZParams.wheelD, s_rel0 = partialWheelParams.R0) annotation(
     Placement(transformation(origin = {-30, -46}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 
 equation
-  connect(hub_flange, inertia.flange_a) annotation(
-    Line(points = {{-100, 40}, {20, 40}, {20, 30}, {30, 30}}));
-  connect(spring_damper.flange_a, prismatic_z.support) annotation(
+  connect(springDamper.flange_a, prismatic_z.support) annotation(
     Line(points = {{-30, -36}, {-6, -36}}, color = {0, 127, 0}));
-  connect(spring_damper.flange_b, prismatic_z.axis) annotation(
+  connect(springDamper.flange_b, prismatic_z.axis) annotation(
     Line(points = {{-30, -56}, {-20, -56}, {-20, -48}, {-6, -48}}, color = {0, 127, 0}));
   annotation(
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002),

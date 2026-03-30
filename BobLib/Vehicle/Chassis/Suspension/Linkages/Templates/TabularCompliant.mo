@@ -1,8 +1,6 @@
 within BobLib.Vehicle.Chassis.Suspension.Linkages.Templates;
 
 partial model TabularCompliant "Base compliant element"
-  import Modelica.Math.Vectors.normalize;
-  import Modelica.Math.Vectors.norm;
   import Modelica.SIunits;
   
   final parameter Real eps = 1e-12 "regularization (m)" annotation(Dialog(group="Numerical"));

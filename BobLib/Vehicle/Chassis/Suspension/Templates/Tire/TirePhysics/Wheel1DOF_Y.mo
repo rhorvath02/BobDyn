@@ -1,22 +1,20 @@
 within BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics;
 
 model Wheel1DOF_Y
-  // Modelica units
-  import Modelica.SIunits;
-  
-  // Load parameters
-  replaceable record Wheel1DOF_YRecord = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.Wheel1DOF_YRecord;
+  import BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.Wheel1DOF_YRecord;
+
+  // Record parameters
   parameter Wheel1DOF_YRecord wheel1DOF_YParams;
   
-  extends BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Templates.PartialWheel(inertia(J = wheel1DOF_YParams.wheel_J));
+  extends BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Templates.PartialWheel(inertia(J = wheel1DOF_YParams.wheelJ));
   
-  Modelica.Mechanics.Translational.Components.Rod fixed_radius(L = partialWheelParams.R0)  annotation(
+  Modelica.Mechanics.Translational.Components.Rod fixedRadius(L = partialWheelParams.R0)  annotation(
     Placement(transformation(origin = {-30, -46}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   
 equation
-  connect(fixed_radius.flange_a, prismatic_z.support) annotation(
+  connect(fixedRadius.flange_a, prismatic_z.support) annotation(
     Line(points = {{-30, -36}, {-6, -36}}, color = {0, 127, 0}));
-  connect(fixed_radius.flange_b, prismatic_z.axis) annotation(
+  connect(fixedRadius.flange_b, prismatic_z.axis) annotation(
     Line(points = {{-30, -56}, {-20, -56}, {-20, -48}, {-6, -48}}, color = {0, 127, 0}));
   
   annotation(

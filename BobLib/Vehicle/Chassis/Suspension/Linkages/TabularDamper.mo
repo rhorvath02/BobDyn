@@ -1,33 +1,28 @@
 within BobLib.Vehicle.Chassis.Suspension.Linkages;
 
 model TabularDamper "Tabular translational damper with velocity-force curve"
-  // Modelica units
   import Modelica.SIunits;
-  
-  // Modelica linalg
-  import Modelica.Math.Vectors.normalize;
-  import Modelica.Math.Vectors.norm;
-  
-  // Custom linalg
-  import BobLib.Utilities.Math.Vector.dot;
   
   extends BobLib.Vehicle.Chassis.Suspension.Linkages.Templates.TabularCompliant;
   
-  // Parameters
-  parameter SIunits.TranslationalDampingConstant damper_table[:, 2] "Table of Force vs Relative Velocity (m/s, N)" annotation(
+  // Damper parameters
+  parameter SIunits.TranslationalDampingConstant damperTable[:, 2] "Table of Force vs Relative Velocity (m/s, N)" annotation(
     Dialog(group = "Damper Parameters"));
   
   Real v_rel;
   Real v_abs;
   Real vel_sgn;
   
-  Modelica.Blocks.Sources.RealExpression vel_expression(y = v_abs) annotation(
+  // Velocity processing blocks
+  Modelica.Blocks.Sources.RealExpression velExpression(y = v_abs) annotation(
     Placement(transformation(origin = {-90, 36}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Sources.RealExpression sgn_expression(y = -vel_sgn) annotation(
+  Modelica.Blocks.Sources.RealExpression sgnExpression(y = -vel_sgn) annotation(
     Placement(transformation(origin = {-90, 24}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Blocks.Math.Product product annotation(
     Placement(transformation(origin = {-60, 30}, extent = {{-10, -10}, {10, 10}})));  
-  Modelica.Blocks.Tables.CombiTable1D combiTable1D(columns = {2}, extrapolation = Modelica.Blocks.Types.Extrapolation.LastTwoPoints, smoothness = Modelica.Blocks.Types.Smoothness.LinearSegments, table = damper_table) annotation(
+  
+  // Force output block
+  Modelica.Blocks.Tables.CombiTable1D combiTable1D(columns = {2}, extrapolation = Modelica.Blocks.Types.Extrapolation.LastTwoPoints, smoothness = Modelica.Blocks.Types.Smoothness.LinearSegments, table = damperTable) annotation(
     Placement(transformation(origin = {-20, 30}, extent = {{-10, -10}, {10, 10}})));
 
 equation
@@ -35,9 +30,9 @@ equation
   v_abs = sqrt(v_rel*v_rel + eps*eps);
   vel_sgn = v_rel/v_abs;
   
-  connect(vel_expression.y, product.u1) annotation(
+  connect(velExpression.y, product.u1) annotation(
     Line(points = {{-79, 36}, {-73, 36}}, color = {0, 0, 127}));
-  connect(sgn_expression.y, product.u2) annotation(
+  connect(sgnExpression.y, product.u2) annotation(
     Line(points = {{-79, 24}, {-73, 24}}, color = {0, 0, 127}));
   connect(product.y, combiTable1D.u[1]) annotation(
     Line(points = {{-49, 30}, {-33, 30}}, color = {0, 0, 127}));

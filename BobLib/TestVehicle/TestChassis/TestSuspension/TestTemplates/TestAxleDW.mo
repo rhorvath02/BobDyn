@@ -1,6 +1,7 @@
 within BobLib.TestVehicle.TestChassis.TestSuspension.TestTemplates;
 
 model TestAxleDW
+  import Modelica.Constants.pi;
   import Modelica.Mechanics.MultiBody.Frames;
   import BobLib.Resources.VehicleDefn.OrionRecord;
   
@@ -9,24 +10,24 @@ model TestAxleDW
   
   parameter OrionRecord pVehicle;
   
-  parameter Real link_diameter = 0.020;
-  parameter Real joint_diameter = 0.030;
+  inner parameter Real linkDiameter = 0.020;
+  inner parameter Real jointDiameter = 0.030;
   
-  // {gamma, 0, alpha}
-  parameter Real left_cp_init[3] = pVehicle.pFrDW.wheelCenter + Frames.resolve1(Frames.axesRotations({1, 2, 3}, {0*Modelica.Constants.pi/180, 0, 0*Modelica.Constants.pi/180}, {0, 0, 0}), {0, 0, -pVehicle.tireFL.setup.R0});
-  parameter Real right_cp_init[3] = Vector.mirrorXZ(left_cp_init);
+  parameter Real leftCPInit[3] = pVehicle.pFrDW.wheelCenter + Frames.resolve1(Frames.axesRotations({1, 2, 3}, 
+                                                                                                     {pVehicle.pFrTireSetup.staticGamma*pi/180, 0, pVehicle.pFrTireSetup.staticAlpha*pi/180},
+                                                                                                     {0, 0, 0}),
+                                                                                {0, 0, -pVehicle.pFrTireSetup.R0});
+  parameter Real rightCPInit[3] = Vector.mirrorXZ(leftCPInit);
   
   BobLib.Vehicle.Chassis.Suspension.FrAxleDW AxleDW(
+    pLeftPartialWheel = pVehicle.pFrTireSetup,
     pLeftDW = pVehicle.pFrDW,
     pRack = pVehicle.pRack,
     pStabar = pVehicle.pFrStabar,
     pLeftAxleMass = pVehicle.pFrAxleMass,
     pAxle = pVehicle.pFrAxleDW,
-    
     redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire leftTire(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.NoSlip slipModel),
-    redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire rightTire(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.NoSlip slipModel),
-    link_diameter = link_diameter,
-    joint_diameter = joint_diameter) annotation(
+    redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire rightTire(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.NoSlip slipModel)) annotation(
     Placement(transformation(origin = {2.72478e-07, 6.44444}, extent = {{-34, -26.4444}, {34, 26.4444}})));
   
   Modelica.Mechanics.MultiBody.Parts.Fixed fixed(r = {pVehicle.pFrDW.wheelCenter[1], 0, pVehicle.pFrDW.wheelCenter[3]})  annotation(
@@ -35,7 +36,7 @@ model TestAxleDW
     Placement(transformation(origin = {-110, -90}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Joints.Spherical left_spherical(animation = false) annotation(
     Placement(transformation(origin = {-40, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Mechanics.MultiBody.Parts.Fixed left_jounce_ref_fixed(animation = false, r = left_cp_init) annotation(
+  Modelica.Mechanics.MultiBody.Parts.Fixed left_jounce_ref_fixed(animation = false, r = leftCPInit) annotation(
     Placement(transformation(origin = {-50, -60}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   Modelica.Mechanics.MultiBody.Joints.Prismatic left_prismatic(animation = false, n = {0, 0, 1}, useAxisFlange = true) annotation(
     Placement(transformation(origin = {-80, -20}, extent = {{-10, -10}, {10, 10}})));
@@ -55,7 +56,7 @@ model TestAxleDW
     Placement(transformation(origin = {80, -60}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.MultiBody.Joints.Prismatic right_free_y(animation = false, n = {0, 1, 0}) annotation(
     Placement(transformation(origin = {100, -40}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  Modelica.Mechanics.MultiBody.Parts.Fixed right_jounce_ref_fixed(animation = false, r = right_cp_init) annotation(
+  Modelica.Mechanics.MultiBody.Parts.Fixed right_jounce_ref_fixed(animation = false, r = rightCPInit) annotation(
     Placement(transformation(origin = {50, -60}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.Translational.Sources.Position right_position(exact = true, useSupport = true) annotation(
     Placement(transformation(origin = {70, 30}, extent = {{-10, -10}, {10, 10}})));
@@ -105,7 +106,8 @@ equation
     Line(points = {{-88, 80}, {-82, 80}}, color = {0, 0, 127}));
   connect(handwheel_angle.flange, AxleDW.pinionFlange) annotation(
     Line(points = {{-60, 80}, {0, 80}, {0, 25}}));  
-annotation(
+
+  annotation(
     experiment(StartTime = 0, StopTime = 3, Tolerance = 1e-06, Interval = 0.002),
     __OpenModelica_commandLineOptions = "--matchingAlgorithm=PFPlusExt --indexReductionMethod=dynamicStateSelection -d=initialization,NLSanalyticJacobian",
   Diagram(coordinateSystem(extent = {{-120, -100}, {120, 100}})),

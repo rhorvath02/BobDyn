@@ -1,14 +1,9 @@
 within BobLib.Vehicle.Chassis.Suspension.Linkages;
 
 model ShockLinkage
-  // Modelica units
   import Modelica.SIunits;
-  // Modelica linalg
-  import Modelica.Math.Vectors.normalize;
-  import Modelica.Math.Vectors.norm;
-  // Custom linalg
-  import BobLib.Utilities.Math.Vector.cross;
-  // Geometry params
+
+  // Geometry parameters
   parameter SIunits.Position r_a[3] "Initial vector from origin to frame_a, resolved in world frame" annotation(
     Dialog(group = "Geometry"));
   parameter SIunits.Position r_b[3] "Initial vector from origin to frame_b, resolved in world frame" annotation(
@@ -17,33 +12,39 @@ model ShockLinkage
     Dialog(group = "Geometry"));
   parameter Modelica.Mechanics.MultiBody.Types.Axis n_b "Axis of revolute joint 2, resolved in world frame" annotation(
     Dialog(group = "Geometry"));
-  // Spring params
+  
+  // Spring parameters
   parameter SIunits.Length s_0 "Spring free length" annotation(
     Dialog(group = "Spring Params"));
-  parameter SIunits.TranslationalSpringConstant spring_table[:, 2] "Table of spring force vs deflection (change in length)" annotation(
+  parameter SIunits.TranslationalSpringConstant springTable[:, 2] "Table of spring force vs deflection (change in length)" annotation(
     Dialog(group = "Spring Params"));
-  // Damper params
-  parameter SIunits.TranslationalDampingConstant damper_table[:, 2] "Table of damper force vs relative velocity" annotation(
+  
+  // Damper parameters
+  parameter SIunits.TranslationalDampingConstant damperTable[:, 2] "Table of damper force vs relative velocity" annotation(
     Dialog(group = "Damper Params"));
-  // Animation
-  parameter SIunits.Length link_diameter "Link diameter" annotation(
+  
+  // Visual parameters (implement visuals later)
+  parameter SIunits.Length linkDiameter "Link diameter" annotation(
     Dialog(tab = "Animation"));
-  parameter SIunits.Length joint_diameter "Joint diameter" annotation(
+  parameter SIunits.Length jointDiameter "Joint diameter" annotation(
     Dialog(tab = "Animation"));
+  
   // Frames
   Modelica.Mechanics.MultiBody.Interfaces.Frame_a frame_a annotation(
     Placement(transformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}})));
   Modelica.Mechanics.MultiBody.Interfaces.Frame_b frame_b annotation(
     Placement(transformation(origin = {100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {100, 0}, extent = {{-16, -16}, {16, 16}})));
-  // Joints
-  // Shock axis
+  
   // Force elements
-  BobLib.Vehicle.Chassis.Suspension.Linkages.TabularSpring TabularSpring(spring_table = spring_table, s_0 = s_0) annotation(
+  BobLib.Vehicle.Chassis.Suspension.Linkages.TabularSpring TabularSpring(springTable = springTable, s_0 = s_0) annotation(
     Placement(transformation(origin = {0, 30}, extent = {{-10, -10}, {10, 10}})));
-  BobLib.Vehicle.Chassis.Suspension.Linkages.TabularDamper TabularDamper(damper_table = damper_table) annotation(
+  BobLib.Vehicle.Chassis.Suspension.Linkages.TabularDamper TabularDamper(damperTable = damperTable) annotation(
     Placement(transformation(origin = {0, 50}, extent = {{-10, -10}, {10, 10}})));
+
+  // Shock axis
   Modelica.Mechanics.MultiBody.Forces.LineForceWithMass lineForceWithMass annotation(
     Placement(transformation(extent = {{-10, -10}, {10, 10}})));
+
 equation
   connect(frame_a, lineForceWithMass.frame_a) annotation(
     Line(points = {{-100, 0}, {-10, 0}}));

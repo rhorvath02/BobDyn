@@ -1,7 +1,6 @@
 within BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.DoubleWishbone;
 
 record WishboneUprightLoopRecord
-  // Modelica units
   import Modelica.SIunits;
   
   // Geometry

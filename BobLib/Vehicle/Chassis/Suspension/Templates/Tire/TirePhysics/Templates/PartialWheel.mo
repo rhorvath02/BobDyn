@@ -1,21 +1,27 @@
 within BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Templates;
 
 partial model PartialWheel
-  // Modelica units
-  import Modelica.SIunits;
-
-  // Load parameters
-  replaceable record PartialWheelRecord = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.Templates.PartialWheelRecord;
+  import BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.Templates.PartialWheelRecord;
+  
+  // Record parameters
   parameter PartialWheelRecord partialWheelParams;
   
   // Frames
-  Modelica.Mechanics.MultiBody.Interfaces.Frame_a cp_frame annotation(
+  Modelica.Mechanics.MultiBody.Interfaces.Frame_a cpFrame annotation(
     Placement(transformation(origin = {0, -100}, extent = {{-16, -16}, {16, 16}}, rotation = -90), iconTransformation(origin = {0, -100}, extent = {{-16, -16}, {16, 16}}, rotation = 90)));
-  Modelica.Mechanics.MultiBody.Interfaces.Frame_b chassis_frame annotation(
+  Modelica.Mechanics.MultiBody.Interfaces.Frame_b chassisFrame annotation(
     Placement(transformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {-100, 0}, extent = {{-16, -16}, {16, 16}}, rotation = 0)));
+  
+  Modelica.Mechanics.Rotational.Interfaces.Flange_b hubFlange annotation(
+    Placement(transformation(origin = {-100, 40}, extent = {{-10, -10}, {10, 10}}), iconTransformation(extent = {{-10, -10}, {10, 10}})));
+  
+  // Tire attitude
+  Modelica.Mechanics.MultiBody.Parts.FixedRotation toHub(rotationType = Modelica.Mechanics.MultiBody.Types.RotationTypes.PlanarRotationSequence,
+                                                         sequence = {1, 2, 3}, angles = {partialWheelParams.staticGamma, 0, partialWheelParams.staticAlpha})  annotation(
+    Placement(transformation(origin = {-50, 0}, extent = {{-10, -10}, {10, 10}})));
 
   // Rotational physics (wheel rotation about the hub axis)
-  Modelica.Mechanics.MultiBody.Joints.Revolute hub_axis(n = {0, 1, 0}, useAxisFlange = true, animation = false, phi(start = 0, fixed = true)) annotation(
+  Modelica.Mechanics.MultiBody.Joints.Revolute hubAxis(n = {0, 1, 0}, useAxisFlange = true, animation = false, phi(start = 0, fixed = true)) annotation(
     Placement(transformation(origin = {20, 0}, extent = {{-10, -10}, {10, 10}})));
 
   // Translational physics (wheel vertical deflection)
@@ -25,58 +31,58 @@ partial model PartialWheel
   // Rotational dynamics
   Modelica.Mechanics.Rotational.Components.Inertia inertia annotation(
     Placement(transformation(origin = {40, 30}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.Rotational.Sources.Torque tire_torque_source annotation(
+  Modelica.Mechanics.Rotational.Sources.Torque tireTorqueSource annotation(
     Placement(transformation(origin = {30, 60}, extent = {{10, -10}, {-10, 10}}, rotation = -180)));
 
   // Torque generation
-  Modelica.Blocks.Sources.RealExpression Fx_reaction(y = -cp_frame.f[1]) annotation(
+  Modelica.Blocks.Sources.RealExpression reactionFx(y = -cpFrame.f[1]) annotation(
     Placement(transformation(origin = {-50, 54}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Blocks.Math.Product tire_torque annotation(
+  Modelica.Blocks.Math.Product tireTorque annotation(
     Placement(transformation(origin = {-20, 60}, extent = {{-10, -10}, {10, 10}})));
 
   // Sensors
-  Modelica.Mechanics.Translational.Sensors.RelPositionSensor radius_sensor annotation(
+  Modelica.Mechanics.Translational.Sensors.RelPositionSensor radiusSensor annotation(
     Placement(transformation(origin = {-60, -50}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
-  Modelica.Mechanics.Rotational.Sensors.SpeedSensor wheel_rot_speed_sensor annotation(
+  Modelica.Mechanics.Rotational.Sensors.SpeedSensor wheelRotSpeedSensor annotation(
     Placement(transformation(origin = {90, 50}, extent = {{-10, -10}, {10, 10}})));
-  Modelica.Mechanics.MultiBody.Sensors.AbsoluteVelocity wheel_vel_sensor(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.world) annotation(
+  Modelica.Mechanics.MultiBody.Sensors.AbsoluteVelocity wheelVelSensor(resolveInFrame = Modelica.Mechanics.MultiBody.Types.ResolveInFrameA.world) annotation(
     Placement(transformation(origin = {90, -50}, extent = {{-10, -10}, {10, 10}})));
 
   // Visualizers
-  Modelica.Mechanics.MultiBody.Visualizers.VoluminousWheel voluminous_wheel(rRim = partialWheelParams.rim_R0, rTire = partialWheelParams.R0, width = partialWheelParams.rim_width) annotation(
+  Modelica.Mechanics.MultiBody.Visualizers.VoluminousWheel voluminousWheel(rRim = partialWheelParams.rimR0, rTire = partialWheelParams.R0, width = partialWheelParams.rimWidth) annotation(
     Placement(transformation(origin = {70, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -0)));
-  Modelica.Mechanics.Rotational.Interfaces.Flange_b hub_flange annotation(
-    Placement(transformation(origin = {-100, 40}, extent = {{-10, -10}, {10, 10}}), iconTransformation(extent = {{-10, -10}, {10, 10}})));
-
+  
 equation
-  connect(hub_axis.axis, inertia.flange_a) annotation(
+  connect(hubAxis.axis, inertia.flange_a) annotation(
     Line(points = {{20, 10}, {20, 30}, {30, 30}}));
-  connect(chassis_frame, hub_axis.frame_a) annotation(
-    Line(points = {{-100, 0}, {10, 0}}));
-  connect(prismatic_z.frame_a, hub_axis.frame_a) annotation(
+  connect(prismatic_z.frame_a, hubAxis.frame_a) annotation(
     Line(points = {{0, -30}, {0, 0}, {10, 0}}, color = {95, 95, 95}));
-  connect(prismatic_z.frame_b, cp_frame) annotation(
+  connect(prismatic_z.frame_b, cpFrame) annotation(
     Line(points = {{0, -50}, {0, -100}}, color = {95, 95, 95}));
-  connect(radius_sensor.flange_a, prismatic_z.support) annotation(
+  connect(radiusSensor.flange_a, prismatic_z.support) annotation(
     Line(points = {{-60, -40}, {-60, -30}, {-6, -30}, {-6, -36}}, color = {0, 127, 0}));
-  connect(radius_sensor.flange_b, prismatic_z.axis) annotation(
+  connect(radiusSensor.flange_b, prismatic_z.axis) annotation(
     Line(points = {{-60, -60}, {-60, -70}, {-6, -70}, {-6, -48}}, color = {0, 127, 0}));
-  connect(radius_sensor.s_rel, tire_torque.u1) annotation(
+  connect(radiusSensor.s_rel, tireTorque.u1) annotation(
     Line(points = {{-70, -50}, {-80, -50}, {-80, 66}, {-32, 66}}, color = {0, 0, 127}));
-  connect(Fx_reaction.y, tire_torque.u2) annotation(
+  connect(reactionFx.y, tireTorque.u2) annotation(
     Line(points = {{-38, 54}, {-32, 54}}, color = {0, 0, 127}));
-  connect(tire_torque.y, tire_torque_source.tau) annotation(
+  connect(tireTorque.y, tireTorqueSource.tau) annotation(
     Line(points = {{-8, 60}, {18, 60}}, color = {0, 0, 127}));
-  connect(voluminous_wheel.frame_a, hub_axis.frame_b) annotation(
+  connect(voluminousWheel.frame_a, hubAxis.frame_b) annotation(
     Line(points = {{60, 0}, {30, 0}}, color = {95, 95, 95}));
-  connect(wheel_vel_sensor.frame_a, hub_axis.frame_a) annotation(
+  connect(wheelVelSensor.frame_a, hubAxis.frame_a) annotation(
     Line(points = {{80, -50}, {40, -50}, {40, -20}, {0, -20}, {0, 0}, {10, 0}}, color = {95, 95, 95}));
-  connect(tire_torque_source.flange, inertia.flange_b) annotation(
+  connect(tireTorqueSource.flange, inertia.flange_b) annotation(
     Line(points = {{40, 60}, {60, 60}, {60, 30}, {50, 30}}));
-  connect(wheel_rot_speed_sensor.flange, inertia.flange_b) annotation(
+  connect(wheelRotSpeedSensor.flange, inertia.flange_b) annotation(
     Line(points = {{80, 50}, {60, 50}, {60, 30}, {50, 30}}));
-  connect(hub_flange, inertia.flange_a) annotation(
+  connect(hubFlange, inertia.flange_a) annotation(
     Line(points = {{-100, 40}, {20, 40}, {20, 30}, {30, 30}}));
+  connect(chassisFrame, toHub.frame_a) annotation(
+    Line(points = {{-100, 0}, {-60, 0}}));
+  connect(toHub.frame_b, hubAxis.frame_a) annotation(
+    Line(points = {{-40, 0}, {10, 0}}, color = {95, 95, 95}));
   annotation(
     experiment(StartTime = 0, StopTime = 1, Tolerance = 1e-06, Interval = 0.002),
     Diagram(graphics),
