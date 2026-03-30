@@ -38,7 +38,7 @@ algorithm
   if Fz > 1e-3 then
     Fy_pure := FyPureEval(Fz, alpha, gamma, pPure, setup);
 
-    dfz := (Fz - setup.Fnomin * pPure.LFZO) / (setup.Fnomin * pPure.LFZO);
+    dfz := (Fz - setup.FNOMIN * pPure.LFZO) / (setup.FNOMIN * pPure.LFZO);
 
     C_ySR := pComb.RCY1;
     B_ySR := pComb.RBY1 * cos(atan(pComb.RBY2 * (alpha - pComb.RBY3))) * pPure.LYKA;

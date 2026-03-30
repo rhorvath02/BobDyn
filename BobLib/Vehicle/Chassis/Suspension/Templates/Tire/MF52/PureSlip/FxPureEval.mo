@@ -37,7 +37,7 @@ algorithm
     IA_x := gamma * p.LGAX;
 
     // Normalized load
-    dfz := (Fz - setup.Fnomin * p.LFZO) / (setup.Fnomin * p.LFZO);
+    dfz := (Fz - setup.FNOMIN * p.LFZO) / (setup.FNOMIN * p.LFZO);
 
     // Friction
     mu_x := (p.PDX1 + p.PDX2 * dfz) * (1 - p.PDX3 * IA_x^2) * p.LMUX;

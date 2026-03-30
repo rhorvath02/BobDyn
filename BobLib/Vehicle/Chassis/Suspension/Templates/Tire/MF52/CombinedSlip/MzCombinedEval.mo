@@ -24,7 +24,6 @@ function MzCombinedEval
   input MzCombinedRecord pComb;
   input SetupRecord setup;
 
-  // 🔥 UPDATED OUTPUTS
   output SIunits.Torque Mz;
   output SIunits.Length t;
   output SIunits.Length s;
@@ -45,7 +44,7 @@ algorithm
     // ------------------------------------------------------------
     // Load normalization
     // ------------------------------------------------------------
-    dfz := (Fz - setup.Fnomin * pFy.LFZO) / (setup.Fnomin * pFy.LFZO);
+    dfz := (Fz - setup.FNOMIN * pFy.LFZO) / (setup.FNOMIN * pFy.LFZO);
 
     mu_y := (pFy.PDY1 + pFy.PDY2 * dfz)
             * (1 - pFy.PDY3 * (gamma * pFy.LGAY)^2)
@@ -93,9 +92,9 @@ algorithm
     // Residual arm (already correct in your model)
     // ------------------------------------------------------------
     s := (pComb.SSZ1
-         + pComb.SSZ2 * (Fy / setup.Fnomin)
+         + pComb.SSZ2 * (Fy / setup.FNOMIN)
          + (pComb.SSZ3 + pComb.SSZ4 * dfz) * gamma)
-         * setup.R0 * pComb.LS;
+         * setup.UNLOADED_RADIUS * pComb.LS;
 
     // ------------------------------------------------------------
     // Final Mz

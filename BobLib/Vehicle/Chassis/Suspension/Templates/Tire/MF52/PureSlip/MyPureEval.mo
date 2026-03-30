@@ -27,10 +27,10 @@ algorithm
     Vx_n := Vx / p.Vref;
 
     My :=
-      setup.R0 * Fz *
+      setup.UNLOADED_RADIUS * Fz *
       (
         p.QSY1
-        + p.QSY2 * (Fx / setup.Fnomin)
+        + p.QSY2 * (Fx / setup.FNOMIN)
         + p.QSY3 * Vx_n
         + p.QSY4 * Vx_n^4
       )

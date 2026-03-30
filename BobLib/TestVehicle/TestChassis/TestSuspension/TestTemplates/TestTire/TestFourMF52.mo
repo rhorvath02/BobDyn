@@ -1,11 +1,16 @@
-within BobLib.TestVehicle.TestChassis.TestTires;
+within BobLib.TestVehicle.TestChassis.TestSuspension.TestTemplates.TestTire;
 
-model TestMF5p2RigidVehicle
+model TestFourMF52
+  import Modelica.SIunits;
   import Modelica.Math.Vectors.norm;
-  // Vehicle Definition
-  parameter BobLib.Resources.VehicleDefn.OrionRecord car;
-  inner Modelica.Mechanics.MultiBody.World world(n = {0, 0, -1}) annotation(
-    Placement(transformation(origin = {-110, -110}, extent = {{-10, -10}, {10, 10}})));
+
+  import BobLib.Resources.VehicleDefn.OrionRecord;
+
+  // Record parameters
+  parameter OrionRecord pCar;
+  
+  parameter SIunits.Velocity velocity = 10;
+
   // Outputs
   Real body_accels[3];
   Real normal_loads[4];
@@ -19,27 +24,37 @@ model TestMF5p2RigidVehicle
   
   Real vCG;
 
-  // Tires
-  BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF5p2Tire FL_tire(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Wheel1DOF_Y wheelModel,
-                                                                     redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.KinematicSlip slipModel, tire = car.tireFL) annotation(
+  inner Modelica.Mechanics.MultiBody.World world(n = {0, 0, -1}) annotation(
+    Placement(transformation(origin = {-110, -110}, extent = {{-10, -10}, {10, 10}})));
+
+  BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF5p2Tire tireFL(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Wheel1DOF_Y wheelModel(partialWheelParams = pCar.pFrTireSetup, wheel1DOF_YParams = pCar.pFrTireDOF),
+                                                                    redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.KinematicSlip slipModel,
+                                                                    pPartialWheel = pCar.pFrTireSetup,
+                                                                    tire = pCar.tireFL) annotation(
     Placement(transformation(origin = {-70, 80}, extent = {{10, -10}, {-10, 10}})));
-  BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF5p2Tire FR_tire(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Wheel1DOF_Y wheelModel, 
-                                                                     redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.KinematicSlip slipModel, tire = car.tireFR) annotation(
+  BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF5p2Tire tireFR(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Wheel1DOF_Y wheelModel(partialWheelParams = pCar.pFrTireSetup, wheel1DOF_YParams = pCar.pFrTireDOF), 
+                                                                    redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.KinematicSlip slipModel,
+                                                                    pPartialWheel = pCar.pFrTireSetup,
+                                                                    tire = pCar.tireFR) annotation(
     Placement(transformation(origin = {70, 80}, extent = {{-10, -10}, {10, 10}})));
-  BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF5p2Tire RL_tire(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Wheel1DOF_Y wheelModel, 
-                                                                     redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.KinematicSlip slipModel, tire = car.tireRL) annotation(
+  BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF5p2Tire tireRL(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Wheel1DOF_Y wheelModel(partialWheelParams = pCar.pFrTireSetup, wheel1DOF_YParams = pCar.pFrTireDOF), 
+                                                                    redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.KinematicSlip slipModel,
+                                                                    pPartialWheel = pCar.pFrTireSetup,
+                                                                    tire = pCar.tireRL) annotation(
     Placement(transformation(origin = {-70, 0}, extent = {{10, -10}, {-10, 10}})));
-  BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF5p2Tire RR_tire(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Wheel1DOF_Y wheelModel, 
-                                                                     redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.KinematicSlip slipModel, tire = car.tireRR) annotation(
+  BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF5p2Tire tireRR(redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.TirePhysics.Wheel1DOF_Y wheelModel(partialWheelParams = pCar.pFrTireSetup, wheel1DOF_YParams = pCar.pFrTireDOF), 
+                                                                    redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.KinematicSlip slipModel,
+                                                                    pPartialWheel = pCar.pFrTireSetup,
+                                                                    tire = pCar.tireRR) annotation(
     Placement(transformation(origin = {70, 0}, extent = {{-10, -10}, {10, 10}})));
   
-  Utilities.Mechanics.Multibody.GroundPhysics FL_ground annotation(
+  Utilities.Mechanics.Multibody.GroundPhysics groundFL annotation(
     Placement(transformation(origin = {-70, 40}, extent = {{-10, -10}, {10, 10}})));
-  Utilities.Mechanics.Multibody.GroundPhysics FR_ground annotation(
+  Utilities.Mechanics.Multibody.GroundPhysics groundFR annotation(
     Placement(transformation(origin = {70, 40}, extent = {{10, -10}, {-10, 10}})));
-  Utilities.Mechanics.Multibody.GroundPhysics RL_ground annotation(
+  Utilities.Mechanics.Multibody.GroundPhysics groundRL annotation(
     Placement(transformation(origin = {-70, -40}, extent = {{-10, -10}, {10, 10}})));
-  Utilities.Mechanics.Multibody.GroundPhysics RR_ground annotation(
+  Utilities.Mechanics.Multibody.GroundPhysics groundRR annotation(
     Placement(transformation(origin = {70, -40}, extent = {{10, -10}, {-10, 10}})));
   
   Modelica.Blocks.Sources.Ramp steerRamp(duration = 5, height = 5*Modelica.Constants.pi/180, startTime = 0) annotation(
@@ -60,7 +75,7 @@ model TestMF5p2RigidVehicle
   Modelica.Mechanics.MultiBody.Parts.Mounting1D mounting1D annotation(
     Placement(transformation(origin = {0, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 180)));
   
-  Modelica.Blocks.Sources.RealExpression velErrorExpression(y = 10 - vCG)  annotation(
+  Modelica.Blocks.Sources.RealExpression velErrorExpression(y = velocity - vCG)  annotation(
     Placement(transformation(origin = {-100, -80}, extent = {{-10, -10}, {10, 10}})));
   
   Modelica.Blocks.Continuous.PI PI(T = 1, k = 200)  annotation(
@@ -92,49 +107,49 @@ protected
     Placement(transformation(origin = {30, 20}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
 
 initial equation
-  FL_tire.wheelModel.hub_axis.w = 10 / (8 * 0.0254);
-  FR_tire.wheelModel.hub_axis.w = 10 / (8 * 0.0254);
-  RL_tire.wheelModel.hub_axis.w = 10 / (8 * 0.0254);
-  RR_tire.wheelModel.hub_axis.w = 10 / (8 * 0.0254);
+  tireFL.wheelModel.hubAxis.w = velocity / pCar.pFrTireSetup.R0;
+  tireFR.wheelModel.hubAxis.w = velocity / pCar.pFrTireSetup.R0;
+  tireRL.wheelModel.hubAxis.w = velocity / pCar.pFrTireSetup.R0;
+  tireRR.wheelModel.hubAxis.w = velocity / pCar.pFrTireSetup.R0;
 
 equation
   vCG = norm(bodyCG.v_0);
   body_accels = Modelica.Mechanics.MultiBody.Frames.resolve2(bodyCG.frame_a.R, bodyCG.a_0);
-  normal_loads[1] = FL_tire.Fz;
-  normal_loads[2] = FR_tire.Fz;
-  normal_loads[3] = RL_tire.Fz;
-  normal_loads[4] = RR_tire.Fz;
-  long_LT = bodyCG.m*body_accels[1]*bodyCG.r_0[3]/norm(FL_tire.cp_frame.r_0 - RL_tire.cp_frame.r_0);
-  lat_LT = bodyCG.m*body_accels[2]*bodyCG.r_0[3]/norm(FL_tire.cp_frame.r_0 - FR_tire.cp_frame.r_0);
+  normal_loads[1] = tireFL.Fz;
+  normal_loads[2] = tireFR.Fz;
+  normal_loads[3] = tireRL.Fz;
+  normal_loads[4] = tireRR.Fz;
+  long_LT = bodyCG.m*body_accels[1]*bodyCG.r_0[3]/norm(tireFL.cpFrame.r_0 - tireRL.cpFrame.r_0);
+  lat_LT = bodyCG.m*body_accels[2]*bodyCG.r_0[3]/norm(tireFL.cpFrame.r_0 - tireFR.cpFrame.r_0);
   
   calc_FL = bodyCG.m*Modelica.Constants.g_n/4 - long_LT/2 - lat_LT/2;
   calc_FR = bodyCG.m*Modelica.Constants.g_n/4 - long_LT/2 + lat_LT/2;
   calc_RL = bodyCG.m*Modelica.Constants.g_n/4 + long_LT/2 - lat_LT/2;
   calc_RR = bodyCG.m*Modelica.Constants.g_n/4 + long_LT/2 + lat_LT/2;
   
-  connect(fixedFL.frame_b, FL_ground.frame_a) annotation(
+  connect(fixedFL.frame_b, groundFL.frame_a) annotation(
     Line(points = {{-100, 40}, {-80, 40}}, color = {95, 95, 95}));
-  connect(fixedFR.frame_b, FR_ground.frame_a) annotation(
+  connect(fixedFR.frame_b, groundFR.frame_a) annotation(
     Line(points = {{100, 40}, {80, 40}}, color = {95, 95, 95}));
-  connect(fixedRL.frame_b, RL_ground.frame_a) annotation(
+  connect(fixedRL.frame_b, groundRL.frame_a) annotation(
     Line(points = {{-100, -40}, {-80, -40}}, color = {95, 95, 95}));
-  connect(fixedRR.frame_b, RR_ground.frame_a) annotation(
+  connect(fixedRR.frame_b, groundRR.frame_a) annotation(
     Line(points = {{100, -40}, {80, -40}}, color = {95, 95, 95}));
-  connect(FL_tire.cp_frame, FL_ground.frame_b) annotation(
+  connect(tireFL.cpFrame, groundFL.frame_b) annotation(
     Line(points = {{-70, 70}, {-70, 50}}, color = {95, 95, 95}));
-  connect(FR_tire.cp_frame, FR_ground.frame_b) annotation(
+  connect(tireFR.cpFrame, groundFR.frame_b) annotation(
     Line(points = {{70, 70}, {70, 50}}, color = {95, 95, 95}));
-  connect(RL_tire.cp_frame, RL_ground.frame_b) annotation(
+  connect(tireRL.cpFrame, groundRL.frame_b) annotation(
     Line(points = {{-70, -10}, {-70, -30}}, color = {95, 95, 95}));
-  connect(RR_tire.cp_frame, RR_ground.frame_b) annotation(
+  connect(tireRR.cpFrame, groundRR.frame_b) annotation(
     Line(points = {{70, -10}, {70, -30}}, color = {95, 95, 95}));
-  connect(FL_tire.chassis_frame, leftRevolute.frame_b) annotation(
+  connect(tireFL.chassisFrame, leftRevolute.frame_b) annotation(
     Line(points = {{-60, 80}, {-56, 80}}, color = {95, 95, 95}));
-  connect(FR_tire.chassis_frame, rightRevolute.frame_b) annotation(
+  connect(tireFR.chassisFrame, rightRevolute.frame_b) annotation(
     Line(points = {{60, 80}, {56, 80}}, color = {95, 95, 95}));
-  connect(RL_tire.chassis_frame, trackRL.frame_b) annotation(
+  connect(tireRL.chassisFrame, trackRL.frame_b) annotation(
     Line(points = {{-60, 0}, {-30, 0}}, color = {95, 95, 95}));
-  connect(RR_tire.chassis_frame, trackRR.frame_b) annotation(
+  connect(tireRR.chassisFrame, trackRR.frame_b) annotation(
     Line(points = {{60, 0}, {30, 0}}, color = {95, 95, 95}));
   connect(leftRevolute.frame_a, trackFL.frame_b) annotation(
     Line(points = {{-36, 80}, {-30, 80}}, color = {95, 95, 95}));
@@ -158,9 +173,9 @@ equation
     Line(points = {{-60, 110}, {-46, 110}, {-46, 90}}));
   connect(steerPosition.flange, rightRevolute.axis) annotation(
     Line(points = {{-60, 110}, {46, 110}, {46, 90}}));
-  connect(leftTorque.flange_b, RL_tire.hub_flange) annotation(
+  connect(leftTorque.flange_b, tireRL.hubFlange) annotation(
     Line(points = {{-50, -20}, {-90, -20}, {-90, 0}, {-80, 0}}));
-  connect(rightTorque.flange_b, RR_tire.hub_flange) annotation(
+  connect(rightTorque.flange_b, tireRR.hubFlange) annotation(
     Line(points = {{50, -20}, {90, -20}, {90, 0}, {80, 0}}));
   connect(trackFrToRr.frame_b, mounting1D.frame_a) annotation(
     Line(points = {{0, 40}, {0, -10}}, color = {95, 95, 95}));
@@ -174,8 +189,9 @@ equation
     Line(points = {{-48, -80}, {-40, -80}, {-40, -24}}, color = {0, 0, 127}));
   connect(PI.y, rightTorque.tau) annotation(
     Line(points = {{-48, -80}, {40, -80}, {40, -24}}, color = {0, 0, 127}));
+  
   annotation(
     Diagram(coordinateSystem(extent = {{-120, -120}, {120, 120}})),
     Icon(coordinateSystem(extent = {{-120, -120}, {120, 120}})),
     experiment(StartTime = 0, StopTime = 10, Tolerance = 1e-06, Interval = 0.002));
-end TestMF5p2RigidVehicle;
+end TestFourMF52;

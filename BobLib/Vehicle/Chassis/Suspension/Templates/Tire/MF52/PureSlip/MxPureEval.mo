@@ -21,11 +21,11 @@ algorithm
   if Fz > 1e-3 then
 
     Mx :=
-      setup.R0 * Fz *
+      setup.UNLOADED_RADIUS * Fz *
       (
         p.QSX1 * p.LVMX
         +
-        (-p.QSX2 * gamma + p.QSX3 * Fy / setup.Fnomin) * p.LMX
+        (-p.QSX2 * gamma + p.QSX3 * Fy / setup.FNOMIN) * p.LMX
       );
 
   else

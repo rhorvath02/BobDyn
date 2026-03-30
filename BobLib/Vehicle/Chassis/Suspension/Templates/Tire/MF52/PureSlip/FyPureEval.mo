@@ -33,15 +33,15 @@ algorithm
   if Fz > 1e-3 then
     IA_y := gamma * p.LGAY;
 
-    dfz := (Fz - setup.Fnomin * p.LFZO) / (setup.Fnomin * p.LFZO);
+    dfz := (Fz - setup.FNOMIN * p.LFZO) / (setup.FNOMIN * p.LFZO);
 
     mu_y := (p.PDY1 + p.PDY2 * dfz) * (1 - p.PDY3 * IA_y^2) * p.LMUY;
 
     C := p.PCY1 * p.LCY;
     D := mu_y * Fz;
 
-    K := p.PKY1 * setup.Fnomin *
-         sin(2 * atan(Fz / (p.PKY2 * setup.Fnomin * p.LFZO))) *
+    K := p.PKY1 * setup.FNOMIN *
+         sin(2 * atan(Fz / (p.PKY2 * setup.FNOMIN * p.LFZO))) *
          (1 - p.PKY3 * abs(IA_y)) *
          p.LFZO * p.LKY;
 

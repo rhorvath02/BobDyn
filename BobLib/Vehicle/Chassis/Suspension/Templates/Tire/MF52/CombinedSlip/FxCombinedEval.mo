@@ -40,7 +40,7 @@ algorithm
     Fx_pure := FxPureEval(Fz, kappa, gamma, pPure, setup);
 
     // Normalized load
-    dfz := (Fz - setup.Fnomin * pPure.LFZO) / (setup.Fnomin * pPure.LFZO);
+    dfz := (Fz - setup.FNOMIN * pPure.LFZO) / (setup.FNOMIN * pPure.LFZO);
 
     // Combined slip coefficients
     C_xSA := pComb.RCX1;

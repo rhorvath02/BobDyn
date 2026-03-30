@@ -108,7 +108,7 @@ algorithm
             Vx,
             car.tireFL
           );
-// 🔥 Reconstruction check
+// Reconstruction check
         Mz_reconstructed[i,j] := -t[i,j] * Fy[i,j] + s[i,j] * Fx[i,j];
 
       end for;

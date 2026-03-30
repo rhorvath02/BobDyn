@@ -54,7 +54,7 @@ algorithm
     // ------------------------------------------------------------
     // Load normalization
     // ------------------------------------------------------------
-    dfz := (Fz - setup.Fnomin * pFy.LFZO) / (setup.Fnomin * pFy.LFZO);
+    dfz := (Fz - setup.FNOMIN * pFy.LFZO) / (setup.FNOMIN * pFy.LFZO);
 
     // ------------------------------------------------------------
     // Fy internals
@@ -65,8 +65,8 @@ algorithm
             * (1 - pFy.PDY3 * (gamma * pFy.LGAY)^2)
             * pFy.LMUY;
 
-    K_y := pFy.PKY1 * setup.Fnomin *
-           sin(2 * atan(Fz / (pFy.PKY2 * setup.Fnomin * pFy.LFZO))) *
+    K_y := pFy.PKY1 * setup.FNOMIN *
+           sin(2 * atan(Fz / (pFy.PKY2 * setup.FNOMIN * pFy.LFZO))) *
            (1 - pFy.PKY3 * abs(gamma * pFy.LGAY)) *
            pFy.LFZO * pFy.LKY;
 
@@ -86,7 +86,7 @@ algorithm
 
     D_t := Fz * (p.QDZ1 + p.QDZ2 * dfz)
            * (1 + p.QDZ3 * IA_z * p.LGAZ + p.QDZ4 * (IA_z * p.LGAZ)^2)
-           * (setup.R0 / setup.Fnomin)
+           * (setup.UNLOADED_RADIUS / setup.FNOMIN)
            * p.LTR;
 
     C_t := p.QCZ1;
@@ -124,7 +124,7 @@ algorithm
 
     D_r := Fz * ((p.QDZ6 + p.QDZ7 * dfz) * p.LRES
            + (p.QDZ8 + p.QDZ9 * dfz) * IA_z * p.LGAZ)
-           * setup.R0 * p.LMUY;
+           * setup.UNLOADED_RADIUS * p.LMUY;
 
     B_r := p.QBZ9 * p.LKY / p.LMUY + p.QBZ10 * B_y * C_y;
 

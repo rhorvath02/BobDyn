@@ -5,7 +5,7 @@ record OrionRecord
   import BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.MassRecord;
   
   import TireModel = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.MF52;
-  import TirePhysics = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire.Templates;
+  import Wheel = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Tire;
   import Rack = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.SteeringRack;
   import Stabar = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.Stabar;
   import DW = BobLib.Resources.VehicleRecord.Chassis.Suspension.Templates.DoubleWishbone;
@@ -53,12 +53,15 @@ record OrionRecord
     rodMount = {0.006762552642, 0.525610676234, 0.134465050856},
     shockMount = {-0.020673469702, 0.247847085458, 0.561456926868});
     
-  parameter TirePhysics.PartialWheelRecord pFrTireSetup(
+  parameter Wheel.Templates.PartialWheelRecord pFrTireSetup(
     R0 = 0.2045,
     rimR0 = 0.2045*0.625,
     rimWidth = 0.2045*0.625*1.4,
     staticAlpha = 0,
     staticGamma = 15);
+  
+  parameter Wheel.Wheel1DOF_YRecord pFrTireDOF(
+    wheelJ = 0.02);
   
   parameter TireModel.MF52Record tireFL(
     // Setup
