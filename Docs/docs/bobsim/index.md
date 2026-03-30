@@ -5,18 +5,60 @@ title: BobSim
 
 # BobSim
 
-BobSim currently exposes the Design of Experiments workflow for simulation sweeps and sensitivity analysis.
+BobSim executes and analyzes vehicle models built in BobLib. It provides the tools needed to explore system behavior, quantify sensitivities, and evaluate design decisions across the full parameter space.
+
+---
+
+## What It Does
+
+- Runs simulations across large design spaces  
+- Evaluates how changes in inputs affect vehicle response  
+- Generates structured data for analysis and comparison  
+- Transforms models into actionable engineering insight  
+
+---
 
 ## Design of Experiments
 
-A set of parameters is provided along with defined ranges and step sizes. The solver runs across the
-full parameter space and returns sensitivity data: how much each input parameter influences each
-output metric, and in what direction.
+BobSim exposes a Design of Experiments (DOE) workflow for systematic simulation sweeps and sensitivity analysis.
 
-Use this workflow to:
+A set of input parameters is defined along with ranges and step sizes. BobSim evaluates the model across the full parameter space, producing a map of how each parameter influences each output metric.
 
-- Identify which parameters have the most influence on a target metric
-- Quantify trade-offs between competing objectives
-- Prioritize development effort based on partial derivatives
+---
 
-[Design of Experiments ->](/bobsim/doe)
+## What This Reveals
+
+- Which parameters dominate system behavior  
+- How design variables interact with one another  
+- Where trade-offs exist between competing objectives  
+- How sensitive the system is to small changes  
+
+Instead of evaluating a single configuration, the entire design space can be explored and understood.
+
+---
+
+## From Simulation to Insight
+
+Traditional workflows often rely on isolated simulations and manual iteration.
+
+BobSim enables:
+
+- **Structured exploration** - consistent evaluation across all parameter combinations  
+- **Sensitivity analysis** - direct measurement of parameter influence  
+- **Gradient awareness** - understanding how and why the system responds  
+- **Data-driven decisions** - prioritizing effort based on quantified impact  
+
+---
+
+## Why It Matters
+
+- Enables rapid iteration across the design space  
+- Reduces reliance on trial-and-error development  
+- Identifies high-impact design changes early  
+- Supports informed, data-driven engineering decisions  
+
+---
+
+## Explore the Workflow
+
+[Design of Experiments →](/bobsim/doe)
