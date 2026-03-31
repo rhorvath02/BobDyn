@@ -3,12 +3,36 @@ import {defineConfig} from 'vitepress'
 export default defineConfig({
     title: 'BobDyn',
     description: 'First-principles vehicle dynamics analysis for Formula SAE',
+    lang: 'en-US',
     base: '/',
     appearance: 'dark',
+    sitemap: {
+      hostname: 'https://bobdyn.com'
+    },
 
   head: [
     ['link', { rel: 'icon', type: 'image/png', href: '/bob.png' }],
+    ['meta', { name: 'robots', content: 'index,follow' }],
+    ['meta', { property: 'og:site_name', content: 'BobDyn' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:title', content: 'BobDyn' }],
+    ['meta', { property: 'og:description', content: 'First-principles vehicle dynamics analysis for Formula SAE' }],
+    ['meta', { property: 'og:image', content: 'https://bobdyn.com/bob.png' }],
   ],
+
+  transformHead: ({ pageData }) => {
+    const normalizedPath = pageData.relativePath
+      .replace(/(^|\/)index\.md$/, '$1')
+      .replace(/\.md$/, '')
+
+    const canonicalPath = normalizedPath ? `/${normalizedPath}` : '/'
+    const canonicalUrl = `https://bobdyn.com${canonicalPath}`
+
+    return [
+      ['link', { rel: 'canonical', href: canonicalUrl }],
+      ['meta', { property: 'og:url', content: canonicalUrl }],
+    ]
+  },
 
   themeConfig: {
     logo: '/bob.png',
@@ -80,7 +104,8 @@ export default defineConfig({
 
     outline: { level: [2, 3], label: 'On this page' },
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/rhorvath02/VehicleDynamics' },
+      { icon: 'github', link: 'https://github.com/longhornRacingElectric/' },
+      { icon: 'instagram', link: 'https://www.instagram.com/longhornracing/' },
     ],
 
     search: {

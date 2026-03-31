@@ -24,6 +24,14 @@ features:
 
 ---
 
+## Start Here
+
+- Learn how vehicles are modeled -> [BobLib](./boblib/)
+- Explore simulation and analysis workflows -> [BobSim](./bobsim/)
+- Dive into methods and references -> [Reference](./reference/)
+
+---
+
 ## Overview
 
 BobDyn is built around a simple idea: define the physics once, and reuse it everywhere.
@@ -57,11 +65,3 @@ Tools with similar capabilities exist in industry but are often closed and cost-
 - **Transparent** - models remain readable, debuggable, and grounded in physics  
 
 This enables deeper system understanding without reliance on black-box tools.
-
----
-
-## Start Here
-
-- Learn how vehicles are modeled → [BobLib](./boblib/)  
-- Explore simulation and analysis workflows → [BobSim](./bobsim/)  
-- Dive into methods and references → [Reference](./reference/)

@@ -10,6 +10,8 @@ is described in terms of the physical behavior it represents and why it is relev
 design and analysis. No assumptions are made regarding relative importance; the relevance of each
 metric depends on the intended application of the vehicle.
 
+---
+
 ## Steady-State Handling
 
 <p class="section-intro">
@@ -105,6 +107,8 @@ inertial coupling.
 **Why it matters.** Limit sideslip behavior determines whether the vehicle remains controllable at
 the edge of grip or transitions abruptly into loss of control.
 
+---
+
 ## Transient Handling
 
 <p class="section-intro">
@@ -178,6 +182,8 @@ $$
 **Why it matters.** Yaw amplification indicates whether the vehicle exhibits aggressive transient
 overshoot or a controlled, well-damped response.
 
+---
+
 ## Stability and Control
 
 ### Stability Margin
@@ -190,6 +196,8 @@ yaw inertia, and overall system robustness.
 
 **Why it matters.** This metric provides insight into how much corrective authority exists before
 loss of control occurs.
+
+---
 
 ## Frequency-Domain Metrics
 

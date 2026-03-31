@@ -9,6 +9,8 @@ In vehicle modeling, we don't just care about how a vehicle moves. We care about
 the way we want. Control theory is the mathematical framework used to regulate the behavior of
 dynamic systems to reach a desired state.
 
+---
+
 ## Open-Loop vs. Closed-Loop
 
 The most fundamental distinction in control is whether or not the system "looks" at its own output
@@ -76,6 +78,8 @@ def bang_bang(setpoint, altitude):
 Notice that the system never settles. Bang-bang control is useful when simplicity matters more than
 precision (thermostats, relays), but it's unsuitable for smooth vehicle control.
 
+---
+
 ## PID Control
 
 The workhorse of engineering. PID computes a smooth control input $u(t)$ using three terms that each
@@ -118,6 +122,8 @@ throttle = pid.update(setpoint=10.0, measurement=read_barometer())
 - **$K_i = 0$:** The system will settle near but not exactly at the setpoint (steady-state error).
 - **$K_d = 0$:** The system reaches the setpoint but overshoots and rings.
 - **All three tuned:** Fast rise, minimal overshoot, zero steady-state error.
+
+---
 
 ## Feedforward Control
 

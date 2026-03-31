@@ -63,8 +63,16 @@ h4:hover .header-anchor {
 
 /* Hero title gradient - light blue to dark blue */
 .VPHero .name {
+    font-size: clamp(3.6rem, 7.4vw, 5.5rem);
+    line-height: 1.08;
+    margin-bottom: 0.22rem;
     background: linear-gradient(to right, #6bb6ff, #2563eb);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+}
+
+.VPHero .text {
+    font-size: clamp(2.55rem, 5.1vw, 3.55rem);
+    line-height: 1.08;
 }
