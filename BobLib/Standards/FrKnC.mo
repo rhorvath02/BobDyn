@@ -21,7 +21,7 @@ model FrKnC
                                          final rightCPFixed(r = rightCPInit));
   // Front axle
   BobLib.Vehicle.Chassis.Suspension.FrAxleDW frAxleDW(pAxle = pVehicle.pFrAxleDW,
-                                                      pRack = pVehicle.pRack,
+                                                      pRack = pVehicle.pFrRack,
                                                       pStabar = pVehicle.pFrStabar,
                                                       pLeftPartialWheel = pVehicle.pFrPartialWheel,
                                                       pLeftDW = pVehicle.pFrDW,
