@@ -16,9 +16,9 @@ model FrKnC
   Real rightSpringLength;
   Real stabarAngle;
   
-  extends BobLib.Standards.Templates.KnC(final leftCPFixed(r = leftCPInit),
+  extends BobLib.Standards.Templates.KnC(final toAxle(r = {pVehicle.pFrDW.wheelCenter[1], 0, pVehicle.pFrDW.wheelCenter[3]}),
+                                         final leftCPFixed(r = leftCPInit),
                                          final rightCPFixed(r = rightCPInit));
-  
   // Front axle
   BobLib.Vehicle.Chassis.Suspension.FrAxleDW frAxleDW(pAxle = pVehicle.pFrAxleDW,
                                                       pRack = pVehicle.pRack,
@@ -31,21 +31,19 @@ model FrKnC
                                                       redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.BaseTire rightTire(
                                                         redeclare BobLib.Vehicle.Chassis.Suspension.Templates.Tire.MF52.SlipModel.NoSlip slipModel)) annotation(
     Placement(transformation(origin = {0, 50.4444}, extent = {{-34, -26.4444}, {34, 26.4444}})));
-
+  
 protected
   // Calculated parameters
-  final parameter Real leftCPInit[3] = pVehicle.pFrDW.wheelCenter + Frames.resolve1(Frames.axesRotations({1, 2, 3}, {pVehicle.pFrPartialWheel.staticGamma*pi/180, 0, pVehicle.pFrPartialWheel.staticAlpha*pi/180}, {0, 0, 0}), {0, 0, -pVehicle.pFrPartialWheel.R0});
+  final parameter Real leftCPInit[3] = pVehicle.pFrDW.wheelCenter + Frames.resolve1(Frames.axesRotations({1, 2, 3},
+                                                                                                         {pVehicle.pFrPartialWheel.staticGamma*pi/180, 0, pVehicle.pFrPartialWheel.staticAlpha*pi/180},
+                                                                                                         {0, 0, 0}),
+                                                                                    {0, 0, -pVehicle.pFrPartialWheel.R0});
   final parameter Real rightCPInit[3] = Vector.mirrorXZ(leftCPInit);
-  
-  // Axle position
-  Modelica.Mechanics.MultiBody.Parts.FixedTranslation toAxle(r = {pVehicle.pFrDW.wheelCenter[1], 0, pVehicle.pFrDW.wheelCenter[3]}, animation = false) annotation(
-    Placement(transformation(origin = {0, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-  
   // Steer input
   Modelica.Blocks.Sources.Ramp steerRamp(duration = 1, height = 0*Modelica.Constants.pi/180, startTime = 1) annotation(
-    Placement(transformation(origin = {-60, 90}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-70, 110}, extent = {{-10, -10}, {10, 10}})));
   Modelica.Mechanics.Rotational.Sources.Position steerPosition(exact = true) annotation(
-    Placement(transformation(origin = {-30, 90}, extent = {{-10, -10}, {10, 10}})));
+    Placement(transformation(origin = {-30, 110}, extent = {{-10, -10}, {10, 10}})));
   
 equation
   leftGamma = frAxleDW.leftTire.gamma;
@@ -81,11 +79,9 @@ equation
   stabarAngle = frAxleDW.stabar.spring.phi_rel;
 
   connect(steerRamp.y, steerPosition.phi_ref) annotation(
-    Line(points = {{-49, 90}, {-43, 90}}, color = {0, 0, 127}));
+    Line(points = {{-59, 110}, {-43, 110}}, color = {0, 0, 127}));
   connect(steerPosition.flange, frAxleDW.pinionFlange) annotation(
-    Line(points = {{-20, 90}, {0, 90}, {0, 70}}));
-  connect(toAxle.frame_b, frAxleDW.axleFrame) annotation(
-    Line(points = {{0, 40}, {0, 60}}, color = {95, 95, 95}));
+    Line(points = {{-20, 110}, {0, 110}, {0, 70}}));
   connect(leftCPForce.frame_b, frAxleDW.leftCP) annotation(
     Line(points = {{-60, 20}, {-47, 20}, {-47, 50}, {-34, 50}}, color = {95, 95, 95}));
   connect(rightCPForce.frame_b, frAxleDW.rightCP) annotation(
@@ -94,8 +90,8 @@ equation
     Line(points = {{-40, 0}, {-40, 50}, {-34, 50}}, color = {95, 95, 95}));
   connect(right_DOF_xyz.frame_b, frAxleDW.rightCP) annotation(
     Line(points = {{40, 0}, {40, 50}, {34, 50}}, color = {95, 95, 95}));
-  connect(toAxle.frame_a, rollDOF.frame_b) annotation(
-    Line(points = {{0, 20}, {0, -30}}, color = {95, 95, 95}));
+  connect(heaveDOF.frame_b, frAxleDW.axleFrame) annotation(
+    Line(points = {{0, 30}, {0, 60}}, color = {95, 95, 95}));
   annotation(
-    experiment(StartTime = 0, StopTime = 3, Tolerance = 1e-06, Interval = 0.002));
+    experiment(StartTime = 0, StopTime = 91, Tolerance = 1e-06, Interval = 0.002));
 end FrKnC;
