@@ -56,9 +56,3 @@ BobSim enables:
 - Reduces reliance on trial-and-error development  
 - Identifies high-impact design changes early  
 - Supports informed, data-driven engineering decisions  
-
----
-
-## Explore the Workflow
-
-[Design of Experiments →](/bobsim/doe)
