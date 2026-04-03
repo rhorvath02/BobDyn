@@ -58,14 +58,13 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.35rem 0.6rem;
+  padding: 0.5rem 1rem;
   border: 1px solid var(--vp-c-border);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--vp-c-bg) 78%, transparent);
+  background-color: var(--vp-c-bg-elv);
   color: var(--vp-c-text-2);
   pointer-events: none;
   user-select: none;
-  backdrop-filter: blur(4px);
   animation: floatHint 1.4s ease-in-out infinite;
 }
 
