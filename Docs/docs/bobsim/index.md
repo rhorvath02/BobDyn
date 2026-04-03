@@ -11,11 +11,7 @@ BobSim executes and analyzes vehicle models built in BobLib. It provides the too
 
 ## What It Does
 
-- Runs simulations across large design spaces  
-- Evaluates how changes in inputs affect vehicle response  
-- Generates structured data for analysis and comparison  
-- Transforms models into actionable engineering insight  
-
+- Runs simulations across large design spaces- Evaluates how changes in inputs affect vehicle response- Generates structured data for analysis and comparison- Transforms models into actionable engineering insight
 ---
 
 ## Design of Experiments
@@ -28,11 +24,7 @@ A set of input parameters is defined along with ranges and step sizes. BobSim ev
 
 ## What This Reveals
 
-- Which parameters dominate system behavior  
-- How design variables interact with one another  
-- Where trade-offs exist between competing objectives  
-- How sensitive the system is to small changes  
-
+- Which parameters dominate system behavior- How design variables interact with one another- Where trade-offs exist between competing objectives- How sensitive the system is to small changes
 Instead of evaluating a single configuration, the entire design space can be explored and understood.
 
 ---
@@ -43,16 +35,9 @@ Traditional workflows often rely on isolated simulations and manual iteration.
 
 BobSim enables:
 
-- **Structured exploration** - consistent evaluation across all parameter combinations  
-- **Sensitivity analysis** - direct measurement of parameter influence  
-- **Gradient awareness** - understanding how and why the system responds  
-- **Data-driven decisions** - prioritizing effort based on quantified impact  
-
+- **Structured exploration** - consistent evaluation across all parameter combinations- **Sensitivity analysis** - direct measurement of parameter influence- **Gradient awareness** - understanding how and why the system responds- **Data-driven decisions** - prioritizing effort based on quantified impact
 ---
 
 ## Why It Matters
 
-- Enables rapid iteration across the design space  
-- Reduces reliance on trial-and-error development  
-- Identifies high-impact design changes early  
-- Supports informed, data-driven engineering decisions  
+- Enables rapid iteration across the design space- Reduces reliance on trial-and-error development- Identifies high-impact design changes early- Supports informed, data-driven engineering decisions

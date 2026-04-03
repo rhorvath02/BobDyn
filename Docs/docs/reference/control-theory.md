@@ -55,6 +55,12 @@ The simplest form of feedback. The controller has only two states: **full on** o
 
 $$u(t) = \begin{cases} U_{\max} & \text{if } e(t) > 0 \\ -U_{\max} & \text{if } e(t) < 0 \end{cases}$$
 
+| Variable    | Meaning                  |
+|:------------|:-------------------------|
+| $u(t)$      | control output           |
+| $U_{\max}$  | maximum actuator command |
+| $e(t)$      | error signal             |
+
 If the error is positive, drive the actuator to max. If negative, drive it to min. The result is
 constant oscillation around the setpoint, called **chatter**.
 
@@ -131,6 +137,12 @@ PID reacts to error after it has already occurred. **Feedforward** predicts the 
 on known physics and applies it proactively, before any error builds up.
 
 $$u(t) = u_{\text{ff}}(t) + u_{\text{fb}}(t)$$
+
+| Variable            | Meaning                     |
+|:--------------------|:----------------------------|
+| $u(t)$              | total control output        |
+| $u_{\text{ff}}(t)$  | feedforward term (model)    |
+| $u_{\text{fb}}(t)$  | feedback term (PID)         |
 
 Where $u_{\text{ff}}$ is computed from a model of the plant (e.g., gravity compensation for a drone)
 and $u_{\text{fb}}$ is the PID feedback term.

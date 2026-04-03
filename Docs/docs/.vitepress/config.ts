@@ -39,7 +39,7 @@ export default defineConfig({
     siteTitle: 'BobDyn',
 
     nav: [
-      {text: 'BobLib', link: '/boblib/' },
+      { text: 'BobLib', link: '/boblib/' },
       { text: 'BobSim', link: '/bobsim/' },
       { text: 'Reference', link: '/reference/' },
       // Add new top-nav entries here
@@ -84,7 +84,7 @@ export default defineConfig({
           items: [
             { text: 'Steady-State Handling', link: '/reference/metrics#steady-state-handling' },
             { text: 'Transient Handling', link: '/reference/metrics#transient-handling' },
-            { text: 'Stability & Control', link: '/reference/metrics#stability-and-control' },
+            { text: 'Stability and Control', link: '/reference/metrics#stability-and-control' },
             { text: 'Frequency-Domain', link: '/reference/metrics#frequency-domain-metrics' },
           ]
         },
