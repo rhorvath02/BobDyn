@@ -21,7 +21,10 @@ model RackAndPinion "Rack and pinion"
     Placement(transformation(origin = {100, 0}, extent = {{-16, -16}, {16, 16}}), iconTransformation(origin = {100, 0}, extent = {{-16, -16}, {16, 16}})));
   
   // Rack axis
-  Modelica.Mechanics.MultiBody.Joints.Prismatic rackAxis(n = {0, 1, 0}, useAxisFlange = true, animation = false)  annotation(
+  Modelica.Mechanics.MultiBody.Joints.Prismatic rackAxis(n = {0, 1, 0},
+                                                         useAxisFlange = true,
+                                                         animation = false,
+                                                         s(nominal=0.01))  annotation(
     Placement(transformation(origin = {0, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
   
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation fromLeft(r = {0, -pRack.leftPickup[2], 0}, width = linkDiameter, height = linkDiameter)  annotation(

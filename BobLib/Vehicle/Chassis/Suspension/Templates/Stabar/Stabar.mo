@@ -29,9 +29,13 @@ model Stabar "Stabar with rigid arms and compliant torsion bar"
   Modelica.Mechanics.MultiBody.Parts.FixedTranslation toRightArmEnd(r = Vector.mirrorXZ(pStabar.leftArmEnd - pStabar.leftBarEnd), width = linkDiameter, height = linkDiameter)  annotation(
     Placement(transformation(origin = {70, 30}, extent = {{-10, -10}, {10, 10}}, rotation = -90)));
   
-  Modelica.Mechanics.MultiBody.Joints.Revolute stabarAxis(useAxisFlange = true, cylinderLength = jointDiameter, cylinderDiameter = jointDiameter, n = {0, 1, 0})  annotation(
+  Modelica.Mechanics.MultiBody.Joints.Revolute stabarAxis(n = {0, 1, 0},
+                                                          useAxisFlange = true,
+                                                          cylinderLength = jointDiameter,
+                                                          cylinderDiameter = jointDiameter,
+                                                          phi(nominal=0.05))  annotation(
     Placement(transformation(origin = {-30, 0}, extent = {{-10, -10}, {10, 10}}, rotation = -180)));
-  Modelica.Mechanics.MultiBody.Joints.Revolute mountAxis(n = {0, 1, 0}, animation = false, useAxisFlange = false)  annotation(
+  Modelica.Mechanics.MultiBody.Joints.Revolute mountAxis(n = {0, 1, 0}, animation = false, phi(nominal=0.05))  annotation(
     Placement(transformation(origin = {0, -70}, extent = {{10, -10}, {-10, 10}}, rotation = 90)));
   
   Modelica.Mechanics.Rotational.Components.Spring spring(c = pStabar.barRate)  annotation(

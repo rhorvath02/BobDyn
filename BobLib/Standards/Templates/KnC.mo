@@ -2,40 +2,48 @@ within BobLib.Standards.Templates;
 
 partial model KnC
   import Modelica.SIunits;
+
   Real leftGamma;
   Real leftToe;
   Real leftCaster;
   Real leftKpi;
   Real leftMechTrail;
   Real leftMechScrub;
+
   Real rightGamma;
   Real rightToe;
   Real rightCaster;
   Real rightKpi;
   Real rightMechTrail;
   Real rightMechScrub;
+  
   Real jackingForce;
   Real heaveSignal;
   Real rollSignal;
   Real fxSignal;
   Real fySignal;
+  
   inner parameter SIunits.Length linkDiameter = 0.020;
   inner parameter SIunits.Length jointDiameter = 0.030;
+  
   parameter SIunits.Angle steerMagnitude = 0 "Maximum pinion angle magnitude" annotation(
     Dialog(group = "Test Parameters"));
   parameter SIunits.Length heaveMagnitude = 1.5*0.0254 "Maximum heave magnitude" annotation(
     Dialog(group = "Test Parameters"));
   parameter SIunits.Angle rollMagnitude = 2*Modelica.Constants.pi/180 "Maximum roll magnitude" annotation(
     Dialog(group = "Test Parameters"));
-  parameter SIunits.Force forceMagnitude = 100 "Maximum contact patch force" annotation(
+  parameter SIunits.Force forceMagnitude = 1000 "Maximum contact patch force" annotation(
     Placement(visible = false, transformation(origin = {nan, nan}, extent = {{nan, nan}, {nan, nan}})));
+  
   inner Modelica.Mechanics.MultiBody.World world(g = 0, n = {0, 0, -1}) annotation(
     Placement(transformation(origin = {-130, -110}, extent = {{-10, -10}, {10, 10}})));
+
 protected
   Real leftDeltaVec[3];
   Real leftKingpinVec[3];
   Real leftGroundParam;
   Real leftGroundPoint[3];
+  
   Real rightDeltaVec[3];
   Real rightKingpinVec[3];
   Real rightGroundParam;

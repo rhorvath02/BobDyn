@@ -19,6 +19,7 @@ model FrKnC
   extends BobLib.Standards.Templates.KnC(final toAxle(r = {pVehicle.pFrDW.wheelCenter[1], 0, pVehicle.pFrDW.wheelCenter[3]}),
                                          final leftCPFixed(r = leftCPInit),
                                          final rightCPFixed(r = rightCPInit));
+  
   // Front axle
   BobLib.Vehicle.Chassis.Suspension.FrAxleDW frAxleDW(pAxle = pVehicle.pFrAxleDW,
                                                       pRack = pVehicle.pFrRack,
